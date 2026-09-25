@@ -10,4 +10,4 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 There is a style guide availible at STYLE.md. Use this as the defaults for any frontend design choices.
 
-After finishing a feature, always commit to github. Only add the affected files.
+After every requested change, commit only the affected files and push the commit to the configured GitHub remote. If there is no configured remote or a push fails, report that clearly.
