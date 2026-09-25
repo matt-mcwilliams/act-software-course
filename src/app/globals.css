@@ -53,17 +53,39 @@ a:focus-visible {
 .site-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   min-height: 5rem;
   border-bottom: 1px solid var(--color-border-subtle);
 }
 
-.site-brand {
-  font-size: 1.25rem;
-  font-weight: 600;
-  letter-spacing: -0.015em;
+.site-home {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border-radius: var(--radius-card);
+  color: var(--color-ink);
+  transition: background-color 140ms ease;
 }
 
-.site-brand:hover,
+.site-home:hover {
+  background: var(--color-surface);
+}
+
+.site-menu-placeholder {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: var(--space-2);
+  padding-inline: 0.875rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  color: var(--color-muted);
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
 .back-navigation a:hover {
   text-decoration: underline;
   text-underline-offset: 0.2em;
