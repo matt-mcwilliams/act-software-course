@@ -28,6 +28,14 @@ export default function CoursesPage() {
               </Link>
             </li>
           ))}
+          <li className="course-placeholder">
+            <div>
+              <h2 className="course-title">More coming soon</h2>
+              <p className="course-description">
+                New ACT courses are on the way.
+              </p>
+            </div>
+          </li>
         </ul>
       </section>
     </SiteShell>
