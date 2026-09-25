@@ -81,7 +81,6 @@ export default async function ModulePage({ params }: ModulePageProps) {
     <SiteShell>
       <BackNavigation
         links={[
-          { label: "All courses", href: "/" },
           { label: `${course.title} modules`, href: `/courses/${course.id}` },
         ]}
       />

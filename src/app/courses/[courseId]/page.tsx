@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BackNavigation, SiteShell } from "@/components/course-navigation";
+import { SiteShell } from "@/components/course-navigation";
 import { getCourseById } from "@/data/course-catalog";
 
 type CoursePageProps = {
@@ -35,8 +35,6 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
   return (
     <SiteShell>
-      <BackNavigation links={[{ label: "All courses", href: "/" }]} />
-
       <header
         className={
           course.coverImage

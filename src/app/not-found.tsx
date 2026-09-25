@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BackNavigation, SiteShell } from "@/components/course-navigation";
+import { SiteShell } from "@/components/course-navigation";
 
 export const metadata: Metadata = {
   title: "Page not found",
@@ -9,7 +9,6 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <SiteShell>
-      <BackNavigation links={[{ label: "All courses", href: "/" }]} />
       <header className="page-intro">
         <h1 className="page-title">Page not found</h1>
         <p className="page-description">
