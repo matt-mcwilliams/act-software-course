@@ -34,25 +34,25 @@ export const courses: CourseSummary[] = [
   {
     id: "act-english",
     title: "ACT English",
-    description: "A clear sequence of videos and practice.",
+    description: "Course still in progress. Covers sentence structure, etc.",
     coverImage: "/images/act-english-cover.jpg",
     modules: [
       {
-        id: "module-1",
+        id: "english-module-1",
         order: 1,
-        title: "Module 1",
+        title: "Sentence Structure",
         description:
-          "11 activities: videos, custom practice, ACT practice problems, and a mastery check.",
+          "11 activities: videos, custom practice, ACT practice problems, and a mastery checkLearn how sentences are constructed, how independent ideas can be joined correctly, and how modifiers and commas shape sentence meaning and clarity.",
         atoms: [
           {
-            id: "atom-01",
+            id: "eng-ss-anatomy-video",
             order: 1,
             type: "video",
-            title: "Video 1",
+            title: "The Anatomy of a Sentence",
             availability: "planned",
           },
           {
-            id: "atom-02",
+            id: "eng-ss-anatomy-custom-practice",
             order: 2,
             type: "custom-practice",
             title: "Custom practice 1",

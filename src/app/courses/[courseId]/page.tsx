@@ -81,7 +81,6 @@ export default async function CoursePage({ params }: CoursePageProps) {
                     {module.atoms.length} activities
                   </span>
                 </span>
-                <span className="module-action">View {module.title}</span>
               </Link>
             </li>
           ))}
