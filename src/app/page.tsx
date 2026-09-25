@@ -47,7 +47,9 @@ export default function CoursesPage() {
                 >
                   <div>
                     <h2 className="course-title">{course.title}</h2>
-                    <p className="course-description">{course.description}</p>
+                    <p className="course-description">
+                      {course.shortDescription}
+                    </p>
                   </div>
                   <span className="course-action">View course ➜</span>
                 </div>

@@ -25,7 +25,8 @@ export type ModuleSummary = {
 export type CourseSummary = {
   id: string;
   title: string;
-  description: string;
+  shortDescription: string;
+  longDescription: string;
   coverImage?: string;
   modules: ModuleSummary[];
 };
@@ -34,7 +35,12 @@ export const courses: CourseSummary[] = [
   {
     id: "act-english",
     title: "ACT English",
-    description: "Course still in progress. Covers sentence structure, etc.",
+    shortDescription:
+      "Course still in progress. Covers sentence structure, etc.",
+    longDescription:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae justo ac neque facilisis volutpat. Praesent non purus vel erat interdum fermentum. Sed at sapien sit amet mi tincidunt consequat. Curabitur euismod, lectus sed malesuada gravida, velit nibh posuere mauris, vitae porta magna est sed nisl.\n\n" +
+      "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ullamcorper, arcu eget tincidunt feugiat, lectus augue luctus erat, eget posuere neque libero at sem. Vivamus sollicitudin quam nec sem commodo, id gravida eros porta. Aenean at nibh eu risus interdum blandit.\n\n" +
+      "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam at neque vel mauris feugiat consequat. Aliquam erat volutpat. Morbi finibus lorem a risus tempor, sed tristique tortor mattis. Suspendisse potenti. Nulla facilisi.",
     coverImage: "/images/act-english-cover.jpg",
     modules: [
       {

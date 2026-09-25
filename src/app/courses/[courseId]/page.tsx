@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CourseHeroCopy } from "@/components/course-hero-copy";
 import { SiteShell } from "@/components/course-navigation";
 import { getCourseById } from "@/data/course-catalog";
 
@@ -17,7 +18,8 @@ export async function generateMetadata({
 
   return {
     title: course?.title ?? "Course not found",
-    description: course?.description ?? "The requested course is not available.",
+    description:
+      course?.shortDescription ?? "The requested course is not available.",
   };
 }
 
@@ -42,10 +44,11 @@ export default async function CoursePage({ params }: CoursePageProps) {
             : "page-intro course-hero"
         }
       >
-        <div className="course-hero-copy">
-          <h1 className="page-title">{course.title}</h1>
-          <p className="page-description">{course.description}</p>
-        </div>
+        <CourseHeroCopy
+          hasCover={Boolean(course.coverImage)}
+          title={course.title}
+          longDescription={course.longDescription}
+        />
         {course.coverImage && (
           <Image
             className="course-hero-image"
