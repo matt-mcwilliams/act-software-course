@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { House, UserRound } from "lucide-react";
+import { House, Menu } from "lucide-react";
 import type { ReactNode } from "react";
 
 export function SiteShell({ children }: { children: ReactNode }) {
@@ -9,9 +9,9 @@ export function SiteShell({ children }: { children: ReactNode }) {
         <Link className="site-home" href="/" aria-label="Home">
           <House aria-hidden="true" size={20} strokeWidth={1.8} />
         </Link>
-        <div className="site-profile-placeholder">
-          <UserRound aria-hidden="true" size={20} strokeWidth={1.8} />
-          <span>Alex</span>
+        <div className="site-menu-placeholder">
+          <Menu aria-hidden="true" size={20} strokeWidth={1.8} />
+          <span>Menu</span>
         </div>
       </header>
       <main className="page-main">{children}</main>

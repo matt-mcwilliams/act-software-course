@@ -72,7 +72,7 @@ a:focus-visible {
   background: var(--color-surface);
 }
 
-.site-profile-placeholder {
+.site-menu-placeholder {
   display: inline-flex;
   min-height: 2.5rem;
   align-items: center;
