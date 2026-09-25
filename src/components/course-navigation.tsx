@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { House, Menu } from "lucide-react";
+import { House } from "lucide-react";
 import type { ReactNode } from "react";
 
 export function SiteShell({ children }: { children: ReactNode }) {
@@ -11,7 +11,6 @@ export function SiteShell({ children }: { children: ReactNode }) {
         </Link>
         <div className="site-menu-placeholder">
           <span>Menu</span>
-          <Menu aria-hidden="true" size={20} strokeWidth={1.8} />
         </div>
       </header>
       <main className="page-main">{children}</main>
