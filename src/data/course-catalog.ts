@@ -26,6 +26,7 @@ export type CourseSummary = {
   id: string;
   title: string;
   description: string;
+  coverImage?: string;
   modules: ModuleSummary[];
 };
 
@@ -34,6 +35,7 @@ export const courses: CourseSummary[] = [
     id: "act-english",
     title: "ACT English",
     description: "A clear sequence of videos and practice.",
+    coverImage: "/images/act-english-cover.jpg",
     modules: [
       {
         id: "module-1",

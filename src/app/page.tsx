@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { courses } from "@/data/course-catalog";
 import { SiteShell } from "@/components/course-navigation";
@@ -19,12 +20,36 @@ export default function CoursesPage() {
         <ul className="course-list">
           {courses.map((course) => (
             <li key={course.id}>
-              <Link className="course-link" href={`/courses/${course.id}`}>
-                <div>
-                  <h2 className="course-title">{course.title}</h2>
-                  <p className="course-description">{course.description}</p>
+              <Link
+                className={
+                  course.coverImage
+                    ? "course-link course-link--covered"
+                    : "course-link"
+                }
+                href={`/courses/${course.id}`}
+              >
+                {course.coverImage && (
+                  <Image
+                    className="course-cover-image"
+                    src={course.coverImage}
+                    alt="Student filling in an ACT answer sheet."
+                    width={612}
+                    height={408}
+                  />
+                )}
+                <div
+                  className={
+                    course.coverImage
+                      ? "course-link-content course-link-content--covered"
+                      : "course-link-content"
+                  }
+                >
+                  <div>
+                    <h2 className="course-title">{course.title}</h2>
+                    <p className="course-description">{course.description}</p>
+                  </div>
+                  <span className="course-action">View modules</span>
                 </div>
-                <span className="course-action">View modules</span>
               </Link>
             </li>
           ))}

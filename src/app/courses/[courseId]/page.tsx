@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BackNavigation, SiteShell } from "@/components/course-navigation";
@@ -36,8 +37,27 @@ export default async function CoursePage({ params }: CoursePageProps) {
     <SiteShell>
       <BackNavigation links={[{ label: "All courses", href: "/" }]} />
 
-      <header className="page-intro">
-        <h1 className="page-title">{course.title}</h1>
+      <header
+        className={
+          course.coverImage
+            ? "page-intro course-hero course-hero--covered"
+            : "page-intro course-hero"
+        }
+      >
+        <div className="course-hero-copy">
+          <h1 className="page-title">{course.title}</h1>
+          <p className="page-description">{course.description}</p>
+        </div>
+        {course.coverImage && (
+          <Image
+            className="course-hero-image"
+            src={course.coverImage}
+            alt="Student filling in an ACT answer sheet."
+            width={612}
+            height={408}
+            preload
+          />
+        )}
       </header>
 
       <section aria-labelledby="modules-heading">
