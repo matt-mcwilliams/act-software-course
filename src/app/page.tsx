@@ -13,25 +13,17 @@ export default function CoursesPage() {
     <SiteShell>
       <header className="page-intro">
         <h1 className="page-title">Courses</h1>
-        <p className="page-description">
-          Choose any course to begin. Courses can be taken in any order.
-        </p>
       </header>
 
       <section aria-label="Available courses">
         <ul className="course-list">
           {courses.map((course) => (
             <li key={course.id}>
-              <Link
-                className="course-link"
-                href={`/courses/${course.id}`}
-              >
-                <span className="course-link-content">
-                  <span className="course-title">{course.title}</span>
-                  <span className="course-description">
-                    {course.description}
-                  </span>
-                </span>
+              <Link className="course-link" href={`/courses/${course.id}`}>
+                <div>
+                  <h2 className="course-title">{course.title}</h2>
+                  <p className="course-description">{course.description}</p>
+                </div>
                 <span className="course-action">View modules</span>
               </Link>
             </li>

@@ -3,51 +3,31 @@ import type { ReactNode } from "react";
 
 export function SiteShell({ children }: { children: ReactNode }) {
   return (
-    <div className="site-shell">
+    <>
       <header className="site-header">
         <Link className="site-brand" href="/">
-          ACT Course
+          ACT Prep
         </Link>
-        <span className="site-header-note">Choose a course in any order</span>
       </header>
       <main className="page-main">{children}</main>
-    </div>
+    </>
   );
 }
 
-type BreadcrumbItem = {
+type BackLink = {
   label: string;
-  href?: string;
+  href: string;
 };
 
-export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
+export function BackNavigation({ links }: { links: BackLink[] }) {
   return (
-    <nav className="breadcrumb" aria-label="Breadcrumb">
-      <ol className="breadcrumb-list">
-        {items.map((item, index) => {
-          const isCurrent = index === items.length - 1;
-
-          return (
-            <li className="breadcrumb-item" key={`${item.label}-${index}`}>
-              {index > 0 && (
-                <span className="breadcrumb-separator" aria-hidden="true">
-                  /
-                </span>
-              )}
-              {item.href && !isCurrent ? (
-                <Link href={item.href}>{item.label}</Link>
-              ) : (
-                <span
-                  className={isCurrent ? "breadcrumb-current" : undefined}
-                  aria-current={isCurrent ? "page" : undefined}
-                >
-                  {item.label}
-                </span>
-              )}
-            </li>
-          );
-        })}
-      </ol>
+    <nav className="back-navigation" aria-label="Back navigation">
+      {links.map((link, index) => (
+        <span className="back-navigation-item" key={link.href}>
+          {index > 0 && <span aria-hidden="true">/</span>}
+          <Link href={link.href}>{link.label}</Link>
+        </span>
+      ))}
     </nav>
   );
 }

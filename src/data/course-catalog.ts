@@ -33,8 +33,7 @@ export const courses: CourseSummary[] = [
   {
     id: "act-english",
     title: "ACT English",
-    description:
-      "Explore video lessons, custom practice, ACT practice problems, and a module mastery check.",
+    description: "A clear sequence of videos and practice.",
     modules: [
       {
         id: "module-1",

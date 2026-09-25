@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Breadcrumb, SiteShell } from "@/components/course-navigation";
+import { BackNavigation, SiteShell } from "@/components/course-navigation";
 import { getCourseById } from "@/data/course-catalog";
 
 type CoursePageProps = {
@@ -28,35 +28,24 @@ export default async function CoursePage({ params }: CoursePageProps) {
     notFound();
   }
 
-  const modules = [...course.modules].sort((first, second) => first.order - second.order);
+  const modules = [...course.modules].sort(
+    (first, second) => first.order - second.order,
+  );
 
   return (
     <SiteShell>
-      <Breadcrumb
-        items={[
-          { label: "All courses", href: "/" },
-          { label: course.title },
-        ]}
-      />
+      <BackNavigation links={[{ label: "All courses", href: "/" }]} />
 
       <header className="page-intro">
         <h1 className="page-title">{course.title}</h1>
-        <p className="page-description">
-          Modules are intended to be followed in order.
-        </p>
       </header>
 
       <section aria-labelledby="modules-heading">
-        <div className="section-heading">
-          <h2 className="section-title" id="modules-heading">
-            Modules
-          </h2>
-          <p className="section-note">
-            {modules.length} available {modules.length === 1 ? "module" : "modules"}
-          </p>
-        </div>
+        <h2 className="section-title" id="modules-heading">
+          Modules
+        </h2>
 
-        <ol className="module-list">
+        <ol className="module-list" role="list">
           {modules.map((module) => (
             <li key={module.id}>
               <Link
@@ -69,7 +58,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
                 <span className="module-copy">
                   <span className="module-title">{module.title}</span>
                   <span className="module-description">
-                    {module.description}
+                    {module.atoms.length} activities
                   </span>
                 </span>
                 <span className="module-action">View {module.title}</span>

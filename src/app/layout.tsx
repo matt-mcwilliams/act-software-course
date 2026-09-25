@@ -3,8 +3,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "ACT Course",
-    template: "%s | ACT Course",
+    default: "ACT Prep",
+    template: "%s | ACT Prep",
   },
   description: "Choose an ACT course and explore its learning sequence.",
 };
