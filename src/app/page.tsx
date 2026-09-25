@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { Clock3 } from "lucide-react";
 import { courses } from "@/data/course-catalog";
 import { SiteShell } from "@/components/course-navigation";
 
@@ -54,12 +55,13 @@ export default function CoursesPage() {
             </li>
           ))}
           <li className="course-placeholder">
-            <div>
-              <h2 className="course-title">More coming soon</h2>
-              <p className="course-description">
-                New ACT courses are on the way.
-              </p>
-            </div>
+            <Clock3
+              className="course-placeholder-icon"
+              aria-hidden="true"
+              size={36}
+              strokeWidth={1.5}
+            />
+            <h2 className="course-title">More coming soon</h2>
           </li>
         </ul>
       </section>

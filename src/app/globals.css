@@ -168,6 +168,23 @@ a:focus-visible {
   background: var(--color-surface);
 }
 
+.course-placeholder {
+  align-content: center;
+  justify-items: center;
+  gap: var(--space-4);
+  background: #e9e9e6;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.course-placeholder-icon {
+  color: var(--color-muted);
+}
+
+.course-placeholder .course-title {
+  color: var(--color-muted);
+}
+
 .course-link {
   transition: transform 160ms ease;
 }
