@@ -10,8 +10,8 @@ export function SiteShell({ children }: { children: ReactNode }) {
           <House aria-hidden="true" size={20} strokeWidth={1.8} />
         </Link>
         <div className="site-menu-placeholder">
-          <Menu aria-hidden="true" size={20} strokeWidth={1.8} />
           <span>Menu</span>
+          <Menu aria-hidden="true" size={20} strokeWidth={1.8} />
         </div>
       </header>
       <main className="page-main">{children}</main>
