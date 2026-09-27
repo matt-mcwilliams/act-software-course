@@ -146,19 +146,34 @@ a:focus-visible {
   margin-bottom: 0;
 }
 
+.course-long-description p.course-description-preview {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-bottom: var(--space-2);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+}
+
+.course-description-toggle-row {
+  display: flex;
+}
+
 .course-description-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
   padding: 0;
   border: 0;
   background: transparent;
-  color: #2563eb;
+  color: var(--color-muted);
   cursor: pointer;
   font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .course-description-toggle:hover {
-  color: #dc2626;
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
+  color: var(--color-ink);
 }
 
 .course-description-toggle:focus-visible {
