@@ -150,12 +150,17 @@ a:focus-visible {
   display: -webkit-box;
   overflow: hidden;
   margin-bottom: var(--space-2);
+  position: relative;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 6;
 }
 
-.course-description-toggle-row {
-  display: flex;
+.course-description-preview .course-description-toggle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding-left: 0.35em;
+  background: var(--color-canvas);
 }
 
 .course-description-toggle {

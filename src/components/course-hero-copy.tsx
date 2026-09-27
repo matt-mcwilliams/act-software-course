@@ -41,10 +41,9 @@ export function CourseHeroCopy({
       <h1 className="page-title">{title}</h1>
       <div className="course-long-description" id={descriptionId}>
         {hasCover && !expanded ? (
-          <>
-            <p className="course-description-preview">{previewText}</p>
-            <div className="course-description-toggle-row">{toggle}</div>
-          </>
+          <p className="course-description-preview">
+            {previewText} {toggle}
+          </p>
         ) : (
           paragraphs.map((paragraph, index) => (
             <p key={`${index}-${paragraph.slice(0, 12)}`}>
