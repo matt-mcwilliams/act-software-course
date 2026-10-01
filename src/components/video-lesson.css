@@ -10,17 +10,21 @@
 .lesson-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: white; }
 .lesson-empty p { margin: 1rem 0 0; font-size: 1.5rem; }
 .lesson-details { --description-inset: clamp(3rem, 10vw, 6rem); margin-top: 1.5rem; overflow: hidden; border-radius: var(--radius-card); background: var(--color-surface); }
-.lesson-details-tabs { display: flex; justify-content: center; gap: .25rem; padding: 1.25rem 1rem 0; }
+.lesson-details-tabs { display: flex; justify-content: center; gap: .25rem; padding: 1.25rem 1rem 0; transition: padding-bottom 240ms ease; }
 .lesson-details[data-collapsed="true"] .lesson-details-tabs { padding-bottom: 1.25rem; }
 .lesson-details-tabs button { padding: .65rem 1rem; border: 0; border-radius: .625rem; background: none; color: var(--color-muted); font: 500 .875rem var(--font-ui); cursor: pointer; }
 .lesson-details-tabs button[aria-pressed="true"] { background: var(--color-canvas); color: var(--color-ink); font-weight: 600; }
 .lesson-details-tabs button:hover { color: var(--color-ink); }
+.lesson-details-content { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 240ms ease; }
+.lesson-details[data-collapsed="true"] .lesson-details-content { grid-template-rows: 0fr; }
+.lesson-details-content-inner { position: relative; min-height: 0; overflow: hidden; }
 .lesson-details-body { padding: 1.5rem clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 3vw, 2rem); }
 .lesson-details-body[hidden] { display: none; }
-.lesson-details-body:not(.lesson-transcript) { padding: 1.25rem var(--description-inset) clamp(2.5rem, 6vw, 4rem); }
+.lesson-description { padding: 1.25rem var(--description-inset) clamp(2.5rem, 6vw, 4rem); }
+.lesson-description[data-active="false"] { visibility: hidden; }
 .lesson-details-body > p { margin: 0; font-size: 1.125rem; line-height: 1.5; }
 .lesson-details-body > p + p { margin-top: 1rem; }
-.lesson-transcript { max-height: 28rem; overflow-y: auto; overscroll-behavior: contain; padding-top: 1rem; direction: rtl; }
+.lesson-transcript { position: absolute; inset: 0; overflow-y: auto; overscroll-behavior: contain; padding-top: 1rem; direction: rtl; }
 .transcript-cue { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: .5rem; align-items: start; direction: ltr; }
 .transcript-cue + .transcript-cue { margin-top: .375rem; }
 .transcript-cue time { padding-top: .1rem; color: var(--color-muted); font: .75rem var(--font-ui); font-variant-numeric: tabular-nums; }
@@ -50,5 +54,5 @@ a.sequence-entry:hover .sequence-title { text-decoration: underline; text-underl
   .site-shell--lesson:has([data-activities-open="true"]) { padding-left: 17rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .site-shell--lesson { transition: none; }
+  .site-shell--lesson, .lesson-details-tabs, .lesson-details-content { transition: none; }
 }

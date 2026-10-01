@@ -103,12 +103,16 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
               <button type="button" id="description-tab" aria-pressed={detailsView === "description"} aria-expanded={detailsView === "description"} aria-controls="description-panel" onClick={() => setDetailsView((view) => view === "description" ? null : "description")}>Description</button>
               {transcript.length > 0 && <button type="button" id="transcript-tab" aria-pressed={detailsView === "transcript"} aria-expanded={detailsView === "transcript"} aria-controls="transcript-panel" onClick={() => setDetailsView((view) => view === "transcript" ? null : "transcript")}>Transcript</button>}
             </div>
-            <div id="description-panel" aria-labelledby="description-tab" hidden={detailsView !== "description"} className="lesson-details-body">
-              {atom.summary?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            <div className="lesson-details-content">
+              <div className="lesson-details-content-inner">
+                <div id="description-panel" aria-labelledby="description-tab" aria-hidden={detailsView !== "description"} data-active={detailsView === "description"} className="lesson-details-body lesson-description">
+                  {atom.summary?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                </div>
+                {transcript.length > 0 && <div id="transcript-panel" aria-labelledby="transcript-tab" hidden={detailsView !== "transcript"} className="lesson-details-body lesson-transcript">
+                  {transcript.map((cue, index) => <div className="transcript-cue" key={index}><time>{cue.time}</time><p>{cue.text}</p></div>)}
+                </div>}
+              </div>
             </div>
-            {transcript.length > 0 && <div id="transcript-panel" aria-labelledby="transcript-tab" hidden={detailsView !== "transcript"} className="lesson-details-body lesson-transcript">
-              {transcript.map((cue, index) => <div className="transcript-cue" key={index}><time>{cue.time}</time><p>{cue.text}</p></div>)}
-            </div>}
           </section>}
           {(isSupported(previous) || isSupported(next)) && <nav className="lesson-navigation" aria-label="Lesson navigation">
             {isSupported(previous) && <Link href={atomHref(previous)} className="lesson-navigation-link"><ArrowLeft size={17} aria-hidden="true" />Previous activity</Link>}
