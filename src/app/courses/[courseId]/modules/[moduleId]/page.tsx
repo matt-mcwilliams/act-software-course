@@ -54,9 +54,8 @@ function AtomEntry({
       <span className="atom-position" aria-hidden="true">
         {String(atom.order).padStart(2, "0")}
       </span>
-      <span className="atom-type" title={activityType.label}>
+      <span className="atom-type" role="img" aria-label={activityType.label} title={activityType.label}>
         <ActivityIcon aria-hidden="true" size={20} strokeWidth={1.75} />
-        <span className="sr-only">{activityType.label}: </span>
       </span>
       <span className="atom-title">{atom.title}</span>
     </>
