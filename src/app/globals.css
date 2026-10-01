@@ -365,11 +365,16 @@ a:focus-visible {
 
 .atom-row-content {
   display: grid;
-  grid-template-columns: 3.25rem minmax(0, 1fr);
-  align-items: baseline;
+  grid-template-columns: 3.25rem 1.25rem minmax(0, 1fr);
+  align-items: center;
   gap: var(--space-6);
   min-height: 4.75rem;
   padding-block: 1.35rem;
+}
+
+.atom-type {
+  display: inline-flex;
+  color: var(--color-ink);
 }
 
 .atom-title {
@@ -432,7 +437,7 @@ a:focus-visible {
   }
 
   .atom-row-content {
-    grid-template-columns: 2.5rem minmax(0, 1fr);
+    grid-template-columns: 2.5rem 1.25rem minmax(0, 1fr);
     gap: var(--space-4);
   }
 }

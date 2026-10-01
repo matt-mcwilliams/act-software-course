@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BadgeCheck, ClipboardList, Pencil, Video } from "lucide-react";
 import { BackNavigation, SiteShell } from "@/components/course-navigation";
 import {
   getCourseById,
   getModuleById,
   type AtomSummary,
+  type AtomType,
 } from "@/data/course-catalog";
+
+const activityTypes: Record<AtomType, { icon: typeof Video; label: string }> = {
+  video: { icon: Video, label: "Video" },
+  "custom-practice": { icon: Pencil, label: "Custom practice" },
+  "act-practice": { icon: ClipboardList, label: "ACT practice" },
+  "mastery-check": { icon: BadgeCheck, label: "Mastery check" },
+};
 
 type ModulePageProps = {
   params: Promise<{ courseId: string; moduleId: string }>;
@@ -38,10 +47,16 @@ function AtomEntry({
   courseId: string;
   moduleId: string;
 }) {
+  const activityType = activityTypes[atom.type];
+  const ActivityIcon = activityType.icon;
   const entry = (
     <>
       <span className="atom-position" aria-hidden="true">
         {String(atom.order).padStart(2, "0")}
+      </span>
+      <span className="atom-type" title={activityType.label}>
+        <ActivityIcon aria-hidden="true" size={20} strokeWidth={1.75} />
+        <span className="sr-only">{activityType.label}: </span>
       </span>
       <span className="atom-title">{atom.title}</span>
     </>
