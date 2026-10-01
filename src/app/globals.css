@@ -76,7 +76,7 @@ a:focus-visible {
 }
 
 .page-main {
-  padding-block: clamp(4rem, 8vw, 6rem) 7rem;
+  padding-block: 0 7rem;
 }
 
 .back-navigation {
@@ -398,7 +398,7 @@ a:focus-visible {
   }
 
   .page-main {
-    padding-block: 3rem 5rem;
+    padding-block: 0 5rem;
   }
 
   .back-navigation {
