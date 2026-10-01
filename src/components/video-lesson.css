@@ -12,8 +12,8 @@
 .lesson-details { --description-inset: clamp(3rem, 10vw, 6rem); margin-top: 1.5rem; overflow: hidden; border-radius: var(--radius-card); background: var(--color-surface); scroll-margin-top: 1rem; }
 .lesson-details-tabs { display: flex; justify-content: flex-start; gap: .25rem; padding: 1.25rem var(--description-inset) 0; transition: padding-bottom 240ms ease; }
 .lesson-details[data-collapsed="true"] .lesson-details-tabs { padding-bottom: 1.25rem; }
-.lesson-details-tabs button { padding: .65rem 1rem; border: 0; border-radius: .625rem; background: none; color: var(--color-muted); font: 500 .875rem var(--font-ui); cursor: pointer; }
-.lesson-details-tabs button[aria-pressed="true"] { background: var(--color-canvas); color: var(--color-ink); font-weight: 600; }
+.lesson-details-tabs button { padding: .65rem 1rem; border: 0; border-radius: .625rem; background: none; color: var(--color-muted); font: 400 1.125rem/1.3 var(--font-display); cursor: pointer; }
+.lesson-details-tabs button[aria-pressed="true"] { background: var(--color-canvas); color: var(--color-ink); }
 .lesson-details-tabs button:hover { color: var(--color-ink); }
 .lesson-details-content { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 240ms ease; }
 .lesson-details[data-collapsed="true"] .lesson-details-content { grid-template-rows: 0fr; }
