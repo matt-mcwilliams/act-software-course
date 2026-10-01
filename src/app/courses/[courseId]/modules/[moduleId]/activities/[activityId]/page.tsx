@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { BackNavigation, SiteShell } from "@/components/course-navigation";
+import { SiteShell } from "@/components/course-navigation";
 import { VideoLesson } from "@/components/video-lesson";
 import { getCourseById, getModuleById } from "@/data/course-catalog";
 import "@/components/video-lesson.css";
@@ -31,11 +31,11 @@ export default async function AtomPage({ params }: AtomPageProps) {
   const moduleHref = `/courses/${course.id}/modules/${courseModule.id}`;
 
   return (
-    <SiteShell variant="lesson">
-      <BackNavigation links={[
-        { label: course.title, href: `/courses/${course.id}` },
-        { label: courseModule.title, href: moduleHref },
-      ]} />
+    <SiteShell variant="lesson" trail={[
+      { label: course.title, href: `/courses/${course.id}` },
+      { label: courseModule.title, href: moduleHref },
+      { label: atom.title, href: `/courses/${course.id}/modules/${courseModule.id}/activities/${atom.id}` },
+    ]}>
       <VideoLesson atom={atom} atoms={[...courseModule.atoms].sort((a, b) => a.order - b.order)} moduleTitle={courseModule.title} moduleHref={moduleHref} />
     </SiteShell>
   );

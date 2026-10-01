@@ -54,6 +54,38 @@ a:focus-visible {
   display: flex;
   align-items: center;
   min-height: 5rem;
+  gap: var(--space-2);
+}
+
+.site-trail {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  scrollbar-width: thin;
+}
+
+.site-trail-item {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.site-trail-separator {
+  padding-inline: var(--space-2);
+  color: var(--color-muted);
+}
+
+.site-trail a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.site-trail a[aria-current="page"] {
+  font-weight: 700;
 }
 
 .site-home {
@@ -70,29 +102,8 @@ a:focus-visible {
   background: var(--color-surface);
 }
 
-.back-navigation a:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
 .page-main {
   padding-block: 0 7rem;
-}
-
-.back-navigation {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-bottom: var(--space-12);
-  color: var(--color-muted);
-  font-family: var(--font-ui);
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-
-.back-navigation-item {
-  display: inline-flex;
-  gap: var(--space-2);
 }
 
 .page-intro {
@@ -412,10 +423,6 @@ a:focus-visible {
 
   .page-main {
     padding-block: 0 5rem;
-  }
-
-  .back-navigation {
-    margin-bottom: var(--space-8);
   }
 
   .page-intro {

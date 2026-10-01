@@ -36,7 +36,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
   );
 
   return (
-    <SiteShell>
+    <SiteShell trail={[{ label: course.title, href: `/courses/${course.id}` }]}>
       <header
         className={
           course.coverImage

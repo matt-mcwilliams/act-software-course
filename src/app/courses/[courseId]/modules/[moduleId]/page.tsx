@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BadgeCheck, ClipboardList, Pencil, Video } from "lucide-react";
-import { BackNavigation, SiteShell } from "@/components/course-navigation";
+import { SiteShell } from "@/components/course-navigation";
 import {
   getCourseById,
   getModuleById,
@@ -95,12 +95,10 @@ export default async function ModulePage({ params }: ModulePageProps) {
   );
 
   return (
-    <SiteShell>
-      <BackNavigation
-        links={[
-          { label: `${course.title} modules`, href: `/courses/${course.id}` },
-        ]}
-      />
+    <SiteShell trail={[
+      { label: course.title, href: `/courses/${course.id}` },
+      { label: courseModule.title, href: `/courses/${course.id}/modules/${courseModule.id}` },
+    ]}>
 
       <header className="page-intro">
         <h1 className="page-title">{courseModule.title}</h1>
