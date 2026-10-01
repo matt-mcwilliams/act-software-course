@@ -3,7 +3,7 @@
 import Link from "next/link";
 import MuxPlayer from "@mux/mux-player-react/lazy";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { ArrowLeft, ArrowRight, Video } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck, ClipboardList, Pencil, Video } from "lucide-react";
 import type { AtomSummary, AtomType } from "@/data/course-catalog";
 
 const activityLabels: Record<AtomType, string> = {
@@ -12,6 +12,7 @@ const activityLabels: Record<AtomType, string> = {
   "act-practice": "ACT practice",
   "mastery-check": "Mastery check",
 };
+const activityIcons = { video: Video, "custom-practice": Pencil, "act-practice": ClipboardList, "mastery-check": BadgeCheck };
 
 function subscribeToViewport(callback: () => void) {
   const query = window.matchMedia("(min-width: 64rem)");
@@ -69,9 +70,14 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
           <ol className="lesson-sequence">
             {atoms.map((entry) => {
               const current = entry.id === atom.id;
+              const ActivityIcon = activityIcons[entry.type];
+              const helper = entry.type === "video"
+                ? entry.durationSeconds === undefined ? "TBD" : `${Math.floor(entry.durationSeconds / 60)}:${String(entry.durationSeconds % 60).padStart(2, "0")}`
+                : `${entry.masteryPercent ?? 0}%`;
               const content = <>
-                <span className="sequence-number" aria-hidden="true">{String(entry.order).padStart(2, "0")}</span>
-                <span><span className="sequence-title">{entry.title}</span><span className="sequence-meta">{activityLabels[entry.type]}{current ? " · Current lesson" : entry.availability === "planned" ? " · Coming soon" : ""}</span></span>
+                <span className="sequence-icon" role="img" aria-label={activityLabels[entry.type]} title={activityLabels[entry.type]}><ActivityIcon size={20} strokeWidth={1.75} aria-hidden="true" /></span>
+                <span className="sequence-title">{entry.title}</span>
+                <span className="sequence-meta">{current ? "Current" : entry.availability === "planned" ? "Soon" : helper}</span>
               </>;
               return <li key={entry.id}>
                 {isSupported(entry) ? <Link className="sequence-entry" href={atomHref(entry)} onClick={() => { if (!desktop) setSidebarPreference(false); }} aria-current={current ? "page" : undefined}>{content}</Link> : <div className="sequence-entry sequence-entry--planned">{content}</div>}
