@@ -12,6 +12,7 @@ export type AtomSummary = {
   type: AtomType;
   title: string;
   availability: AtomAvailability;
+  muxPlaybackId?: string;
 };
 
 export type ModuleSummary = {
@@ -55,7 +56,8 @@ export const courses: CourseSummary[] = [
             order: 1,
             type: "video",
             title: "The Anatomy of a Sentence",
-            availability: "planned",
+            availability: "published",
+            muxPlaybackId: "f5ZyKLBkU3EtwnLc02sLNWXBSEIBz1xN7oZd5Fj24eLI",
           },
           {
             id: "eng-ss-anatomy-custom-practice",
@@ -65,63 +67,63 @@ export const courses: CourseSummary[] = [
             availability: "planned",
           },
           {
-            id: "atom-03",
+            id: "activity-03",
             order: 3,
             type: "act-practice",
             title: "ACT practice problems 1",
             availability: "planned",
           },
           {
-            id: "atom-04",
+            id: "activity-04",
             order: 4,
             type: "video",
             title: "Video 2",
             availability: "planned",
           },
           {
-            id: "atom-05",
+            id: "activity-05",
             order: 5,
             type: "custom-practice",
             title: "Custom practice 2",
             availability: "planned",
           },
           {
-            id: "atom-06",
+            id: "activity-06",
             order: 6,
             type: "act-practice",
             title: "ACT practice problems 2",
             availability: "planned",
           },
           {
-            id: "atom-07",
+            id: "activity-07",
             order: 7,
             type: "video",
             title: "Video 3",
             availability: "planned",
           },
           {
-            id: "atom-08",
+            id: "activity-08",
             order: 8,
             type: "custom-practice",
             title: "Custom practice 3",
             availability: "planned",
           },
           {
-            id: "atom-09",
+            id: "activity-09",
             order: 9,
             type: "custom-practice",
             title: "Custom practice 4",
             availability: "planned",
           },
           {
-            id: "atom-10",
+            id: "activity-10",
             order: 10,
             type: "act-practice",
             title: "ACT practice problems 3",
             availability: "planned",
           },
           {
-            id: "atom-11",
+            id: "activity-11",
             order: 11,
             type: "mastery-check",
             title: "Module mastery check",

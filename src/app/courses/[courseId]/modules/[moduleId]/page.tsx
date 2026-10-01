@@ -53,7 +53,7 @@ function AtomEntry({
       {atom.availability === "published" ? (
         <Link
           className="atom-link atom-row-content"
-          href={`/courses/${courseId}/modules/${moduleId}/atoms/${atom.id}`}
+          href={`/courses/${courseId}/modules/${moduleId}/activities/${atom.id}`}
         >
           {entry}
         </Link>
