@@ -39,6 +39,8 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
   const [detailsView, setDetailsView] = useState<"description" | "transcript" | null>("description");
   const sidebarOpen = sidebarPreference ?? desktop;
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const detailsRef = useRef<HTMLElement>(null);
+  const previousDetailsView = useRef(detailsView);
   useEffect(() => {
     if (!sidebarOpen) return;
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -50,6 +52,22 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
     document.addEventListener("keydown", closeOnEscape);
     return () => document.removeEventListener("keydown", closeOnEscape);
   }, [sidebarOpen]);
+  useEffect(() => {
+    const reopened = previousDetailsView.current === null && detailsView !== null;
+    previousDetailsView.current = detailsView;
+    if (!reopened) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const timer = window.setTimeout(() => {
+      const panel = detailsRef.current;
+      if (!panel) return;
+      panel.scrollIntoView({
+        behavior: reducedMotion ? "auto" : "smooth",
+        block: panel.getBoundingClientRect().height > window.innerHeight - 32 ? "start" : "nearest",
+      });
+    }, reducedMotion ? 0 : 250);
+    return () => window.clearTimeout(timer);
+  }, [detailsView]);
   const index = atoms.findIndex((entry) => entry.id === atom.id);
   const previous = atoms[index - 1];
   const next = atoms[index + 1];
@@ -98,7 +116,7 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
               aria-label={atom.title}
             /> : <div className="lesson-empty"><Video size={32} aria-hidden="true" /><p>Video coming soon</p></div>}
           </div>
-          {(atom.summary || transcript.length > 0) && <section className="lesson-details" data-collapsed={detailsView === null} aria-label="Lesson details">
+          {(atom.summary || transcript.length > 0) && <section ref={detailsRef} className="lesson-details" data-collapsed={detailsView === null} aria-label="Lesson details">
             <div className="lesson-details-tabs" role="group" aria-label="Lesson details view">
               <button type="button" id="description-tab" aria-pressed={detailsView === "description"} aria-expanded={detailsView === "description"} aria-controls="description-panel" onClick={() => setDetailsView((view) => view === "description" ? null : "description")}>Description</button>
               {transcript.length > 0 && <button type="button" id="transcript-tab" aria-pressed={detailsView === "transcript"} aria-expanded={detailsView === "transcript"} aria-controls="transcript-panel" onClick={() => setDetailsView((view) => view === "transcript" ? null : "transcript")}>Transcript</button>}
