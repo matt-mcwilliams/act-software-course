@@ -49,21 +49,24 @@ function AtomEntry({
 }) {
   const activityType = activityTypes[atom.type];
   const ActivityIcon = activityType.icon;
+  const helper = atom.type === "video"
+    ? atom.durationSeconds === undefined
+      ? "Length TBD"
+      : `${Math.floor(atom.durationSeconds / 60)}:${String(atom.durationSeconds % 60).padStart(2, "0")}`
+    : `${atom.masteryPercent ?? 0}%`;
   const entry = (
     <>
-      <span className="atom-position" aria-hidden="true">
-        {String(atom.order).padStart(2, "0")}
-      </span>
       <span className="atom-type" role="img" aria-label={activityType.label} title={activityType.label}>
         <ActivityIcon aria-hidden="true" size={20} strokeWidth={1.75} />
       </span>
       <span className="atom-title">{atom.title}</span>
+      <span className="atom-helper">{helper}</span>
     </>
   );
   const rowClassName = `atom-row${atom.type === "mastery-check" ? " atom-row--mastery" : ""}`;
 
   return (
-    <li className={rowClassName} value={atom.order}>
+    <li className={rowClassName}>
       {atom.availability === "published" ? (
         <Link
           className="atom-link atom-row-content"
