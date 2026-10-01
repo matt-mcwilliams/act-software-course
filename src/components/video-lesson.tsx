@@ -25,7 +25,7 @@ function isDesktop() {
   return window.matchMedia("(min-width: 64rem)").matches;
 }
 
-function isSupported(atom: AtomSummary | undefined) {
+function isSupported(atom: AtomSummary | undefined): atom is AtomSummary {
   return atom?.availability === "published" && atom.type === "video";
 }
 
@@ -36,7 +36,7 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
 }) {
   const desktop = useSyncExternalStore(subscribeToViewport, isDesktop, () => false);
   const [sidebarPreference, setSidebarPreference] = useState<boolean | null>(null);
-  const [detailsView, setDetailsView] = useState<"description" | "transcript">("description");
+  const [detailsView, setDetailsView] = useState<"description" | "transcript" | null>("description");
   const sidebarOpen = sidebarPreference ?? desktop;
   const toggleRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
@@ -98,10 +98,10 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
               aria-label={atom.title}
             /> : <div className="lesson-empty"><Video size={32} aria-hidden="true" /><p>Video coming soon</p></div>}
           </div>
-          {(atom.summary || transcript.length > 0) && <section className="lesson-details" aria-label="Lesson details">
+          {(atom.summary || transcript.length > 0) && <section className="lesson-details" data-collapsed={detailsView === null} aria-label="Lesson details">
             <div className="lesson-details-tabs" role="group" aria-label="Lesson details view">
-              <button type="button" id="description-tab" aria-pressed={detailsView === "description"} aria-controls="description-panel" onClick={() => setDetailsView("description")}>Description</button>
-              {transcript.length > 0 && <button type="button" id="transcript-tab" aria-pressed={detailsView === "transcript"} aria-controls="transcript-panel" onClick={() => setDetailsView("transcript")}>Transcript</button>}
+              <button type="button" id="description-tab" aria-pressed={detailsView === "description"} aria-expanded={detailsView === "description"} aria-controls="description-panel" onClick={() => setDetailsView((view) => view === "description" ? null : "description")}>Description</button>
+              {transcript.length > 0 && <button type="button" id="transcript-tab" aria-pressed={detailsView === "transcript"} aria-expanded={detailsView === "transcript"} aria-controls="transcript-panel" onClick={() => setDetailsView((view) => view === "transcript" ? null : "transcript")}>Transcript</button>}
             </div>
             <div id="description-panel" aria-labelledby="description-tab" hidden={detailsView !== "description"} className="lesson-details-body">
               {atom.summary?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
@@ -110,11 +110,10 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
               {transcript.map((cue, index) => <div className="transcript-cue" key={index}><time>{cue.time}</time><p>{cue.text}</p></div>)}
             </div>}
           </section>}
-          <nav className="lesson-navigation" aria-label="Lesson navigation">
-            <Link href={isSupported(previous) ? atomHref(previous) : moduleHref} className="lesson-navigation-link"><ArrowLeft size={17} aria-hidden="true" />{isSupported(previous) ? "Previous activity" : "Back to module"}</Link>
+          {(isSupported(previous) || isSupported(next)) && <nav className="lesson-navigation" aria-label="Lesson navigation">
+            {isSupported(previous) && <Link href={atomHref(previous)} className="lesson-navigation-link"><ArrowLeft size={17} aria-hidden="true" />Previous activity</Link>}
             {isSupported(next) && <Link href={atomHref(next)} className="lesson-navigation-link">Next activity<ArrowRight size={17} aria-hidden="true" /></Link>}
-          </nav>
-          {isSupported(previous) && <Link className="lesson-module-return" href={moduleHref}>Back to module</Link>}
+          </nav>}
         </div>
       </div>
     </section>
