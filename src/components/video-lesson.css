@@ -1,6 +1,4 @@
 .lesson-heading { margin-bottom: 2rem; }
-.lesson-module-label { display: flex; align-items: center; gap: .5rem; margin: 0 0 .75rem; color: var(--color-muted); font-family: var(--font-ui); font-size: .875rem; }
-.lesson-module-label svg { flex-shrink: 0; }
 .lesson-meta, .lesson-toolbar, .lesson-navigation, .lesson-module-return { font-family: var(--font-ui); font-size: .875rem; }
 .lesson-meta { margin: 0 0 1rem; color: var(--color-muted); }
 .lesson-title { margin: 0; font-size: clamp(2.25rem, 4.5vw, 3.75rem); font-weight: 400; line-height: 1.08; }

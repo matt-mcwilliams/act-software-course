@@ -33,10 +33,9 @@ export default async function AtomPage({ params }: AtomPageProps) {
   return (
     <SiteShell variant="lesson" trail={[
       { label: course.title, href: `/courses/${course.id}` },
-      { label: courseModule.title, href: moduleHref },
       { label: atom.title, href: `/courses/${course.id}/modules/${courseModule.id}/activities/${atom.id}` },
     ]}>
-      <VideoLesson atom={atom} atoms={[...courseModule.atoms].sort((a, b) => a.order - b.order)} moduleTitle={courseModule.title} moduleHref={moduleHref} />
+      <VideoLesson atom={atom} atoms={[...courseModule.atoms].sort((a, b) => a.order - b.order)} moduleHref={moduleHref} />
     </SiteShell>
   );
 }
