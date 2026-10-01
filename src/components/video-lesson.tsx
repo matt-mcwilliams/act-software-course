@@ -95,6 +95,10 @@ export function VideoLesson({ atom, atoms, moduleTitle, moduleHref }: {
               aria-label={atom.title}
             /> : <div className="lesson-empty"><Video size={32} aria-hidden="true" /><p>Video coming soon</p></div>}
           </div>
+          {atom.summary && <section className="lesson-summary" aria-labelledby="lesson-summary-title">
+            <h2 id="lesson-summary-title">Summary</h2>
+            {atom.summary.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          </section>}
           <nav className="lesson-navigation" aria-label="Lesson navigation">
             <Link href={isSupported(previous) ? atomHref(previous) : moduleHref} className="lesson-navigation-link"><ArrowLeft size={17} aria-hidden="true" />{isSupported(previous) ? "Previous activity" : "Back to module"}</Link>
             {isSupported(next) && <Link href={atomHref(next)} className="lesson-navigation-link">Next activity<ArrowRight size={17} aria-hidden="true" /></Link>}
