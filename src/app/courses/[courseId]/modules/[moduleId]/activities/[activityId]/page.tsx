@@ -31,7 +31,7 @@ export default async function AtomPage({ params }: AtomPageProps) {
   const moduleHref = `/courses/${course.id}/modules/${courseModule.id}`;
 
   return (
-    <SiteShell>
+    <SiteShell variant="lesson">
       <BackNavigation links={[
         { label: course.title, href: `/courses/${course.id}` },
         { label: courseModule.title, href: moduleHref },

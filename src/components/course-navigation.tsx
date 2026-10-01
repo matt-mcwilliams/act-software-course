@@ -2,16 +2,16 @@ import Link from "next/link";
 import { House } from "lucide-react";
 import type { ReactNode } from "react";
 
-export function SiteShell({ children }: { children: ReactNode }) {
+export function SiteShell({ children, variant }: { children: ReactNode; variant?: "lesson" }) {
   return (
-    <>
+    <div className={variant === "lesson" ? "site-shell site-shell--lesson" : "site-shell"}>
       <header className="site-header">
         <Link className="site-home" href="/" aria-label="Home">
           <House aria-hidden="true" size={20} strokeWidth={1.8} />
         </Link>
       </header>
       <main className="page-main">{children}</main>
-    </>
+    </div>
   );
 }
 

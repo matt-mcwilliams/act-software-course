@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import MuxPlayer from "@mux/mux-player-react/lazy";
-import { useState, useSyncExternalStore } from "react";
-import { ArrowLeft, ArrowRight, ListVideo, Video } from "lucide-react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { ArrowLeft, ArrowRight, Video } from "lucide-react";
 import type { AtomSummary, AtomType } from "@/data/course-catalog";
 
 const activityLabels: Record<AtomType, string> = {
@@ -36,27 +36,38 @@ export function VideoLesson({ atom, atoms, moduleTitle, moduleHref }: {
   const desktop = useSyncExternalStore(subscribeToViewport, isDesktop, () => false);
   const [sidebarPreference, setSidebarPreference] = useState<boolean | null>(null);
   const sidebarOpen = sidebarPreference ?? desktop;
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!sidebarOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSidebarPreference(false);
+        toggleRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [sidebarOpen]);
   const index = atoms.findIndex((entry) => entry.id === atom.id);
   const previous = atoms[index - 1];
   const next = atoms[index + 1];
   const atomHref = (entry: AtomSummary) => `${moduleHref}/activities/${entry.id}`;
 
   return (
-    <section className="video-lesson" aria-labelledby="lesson-title">
+    <section className="video-lesson" data-activities-open={sidebarOpen} aria-labelledby="lesson-title">
       <header className="lesson-heading">
-        <p className="lesson-meta">Video lesson · Activity {index + 1} of {atoms.length}</p>
+<p className="lesson-meta">Video lesson · Activity {index + 1} of {atoms.length}</p>
         <h1 id="lesson-title" className="lesson-title">{atom.title}</h1>
       </header>
-      <div className="lesson-toolbar">
-        <span>{moduleTitle}</span>
-        <button className="lesson-toggle" type="button" aria-expanded={sidebarOpen} aria-controls="lesson-activities" onClick={() => setSidebarPreference(!sidebarOpen)}>
-          <ListVideo size={19} aria-hidden="true" />
-          {sidebarOpen ? "Hide activities" : "Show activities"}
+      <div className="lesson-pane">
+        <button ref={toggleRef} className="lesson-toggle" type="button"
+          aria-label={sidebarOpen ? "Hide activities" : "Show activities"}
+          aria-expanded={sidebarOpen} aria-controls="lesson-activities"
+          onClick={() => setSidebarPreference(!sidebarOpen)}>
+          {sidebarOpen ? <ArrowLeft size={20} aria-hidden="true" /> : <ArrowRight size={20} aria-hidden="true" />}
         </button>
-      </div>
-      <div className={`lesson-layout${sidebarOpen ? " lesson-layout--open" : ""}`}>
         <aside id="lesson-activities" className="lesson-sidebar" hidden={!sidebarOpen} aria-label="Module activities">
-          <h2>In this module</h2>
+          <h2>{moduleTitle}</h2>
           <ol className="lesson-sequence">
             {atoms.map((entry) => {
               const current = entry.id === atom.id;
@@ -65,11 +76,13 @@ export function VideoLesson({ atom, atoms, moduleTitle, moduleHref }: {
                 <span><span className="sequence-title">{entry.title}</span><span className="sequence-meta">{activityLabels[entry.type]}{current ? " · Current lesson" : entry.availability === "planned" ? " · Coming soon" : ""}</span></span>
               </>;
               return <li key={entry.id}>
-                {isSupported(entry) ? <Link className="sequence-entry" href={atomHref(entry)} aria-current={current ? "page" : undefined}>{content}</Link> : <div className="sequence-entry sequence-entry--planned">{content}</div>}
+                {isSupported(entry) ? <Link className="sequence-entry" href={atomHref(entry)} onClick={() => { if (!desktop) setSidebarPreference(false); }} aria-current={current ? "page" : undefined}>{content}</Link> : <div className="sequence-entry sequence-entry--planned">{content}</div>}
               </li>;
             })}
           </ol>
         </aside>
+      </div>
+      <div className="lesson-layout">
         <div className="lesson-content">
           <div className="lesson-player">
             {atom.muxPlaybackId ? <MuxPlayer
