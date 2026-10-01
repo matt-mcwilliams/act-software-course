@@ -5,6 +5,7 @@ import MuxPlayer from "@mux/mux-player-react/lazy";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowLeft, ArrowRight, BadgeCheck, ClipboardList, Pencil, Video } from "lucide-react";
 import type { AtomSummary, AtomType } from "@/data/course-catalog";
+import anatomyTranscript from "@/data/anatomy-of-a-sentence-transcript.json";
 
 const activityLabels: Record<AtomType, string> = {
   video: "Video",
@@ -35,6 +36,7 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
 }) {
   const desktop = useSyncExternalStore(subscribeToViewport, isDesktop, () => false);
   const [sidebarPreference, setSidebarPreference] = useState<boolean | null>(null);
+  const [detailsView, setDetailsView] = useState<"description" | "transcript">("description");
   const sidebarOpen = sidebarPreference ?? desktop;
   const toggleRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
@@ -52,6 +54,7 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
   const previous = atoms[index - 1];
   const next = atoms[index + 1];
   const atomHref = (entry: AtomSummary) => `${moduleHref}/activities/${entry.id}`;
+  const transcript = atom.id === "eng-ss-anatomy-video" ? anatomyTranscript : [];
 
   return (
     <section className="video-lesson" data-activities-open={sidebarOpen} aria-labelledby="lesson-title">
@@ -95,9 +98,18 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
               aria-label={atom.title}
             /> : <div className="lesson-empty"><Video size={32} aria-hidden="true" /><p>Video coming soon</p></div>}
           </div>
-          {atom.summary && <div className="lesson-summary">
-            {atom.summary.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-          </div>}
+          {(atom.summary || transcript.length > 0) && <section className="lesson-details" aria-label="Lesson details">
+            <div className="lesson-details-tabs" role="group" aria-label="Lesson details view">
+              <button type="button" id="description-tab" aria-pressed={detailsView === "description"} aria-controls="description-panel" onClick={() => setDetailsView("description")}>Description</button>
+              {transcript.length > 0 && <button type="button" id="transcript-tab" aria-pressed={detailsView === "transcript"} aria-controls="transcript-panel" onClick={() => setDetailsView("transcript")}>Transcript</button>}
+            </div>
+            <div id="description-panel" aria-labelledby="description-tab" hidden={detailsView !== "description"} className="lesson-details-body">
+              {atom.summary?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            </div>
+            {transcript.length > 0 && <div id="transcript-panel" aria-labelledby="transcript-tab" hidden={detailsView !== "transcript"} className="lesson-details-body lesson-transcript">
+              {transcript.map((cue, index) => <div className="transcript-cue" key={index}><time>{cue.time}</time><p>{cue.text}</p></div>)}
+            </div>}
+          </section>}
           <nav className="lesson-navigation" aria-label="Lesson navigation">
             <Link href={isSupported(previous) ? atomHref(previous) : moduleHref} className="lesson-navigation-link"><ArrowLeft size={17} aria-hidden="true" />{isSupported(previous) ? "Previous activity" : "Back to module"}</Link>
             {isSupported(next) && <Link href={atomHref(next)} className="lesson-navigation-link">Next activity<ArrowRight size={17} aria-hidden="true" /></Link>}

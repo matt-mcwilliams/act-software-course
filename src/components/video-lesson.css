@@ -9,9 +9,21 @@
 .lesson-player mux-player { display: block; width: 100%; height: 100%; --media-object-fit: contain; }
 .lesson-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: white; }
 .lesson-empty p { margin: 1rem 0 0; font-size: 1.5rem; }
-.lesson-summary { margin-top: 2.5rem; }
-.lesson-summary p { margin: 0; font-size: 1.125rem; line-height: 1.5; }
-.lesson-summary p + p { margin-top: 1rem; }
+.lesson-details { margin-top: 1.5rem; overflow: hidden; border-radius: var(--radius-card); background: var(--color-surface); }
+.lesson-details-tabs { display: flex; gap: 1.5rem; padding: 0 clamp(1.25rem, 3vw, 2rem); border-bottom: 1px solid var(--color-border-subtle); }
+.lesson-details-tabs button { position: relative; padding: 1rem 0; border: 0; background: none; color: var(--color-muted); font: 600 .875rem var(--font-ui); cursor: pointer; }
+.lesson-details-tabs button[aria-pressed="true"] { color: var(--color-ink); }
+.lesson-details-tabs button[aria-pressed="true"]::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; background: var(--color-ink); content: ""; }
+.lesson-details-tabs button:hover { color: var(--color-ink); }
+.lesson-details-body { padding: clamp(1.25rem, 3vw, 2rem); }
+.lesson-details-body[hidden] { display: none; }
+.lesson-details-body > p { max-width: 72ch; margin: 0; font-size: 1.125rem; line-height: 1.5; }
+.lesson-details-body > p + p { margin-top: 1rem; }
+.lesson-transcript { max-height: 28rem; overflow-y: auto; overscroll-behavior: contain; }
+.transcript-cue { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 1rem; align-items: start; }
+.transcript-cue + .transcript-cue { margin-top: .75rem; }
+.transcript-cue time { padding-top: .2rem; color: var(--color-muted); font: .8rem var(--font-ui); font-variant-numeric: tabular-nums; }
+.transcript-cue p { max-width: 72ch; margin: 0; font-size: 1.0625rem; line-height: 1.45; }
 .lesson-sidebar { height: 100%; overflow-y: auto; overscroll-behavior: contain; padding: 2rem 1.25rem; background: var(--color-surface); border-right: 1px solid var(--color-border-subtle); }
 .lesson-sidebar[hidden] { display: none; }
 .lesson-sidebar h2 { margin: 0 0 1.5rem; font-size: 1.4rem; font-weight: 400; }
