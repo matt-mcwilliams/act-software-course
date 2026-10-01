@@ -19,8 +19,8 @@
 .lesson-details-body:not(.lesson-transcript) { padding-inline: clamp(1.5rem, 5vw, 3rem); }
 .lesson-details-body > p { margin: 0; font-size: 1.125rem; line-height: 1.5; }
 .lesson-details-body > p + p { margin-top: 1rem; }
-.lesson-transcript { max-height: 28rem; overflow-y: auto; overscroll-behavior: contain; padding-top: 1rem; }
-.transcript-cue { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: .5rem; align-items: start; }
+.lesson-transcript { max-height: 28rem; overflow-y: auto; overscroll-behavior: contain; padding-top: 1rem; direction: rtl; }
+.transcript-cue { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: .5rem; align-items: start; direction: ltr; }
 .transcript-cue + .transcript-cue { margin-top: .375rem; }
 .transcript-cue time { padding-top: .1rem; color: var(--color-muted); font: .75rem var(--font-ui); font-variant-numeric: tabular-nums; }
 .transcript-cue p { max-width: 72ch; margin: 0; font-size: 1rem; line-height: 1.35; }
