@@ -10,7 +10,7 @@
 .lesson-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: white; }
 .lesson-empty p { margin: 1rem 0 0; font-size: 1.5rem; }
 .lesson-details { margin-top: 1.5rem; overflow: hidden; border-radius: var(--radius-card); background: var(--color-surface); }
-.lesson-details-tabs { display: flex; gap: .25rem; padding: 1.25rem clamp(1.25rem, 3vw, 2rem) 0; }
+.lesson-details-tabs { display: flex; gap: .25rem; padding: 1.25rem calc(clamp(1.5rem, 5vw, 3rem) - 1rem) 0; }
 .lesson-details-tabs button { padding: .65rem 1rem; border: 0; border-radius: .625rem; background: none; color: var(--color-muted); font: 500 .875rem var(--font-ui); cursor: pointer; }
 .lesson-details-tabs button[aria-pressed="true"] { background: var(--color-canvas); color: var(--color-ink); font-weight: 600; }
 .lesson-details-tabs button:hover { color: var(--color-ink); }
