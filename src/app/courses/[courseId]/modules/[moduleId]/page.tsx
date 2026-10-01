@@ -51,7 +51,7 @@ function AtomEntry({
   const ActivityIcon = activityType.icon;
   const helper = atom.type === "video"
     ? atom.durationSeconds === undefined
-      ? "Length TBD"
+      ? "TBD"
       : `${Math.floor(atom.durationSeconds / 60)}:${String(atom.durationSeconds % 60).padStart(2, "0")}`
     : `${atom.masteryPercent ?? 0}%`;
   const entry = (
