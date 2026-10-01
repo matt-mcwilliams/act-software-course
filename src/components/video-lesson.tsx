@@ -56,7 +56,7 @@ export function VideoLesson({ atom, atoms, moduleTitle, moduleHref }: {
   return (
     <section className="video-lesson" data-activities-open={sidebarOpen} aria-labelledby="lesson-title">
       <header className="lesson-heading">
-<p className="lesson-meta">Video lesson · Activity {index + 1} of {atoms.length}</p>
+        <p className="lesson-meta">Video lesson · Activity {index + 1} of {atoms.length}</p>
         <h1 id="lesson-title" className="lesson-title">{atom.title}</h1>
       </header>
       <div className="lesson-pane">
@@ -67,7 +67,7 @@ export function VideoLesson({ atom, atoms, moduleTitle, moduleHref }: {
           {sidebarOpen ? <ArrowLeft size={20} aria-hidden="true" /> : <ArrowRight size={20} aria-hidden="true" />}
         </button>
         <aside id="lesson-activities" className="lesson-sidebar" hidden={!sidebarOpen} aria-label="Module activities">
-          <h2>{moduleTitle}</h2>
+          <h2>In this module</h2>
           <ol className="lesson-sequence">
             {atoms.map((entry) => {
               const current = entry.id === atom.id;
