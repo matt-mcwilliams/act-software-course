@@ -3,7 +3,7 @@
 import Link from "next/link";
 import MuxPlayer from "@mux/mux-player-react/lazy";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { ArrowLeft, ArrowRight, Video } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Video } from "lucide-react";
 import type { AtomSummary, AtomType } from "@/data/course-catalog";
 
 const activityLabels: Record<AtomType, string> = {
@@ -56,7 +56,7 @@ export function VideoLesson({ atom, atoms, moduleTitle, moduleHref }: {
   return (
     <section className="video-lesson" data-activities-open={sidebarOpen} aria-labelledby="lesson-title">
       <header className="lesson-heading">
-        <p className="lesson-meta">Video lesson · Activity {index + 1} of {atoms.length}</p>
+        <p className="lesson-module-label"><BookOpen size={16} aria-hidden="true" />{moduleTitle}</p>
         <h1 id="lesson-title" className="lesson-title">{atom.title}</h1>
       </header>
       <div className="lesson-pane">
