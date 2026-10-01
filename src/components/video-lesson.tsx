@@ -71,13 +71,9 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
             {atoms.map((entry) => {
               const current = entry.id === atom.id;
               const ActivityIcon = activityIcons[entry.type];
-              const helper = entry.type === "video"
-                ? entry.durationSeconds === undefined ? "TBD" : `${Math.floor(entry.durationSeconds / 60)}:${String(entry.durationSeconds % 60).padStart(2, "0")}`
-                : `${entry.masteryPercent ?? 0}%`;
               const content = <>
                 <span className="sequence-icon" role="img" aria-label={activityLabels[entry.type]} title={activityLabels[entry.type]}><ActivityIcon size={20} strokeWidth={1.75} aria-hidden="true" /></span>
-                <span className="sequence-title">{entry.title}</span>
-                <span className="sequence-meta">{current ? "Current" : entry.availability === "planned" ? "Soon" : helper}</span>
+                <span className="sequence-title" title={entry.title}>{entry.title}</span>
               </>;
               return <li key={entry.id}>
                 {isSupported(entry) ? <Link className="sequence-entry" href={atomHref(entry)} onClick={() => { if (!desktop) setSidebarPreference(false); }} aria-current={current ? "page" : undefined}>{content}</Link> : <div className="sequence-entry sequence-entry--planned">{content}</div>}
