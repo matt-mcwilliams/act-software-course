@@ -9,14 +9,14 @@
 .lesson-player mux-player { display: block; width: 100%; height: 100%; --media-object-fit: contain; }
 .lesson-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: white; }
 .lesson-empty p { margin: 1rem 0 0; font-size: 1.5rem; }
-.lesson-details { margin-top: 1.5rem; overflow: hidden; border-radius: var(--radius-card); background: var(--color-surface); }
-.lesson-details-tabs { display: flex; gap: .25rem; padding: 1.25rem calc(clamp(1.5rem, 5vw, 3rem) - 1rem) 0; }
+.lesson-details { --description-inset: clamp(3rem, 10vw, 6rem); margin-top: 1.5rem; overflow: hidden; border-radius: var(--radius-card); background: var(--color-surface); }
+.lesson-details-tabs { display: flex; gap: .25rem; padding: 1.25rem var(--description-inset) 0; }
 .lesson-details-tabs button { padding: .65rem 1rem; border: 0; border-radius: .625rem; background: none; color: var(--color-muted); font: 500 .875rem var(--font-ui); cursor: pointer; }
 .lesson-details-tabs button[aria-pressed="true"] { background: var(--color-canvas); color: var(--color-ink); font-weight: 600; }
 .lesson-details-tabs button:hover { color: var(--color-ink); }
 .lesson-details-body { padding: 1.5rem clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 3vw, 2rem); }
 .lesson-details-body[hidden] { display: none; }
-.lesson-details-body:not(.lesson-transcript) { padding-inline: clamp(1.5rem, 5vw, 3rem); }
+.lesson-details-body:not(.lesson-transcript) { padding: 3rem var(--description-inset) clamp(2.5rem, 6vw, 4rem); }
 .lesson-details-body > p { margin: 0; font-size: 1.125rem; line-height: 1.5; }
 .lesson-details-body > p + p { margin-top: 1rem; }
 .lesson-transcript { max-height: 28rem; overflow-y: auto; overscroll-behavior: contain; padding-top: 1rem; direction: rtl; }
