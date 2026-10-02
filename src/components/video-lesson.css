@@ -20,7 +20,7 @@
 .lesson-details-content-inner { position: relative; min-height: 0; overflow: hidden; }
 .lesson-details-body { padding: 1.5rem clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 3vw, 2rem); }
 .lesson-details-body[hidden] { display: none; }
-.lesson-description { padding: 1.25rem var(--description-inset) clamp(2.5rem, 6vw, 4rem); }
+.lesson-description { min-height: clamp(18rem, 40svh, 24rem); padding: 1.25rem var(--description-inset) clamp(2.5rem, 6vw, 4rem); }
 .lesson-description[data-active="false"] { visibility: hidden; }
 .lesson-details-body > p { margin: 0; font-size: 1.125rem; line-height: 1.5; }
 .lesson-details-body > p + p { margin-top: 1rem; }
