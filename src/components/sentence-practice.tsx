@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ActivityNavigation } from "@/components/activity-navigation";
 import { Undo2 } from "lucide-react";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { sentenceAnatomyPractice, words } from "@/data/custom-practice";
 import {
   advanceProgress,
@@ -48,7 +48,13 @@ function serverSnapshot() {
 
 export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref: string; nextActivityHref?: string }) {
   const hydrated = useSyncExternalStore(subscribeToHydration, browserSnapshot, serverSnapshot);
+  const [started, setStarted] = useState(false);
+  const practiceHeading = useRef<HTMLHeadingElement>(null);
   const [progress, setProgress] = useState<PracticeProgress>(() => typeof window === "undefined" ? initialProgress() : tryLoad());
+
+  useEffect(() => {
+    if (started && hydrated) practiceHeading.current?.focus();
+  }, [started, hydrated]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -59,12 +65,23 @@ export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref:
     }
   }, [hydrated, progress]);
 
+  if (!started) {
+    return <section className="sentence-practice practice-splash" aria-labelledby="practice-title">
+      <header className="practice-header">
+        <p className="practice-eyebrow">Custom practice</p>
+        <h1 id="practice-title">Sentence Anatomy Practice</h1>
+      </header>
+      <p className="practice-preview">Build your ability to spot the subject and main verb at the heart of a sentence. Across four stages, you’ll move from short examples to longer sentences and decide whether each is complete or a fragment. Click words to mark the sentence core, or identify what a fragment is missing. Hints and feedback will help you improve as you go.</p>
+      <div className="practice-actions"><button type="button" onClick={() => setStarted(true)}>let’s go</button></div>
+    </section>;
+  }
+
   if (!hydrated) return <section className="sentence-practice"><p>Loading practice…</p></section>;
 
   const stage = sentenceAnatomyPractice.stages[progress.stageIndex];
   if (!stage) {
     return <section className="sentence-practice" aria-labelledby="practice-title">
-      <header className="practice-header"><p className="practice-eyebrow">Custom practice</p><h1 id="practice-title">Sentence Anatomy Practice</h1></header>
+      <header className="practice-header"><p className="practice-eyebrow">Custom practice</p><h1 id="practice-title" ref={practiceHeading} tabIndex={-1}>Sentence Anatomy Practice</h1></header>
       <div className="practice-card practice-finish">
         <p className="practice-status">Practice complete</p>
         <h2>You found the sentence core.</h2>
@@ -115,7 +132,7 @@ export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref:
 
   return <section className="sentence-practice" aria-labelledby="practice-title">
     <header className="practice-header">
-      <h1 id="practice-title">{stage.title}</h1>
+      <h1 id="practice-title" ref={practiceHeading} tabIndex={-1}>{stage.title}</h1>
       {stage.instruction && <p>{stage.instruction}</p>}
     </header>
     <p className="practice-status practice-stage">Stage {progress.stageIndex + 1} of {sentenceAnatomyPractice.stages.length}</p>
