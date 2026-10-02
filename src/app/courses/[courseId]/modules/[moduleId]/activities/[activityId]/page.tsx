@@ -5,6 +5,7 @@ import { ActivitySidebar } from "@/components/activity-sidebar";
 import { VideoLesson } from "@/components/video-lesson";
 import { SentencePractice } from "@/components/sentence-practice";
 import { ActSentencePractice } from "@/components/act-sentence-practice";
+import { isSupportedActivity } from "@/lib/course-activities";
 import { getActSentenceQuestions } from "@/data/act-sentence-practice";
 import { getCourseById, getModuleById } from "@/data/course-catalog";
 import "@/components/video-lesson.css";
@@ -37,6 +38,8 @@ export default async function AtomPage({ params }: AtomPageProps) {
   const { course, courseModule, atom } = getActivity(courseId, moduleId, activityId);
   const atoms = [...courseModule.atoms].sort((a, b) => a.order - b.order);
   const moduleHref = `/courses/${course.id}/modules/${courseModule.id}`;
+  const next = atoms[atoms.findIndex((entry) => entry.id === atom.id) + 1];
+  const nextActivityHref = isSupportedActivity(next) ? `${moduleHref}/activities/${next.id}` : undefined;
 
   return (
     <SiteShell variant="lesson" trail={[
@@ -48,8 +51,8 @@ export default async function AtomPage({ params }: AtomPageProps) {
       {atom.type === "video"
         ? <VideoLesson atom={atom} atoms={atoms} moduleHref={moduleHref} />
         : atom.id === "eng-ss-fragments-act-practice"
-          ? <ActSentencePractice questions={getActSentenceQuestions()} moduleHref={moduleHref} />
-          : <SentencePractice moduleHref={moduleHref} />}
+          ? <ActSentencePractice questions={getActSentenceQuestions()} moduleHref={moduleHref} nextActivityHref={nextActivityHref} />
+          : <SentencePractice moduleHref={moduleHref} nextActivityHref={nextActivityHref} />}
     </SiteShell>
   );
 }

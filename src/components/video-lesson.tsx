@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import MuxPlayer from "@mux/mux-player-react/lazy";
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Video } from "lucide-react";
+import { Video } from "lucide-react";
 import type { AtomSummary } from "@/data/course-catalog";
-import { isSupportedActivity } from "@/components/activity-sidebar";
+import { isSupportedActivity } from "@/lib/course-activities";
+import { ActivityNavigation } from "@/components/activity-navigation";
 import anatomyTranscript from "@/data/anatomy-of-a-sentence-transcript.json";
 
 export function VideoLesson({ atom, atoms, moduleHref }: {
@@ -56,6 +56,10 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
               aria-label={atom.title}
             /> : <div className="lesson-empty"><Video size={32} aria-hidden="true" /><p>Video coming soon</p></div>}
           </div>
+          <ActivityNavigation
+            previousHref={isSupportedActivity(previous) ? atomHref(previous) : undefined}
+            nextHref={isSupportedActivity(next) ? atomHref(next) : undefined}
+          />
           {(atom.summary || transcript.length > 0) && <section ref={detailsRef} className="lesson-details" data-collapsed={detailsView === null} aria-label="Lesson details">
             <div className="lesson-details-tabs" role="group" aria-label="Lesson details view">
               <button type="button" id="description-tab" aria-pressed={detailsView === "description"} aria-expanded={detailsView === "description"} aria-controls="description-panel" onClick={() => setDetailsView((view) => view === "description" ? null : "description")}>Description</button>
@@ -72,10 +76,6 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
               </div>
             </div>
           </section>}
-          {(isSupportedActivity(previous) || isSupportedActivity(next)) && <nav className="lesson-navigation" aria-label="Lesson navigation">
-            {isSupportedActivity(previous) && <Link href={atomHref(previous)} className="lesson-navigation-link"><ArrowLeft size={17} aria-hidden="true" />Previous activity</Link>}
-            {isSupportedActivity(next) && <Link href={atomHref(next)} className="lesson-navigation-link">Next activity<ArrowRight size={17} aria-hidden="true" /></Link>}
-          </nav>}
         </div>
       </div>
     </section>

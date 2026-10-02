@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ActivityNavigation } from "@/components/activity-navigation";
 import { Undo2 } from "lucide-react";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { sentenceAnatomyPractice, words } from "@/data/custom-practice";
@@ -44,7 +45,7 @@ function serverSnapshot() {
   return false;
 }
 
-export function SentencePractice({ moduleHref }: { moduleHref: string }) {
+export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref: string; nextActivityHref?: string }) {
   const hydrated = useSyncExternalStore(subscribeToHydration, browserSnapshot, serverSnapshot);
   const [progress, setProgress] = useState<PracticeProgress>(() => typeof window === "undefined" ? initialProgress() : tryLoad());
 
@@ -70,6 +71,7 @@ export function SentencePractice({ moduleHref }: { moduleHref: string }) {
         <ol className="practice-summary">{sentenceAnatomyPractice.stages.map((item, index) => <li key={item.title}><span>{item.title}</span><span>{progress.groupsPerStage[index]} {progress.groupsPerStage[index] === 1 ? "group" : "groups"}</span></li>)}</ol>
         <div className="practice-actions"><Link href={moduleHref}>Back to module</Link><button type="button" onClick={() => setProgress(initialProgress())}>Practice again</button></div>
       </div>
+      <ActivityNavigation nextHref={nextActivityHref} />
     </section>;
   }
 
@@ -147,5 +149,6 @@ export function SentencePractice({ moduleHref }: { moduleHref: string }) {
       {answerVisible && <div className="practice-feedback" role="status"><strong>{answeredCorrectly ? progress.firstTryCredit ? "Correct on the first try." : "Correct." : "Answer revealed."}</strong><p>{answerExplanation(problem)}</p>{!complete && <p>What is missing: <strong>main verb</strong>.</p>}</div>}
       <div className="practice-actions">{answerVisible ? <button type="button" onClick={() => setProgress(advanceProgress(progress))}>Continue</button> : <button type="button" onClick={submit} disabled={!canSubmit}>Check answer</button>}</div>
     </div>
+    <ActivityNavigation nextHref={nextActivityHref} />
   </section>;
 }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowLeft, ArrowRight, BadgeCheck, ClipboardList, Pencil, Video } from "lucide-react";
 import type { AtomSummary, AtomType } from "@/data/course-catalog";
+import { isSupportedActivity } from "@/lib/course-activities";
 
 const activityLabels: Record<AtomType, string> = {
   video: "Video",
@@ -21,10 +22,6 @@ function subscribeToViewport(callback: () => void) {
 
 function isDesktop() {
   return window.matchMedia("(min-width: 64rem)").matches;
-}
-
-export function isSupportedActivity(atom: AtomSummary | undefined): atom is AtomSummary {
-  return atom?.availability === "published" && (atom.type === "video" || atom.id === "eng-ss-anatomy-practice" || atom.id === "eng-ss-fragments-act-practice");
 }
 
 export function ActivitySidebar({ atom, atoms, moduleHref }: {

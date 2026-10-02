@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ActivityNavigation } from "@/components/activity-navigation";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import type { ActOption, ActSentenceQuestion } from "@/data/act-sentence-practice";
 import { freshActProgress, restoreActProgress, submitActAnswer, type ActProgress } from "@/lib/act-sentence-practice";
@@ -20,7 +21,7 @@ function loadProgress(length: number): ActProgress {
   return freshActProgress(length);
 }
 
-export function ActSentencePractice({ questions, moduleHref }: { questions: ActSentenceQuestion[]; moduleHref: string }) {
+export function ActSentencePractice({ questions, moduleHref, nextActivityHref }: { questions: ActSentenceQuestion[]; moduleHref: string; nextActivityHref?: string }) {
   const hydrated = useSyncExternalStore(subscribe, browserSnapshot, serverSnapshot);
   const [progress, setProgress] = useState<ActProgress>(() => typeof window === "undefined" ? freshActProgress(questions.length) : loadProgress(questions.length));
   const [selected, setSelected] = useState<ActOption | null>(null);
@@ -47,6 +48,7 @@ export function ActSentencePractice({ questions, moduleHref }: { questions: ActS
         <ol className="act-practice-results">{questions.map((question, index) => <li key={question.id}><span>{question.source}</span><strong>{progress.answers[index] === question.correctOption ? "Correct" : `Answer: ${question.correctOption}`}</strong></li>)}</ol>
         <div className="act-practice-actions"><button type="button" onClick={() => { setProgress(freshActProgress(questions.length)); setSelected(null); }}>Practice again</button><Link href={moduleHref}>Back to module</Link></div>
       </div>
+      <ActivityNavigation nextHref={nextActivityHref} />
     </section>;
   }
 
@@ -98,5 +100,6 @@ export function ActSentencePractice({ questions, moduleHref }: { questions: ActS
         : <button type="button" disabled={!selected} onClick={checkAnswer}>Check answer</button>}
       </div>
     </article>
+    <ActivityNavigation nextHref={nextActivityHref} />
   </section>;
 }
