@@ -14,6 +14,8 @@ test("the bank has four ordered stages and valid marked words", () => {
         const tokens = words(problem);
         assert.ok(problem.subject.length > 0);
         assert.ok(problem.subject.every((index) => index >= 0 && index < tokens.length));
+        assert.equal(problem.subject.length, 1);
+        assert.doesNotMatch(tokens[problem.subject[0]], /^(?:a|an|the)$/i);
         assert.ok(problem.verb === undefined ? problem.fragmentReason : problem.verb >= 0 && problem.verb < tokens.length);
         assert.doesNotMatch(problem.text, /\b(?:and|but|or|nor|for|yet|so)\b/i);
       }
@@ -21,13 +23,15 @@ test("the bank has four ordered stages and valid marked words", () => {
   }
 });
 
-test("subject article and finite helper must both be marked correctly", () => {
+test("the subject excludes its article while the finite helper is the verb", () => {
   const problem = sentenceAnatomyPractice.stages[0].slots[4][0];
-  let progress = { ...initialProgress(), subject: [0, 1], verb: 2 };
+  let progress = { ...initialProgress(), subject: [1], verb: 2 };
   assert.equal(answerIsCorrect(progress, problem), true);
   progress = { ...progress, verb: 3 };
   assert.equal(answerIsCorrect(progress, problem), false);
-  progress = { ...progress, subject: [1], verb: 2 };
+  progress = { ...progress, subject: [0, 1], verb: 2 };
+  assert.equal(answerIsCorrect(progress, problem), false);
+  progress = { ...progress, subject: [0] };
   assert.equal(answerIsCorrect(progress, problem), false);
 });
 
