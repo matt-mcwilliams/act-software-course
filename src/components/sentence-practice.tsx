@@ -85,8 +85,9 @@ export function SentencePractice({ moduleHref }: { moduleHref: string }) {
   function chooseWord(index: number) {
     if (progress.solved) return;
     setProgress((current) => {
+      if (current.subject.includes(index)) return { ...current, subject: [], verb: null, selectionMode: "subject" };
       if (current.selectionMode === "verb") return { ...current, verb: current.verb === index ? null : index };
-      return { ...current, subject: current.subject.includes(index) ? [] : [index] };
+      return { ...current, subject: [index], selectionMode: "verb" };
     });
   }
 
@@ -120,7 +121,7 @@ export function SentencePractice({ moduleHref }: { moduleHref: string }) {
     {progress.announcement && <p className="practice-announcement" role="status">{progress.announcement}</p>}
     <div className="practice-card">
       <p className="practice-status">Level {slot + 1} · Problem {progress.results.length + 1} of {progress.activeSlots.length}</p>
-      <p className="practice-prompt">{stage.checkCompleteness ? "Is this a complete sentence?" : "Find the subject and main verb."}</p>
+      <p className="practice-prompt" aria-live="polite">{stage.checkCompleteness && progress.choice === null ? "Is this a complete sentence?" : progress.choice === "fragment" ? "What is missing?" : progress.subject.length ? "Find the main verb." : "Find the subject."}</p>
       <div className="practice-sentence" aria-label={problem.text}>
         {tokens.map((word, index) => {
           const markedSubject = answerVisible ? problem.subject.includes(index) : progress.subject.includes(index);
@@ -130,8 +131,7 @@ export function SentencePractice({ moduleHref }: { moduleHref: string }) {
             : <span key={index}>{word}</span>;
         })}
       </div>
-      {stage.checkCompleteness && !answerVisible && <fieldset className="practice-choices"><legend>Choose one</legend><label><input type="radio" name="completeness" checked={progress.choice === "complete"} onChange={() => setProgress({ ...progress, choice: "complete", missing: null })} />Complete</label><label><input type="radio" name="completeness" checked={progress.choice === "fragment"} onChange={() => setProgress({ ...progress, choice: "fragment", subject: [], verb: null })} />Fragment</label></fieldset>}
-      {selectedWordMode && !answerVisible && <div className="practice-marking"><p>Choose a label, then select its word above.</p><div className="practice-mode" role="group" aria-label="Word label"><button type="button" className={progress.selectionMode === "subject" ? "is-active is-subject" : ""} aria-pressed={progress.selectionMode === "subject"} onClick={() => setProgress({ ...progress, selectionMode: "subject" })}>Subject</button><button type="button" className={progress.selectionMode === "verb" ? "is-active is-verb" : ""} aria-pressed={progress.selectionMode === "verb"} onClick={() => setProgress({ ...progress, selectionMode: "verb" })}>Main verb</button></div></div>}
+      {stage.checkCompleteness && !answerVisible && <fieldset className="practice-choices"><legend>Choose one</legend><label><input type="radio" name="completeness" checked={progress.choice === "complete"} onChange={() => setProgress({ ...progress, choice: "complete", missing: null, subject: [], verb: null, selectionMode: "subject" })} />Complete</label><label><input type="radio" name="completeness" checked={progress.choice === "fragment"} onChange={() => setProgress({ ...progress, choice: "fragment", subject: [], verb: null, selectionMode: "subject" })} />Fragment</label></fieldset>}
       {stage.checkCompleteness && progress.choice === "fragment" && !answerVisible && <fieldset className="practice-choices"><legend>What is missing?</legend>{(["subject", "main verb", "both"] as const).map((option) => <label key={option}><input type="radio" name="missing" checked={progress.missing === option} onChange={() => setProgress({ ...progress, missing: option })} />{option === "both" ? "Both" : option === "subject" ? "Subject" : "Main verb"}</label>)}</fieldset>}
       {progress.attempts > 0 && !progress.solved && <div className="practice-feedback" role="status"><strong>Try again.</strong><p>{progress.attempts === 1 ? hintOne : hintTwo}</p><p>{3 - progress.attempts} {3 - progress.attempts === 1 ? "try" : "tries"} left</p></div>}
       {answerVisible && <div className="practice-feedback" role="status"><strong>{answeredCorrectly ? progress.firstTryCredit ? "Correct on the first try." : "Correct." : "Answer revealed."}</strong><p>{answerExplanation(problem)}</p>{!complete && <p>What is missing: <strong>main verb</strong>.</p>}</div>}

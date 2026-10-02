@@ -1,7 +1,7 @@
 .sentence-practice { max-width: 52rem; margin-inline: auto; padding-bottom: 5rem; }
 .sentence-practice :is(button, input, a):focus-visible { outline: 3px solid color-mix(in srgb, var(--color-focus-ring) 40%, transparent); outline-offset: 3px; }
 .practice-header { margin: 1rem 0 2.5rem; }
-.practice-eyebrow, .practice-status, .practice-toolbar, .practice-steps, .practice-marking, .practice-actions, .practice-choices, .practice-feedback { font-family: var(--font-ui); }
+.practice-eyebrow, .practice-status, .practice-toolbar, .practice-steps, .practice-actions, .practice-choices, .practice-feedback { font-family: var(--font-ui); }
 .practice-eyebrow { margin: 0 0 .75rem; color: var(--color-muted); font-size: .9rem; }
 .practice-header h1 { margin: 0; font-size: clamp(2.25rem, 5vw, 3.75rem); font-weight: 400; line-height: 1.08; }
 .practice-header > p:last-child { max-width: 38rem; margin: 1rem 0 0; color: var(--color-muted); font-size: 1.125rem; line-height: 1.5; }
@@ -28,12 +28,6 @@
 .practice-choices legend { width: 100%; margin-bottom: .5rem; font-size: .9rem; font-weight: 600; }
 .practice-choices label { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.5rem; cursor: pointer; text-transform: capitalize; }
 .practice-choices input { width: 1.1rem; height: 1.1rem; margin: 0; accent-color: var(--color-ink); }
-.practice-marking { margin: 1.5rem 0; }
-.practice-marking p { margin: 0 0 .75rem; color: var(--color-muted); font-size: .9rem; line-height: 1.45; }
-.practice-mode { display: flex; flex-wrap: wrap; gap: .5rem; }
-.practice-mode button { padding: .6rem .85rem; border: 1px solid var(--color-border-subtle); border-radius: .5rem; background: white; color: var(--color-ink); font: inherit; cursor: pointer; }
-.practice-mode button.is-active.is-subject { border-color: #2563eb; background: #eaf1ff; color: #2563eb; }
-.practice-mode button.is-active.is-verb { border-color: #dc2626; background: #fff0f0; color: #dc2626; }
 .practice-feedback { margin: 1.75rem 0 0; padding: 1.25rem; border-radius: .5rem; background: var(--color-canvas); line-height: 1.5; }
 .practice-feedback strong { font-weight: 700; }
 .practice-feedback p { margin: .5rem 0 0; }
