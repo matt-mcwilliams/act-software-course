@@ -49,7 +49,7 @@ function AtomEntry({
 }) {
   const activityType = activityTypes[atom.type];
   const ActivityIcon = activityType.icon;
-  const helper = atom.type === "video"
+  const helper = atom.type === "custom-practice" ? "Practice" : atom.type === "video"
     ? atom.durationSeconds === undefined
       ? "TBD"
       : `${Math.floor(atom.durationSeconds / 60)}:${String(atom.durationSeconds % 60).padStart(2, "0")}`

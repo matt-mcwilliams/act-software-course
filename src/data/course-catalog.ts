@@ -71,8 +71,8 @@ export const courses: CourseSummary[] = [
             id: "eng-ss-anatomy-custom-practice",
             order: 2,
             type: "custom-practice",
-            title: "Custom practice 1",
-            availability: "planned",
+            title: "Sentence anatomy practice",
+            availability: "published",
           },
           {
             id: "activity-03",
