@@ -7,7 +7,7 @@
 .practice-header > p:last-child { margin: 1rem 0 0; color: var(--color-muted); font-size: 1.125rem; line-height: 1.5; }
 .practice-splash { display: flex; flex-direction: column; justify-content: center; min-height: 60svh; padding-block: clamp(2rem, 6vw, 5rem); }
 .practice-splash .practice-header { margin: 0 0 1.5rem; }
-.practice-preview { max-width: 60ch; margin: 0; font-size: 1.25rem; line-height: 1.55; }
+.practice-preview { width: 100%; margin: 0; font-size: 1.25rem; line-height: 1.55; }
 .practice-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.5rem; color: var(--color-muted); font-size: .875rem; }
 .practice-toolbar button { border: 0; padding: .5rem; background: none; color: var(--color-ink); font: inherit; text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }
 .practice-steps { display: flex; gap: .5rem; margin: 0; padding: 0; list-style: none; }
@@ -38,7 +38,11 @@
 .practice-feedback strong { font-weight: 700; }
 .practice-feedback p { margin: .5rem 0 0; }
 .practice-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-top: 2rem; }
-.practice-actions button, .practice-actions a { display: inline-flex; align-items: center; justify-content: center; min-height: 2.75rem; padding: .65rem 1rem; border: 1px solid var(--color-ink); border-radius: .5rem; background: var(--color-ink); color: white; font: 600 .95rem var(--font-ui); cursor: pointer; }
+.practice-actions button, .practice-actions .practice-start { gap: .75rem; }
+.practice-actions .practice-start:hover { background: color-mix(in srgb, var(--color-ink) 88%, white); }
+.practice-actions a { display: inline-flex; align-items: center; justify-content: center; min-height: 2.75rem; padding: .65rem 1rem; border: 1px solid var(--color-ink); border-radius: .5rem; background: var(--color-ink); color: white; font: 600 .95rem var(--font-ui); cursor: pointer; }
+.practice-actions .practice-start { gap: .75rem; }
+.practice-actions .practice-start:hover { background: color-mix(in srgb, var(--color-ink) 88%, white); }
 .practice-actions a { background: white; color: var(--color-ink); }
 .practice-actions button:disabled { border-color: #c9ced3; background: #c9ced3; cursor: default; }
 .practice-finish h2 { margin: 0 0 1rem; font-size: 2rem; font-weight: 400; }

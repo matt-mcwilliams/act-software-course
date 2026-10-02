@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ActivityNavigation } from "@/components/activity-navigation";
-import { Undo2 } from "lucide-react";
+import { ArrowRight, Undo2 } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { sentenceAnatomyPractice, words } from "@/data/custom-practice";
 import {
@@ -68,11 +68,10 @@ export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref:
   if (!started) {
     return <section className="sentence-practice practice-splash" aria-labelledby="practice-title">
       <header className="practice-header">
-        <p className="practice-eyebrow">Custom practice</p>
         <h1 id="practice-title">Sentence Anatomy Practice</h1>
       </header>
       <p className="practice-preview">Build your ability to spot the subject and main verb at the heart of a sentence. Across four stages, you’ll move from short examples to longer sentences and decide whether each is complete or a fragment. Click words to mark the sentence core, or identify what a fragment is missing. Hints and feedback will help you improve as you go.</p>
-      <div className="practice-actions"><button type="button" onClick={() => setStarted(true)}>let’s go</button></div>
+      <div className="practice-actions"><button className="practice-start" type="button" onClick={() => setStarted(true)}>Let’s go<ArrowRight size={18} aria-hidden="true" /></button></div>
     </section>;
   }
 
@@ -81,11 +80,8 @@ export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref:
   const stage = sentenceAnatomyPractice.stages[progress.stageIndex];
   if (!stage) {
     return <section className="sentence-practice" aria-labelledby="practice-title">
-      <header className="practice-header"><p className="practice-eyebrow">Custom practice</p><h1 id="practice-title" ref={practiceHeading} tabIndex={-1}>Sentence Anatomy Practice</h1></header>
+      <header className="practice-header"><h1 id="practice-title" ref={practiceHeading} tabIndex={-1}>Sentence Anatomy Practice</h1></header>
       <div className="practice-card practice-finish">
-        <p className="practice-status">Practice complete</p>
-        <h2>You found the sentence core.</h2>
-        <p>You passed each of the four stages with at least five of six first-try credits in a group, including credits from levels already mastered.</p>
         <ol className="practice-summary">{sentenceAnatomyPractice.stages.map((item, index) => <li key={item.title}><span>{item.title}</span><span>{progress.groupsPerStage[index]} {progress.groupsPerStage[index] === 1 ? "group" : "groups"}</span></li>)}</ol>
         <div className="practice-actions"><Link href={moduleHref}>Back to module</Link><button type="button" onClick={() => setProgress(initialProgress())}>Practice again</button></div>
       </div>
