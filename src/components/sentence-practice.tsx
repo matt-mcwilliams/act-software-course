@@ -21,17 +21,22 @@ const storageKey = "act-prep:sentence-anatomy:v2";
 const hintOne = "Who or what is this about? Does that subject have a verb in a clause that can stand on its own?";
 const hintTwo = "Check the clause that can stand on its own. An -ing form alone needs a helping verb. Verbs inside who, that, which, when, or because clauses do not supply the independent clause’s main verb. When marking a complete sentence, select the core noun or pronoun and the main verb.";
 
-function tryLoad(): PracticeProgress {
+function tryLoad(): { progress: PracticeProgress; started: boolean } {
   try {
     const saved = window.localStorage.getItem(storageKey);
     if (saved) {
       const parsed: unknown = JSON.parse(saved);
-      if (isStoredProgress(parsed)) return parsed;
+      if (isStoredProgress(parsed)) {
+        const started = "started" in parsed && typeof parsed.started === "boolean"
+          ? parsed.started
+          : JSON.stringify(parsed) !== JSON.stringify(initialProgress());
+        return { progress: parsed, started };
+      }
     }
   } catch {
     // Practice still works if browser storage is unavailable.
   }
-  return initialProgress();
+  return { progress: initialProgress(), started: false };
 }
 
 function subscribeToHydration() {
@@ -48,9 +53,12 @@ function serverSnapshot() {
 
 export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref: string; nextActivityHref?: string }) {
   const hydrated = useSyncExternalStore(subscribeToHydration, browserSnapshot, serverSnapshot);
-  const [started, setStarted] = useState(false);
+  const [savedAttempt] = useState(() => typeof window === "undefined"
+    ? { progress: initialProgress(), started: false }
+    : tryLoad());
+  const [started, setStarted] = useState(savedAttempt.started);
   const practiceHeading = useRef<HTMLHeadingElement>(null);
-  const [progress, setProgress] = useState<PracticeProgress>(() => typeof window === "undefined" ? initialProgress() : tryLoad());
+  const [progress, setProgress] = useState<PracticeProgress>(savedAttempt.progress);
 
   useEffect(() => {
     if (started && hydrated) practiceHeading.current?.focus();
@@ -59,11 +67,13 @@ export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref:
   useEffect(() => {
     if (!hydrated) return;
     try {
-      window.localStorage.setItem(storageKey, JSON.stringify(progress));
+      window.localStorage.setItem(storageKey, JSON.stringify({ ...progress, started }));
     } catch {
       // The current visit can continue without saved progress.
     }
-  }, [hydrated, progress]);
+  }, [hydrated, progress, started]);
+
+  if (!hydrated) return <section className="sentence-practice"><p>Loading practice…</p></section>;
 
   if (!started) {
     return <section className="sentence-practice practice-splash" aria-labelledby="practice-title">
@@ -75,15 +85,13 @@ export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref:
     </section>;
   }
 
-  if (!hydrated) return <section className="sentence-practice"><p>Loading practice…</p></section>;
-
   const stage = sentenceAnatomyPractice.stages[progress.stageIndex];
   if (!stage) {
     return <section className="sentence-practice" aria-labelledby="practice-title">
       <header className="practice-header"><h1 id="practice-title" ref={practiceHeading} tabIndex={-1}>Sentence Anatomy Practice</h1></header>
       <div className="practice-card practice-finish">
         <ol className="practice-summary">{sentenceAnatomyPractice.stages.map((item, index) => <li key={item.title}><span>{item.title}</span><span>{progress.groupsPerStage[index]} {progress.groupsPerStage[index] === 1 ? "group" : "groups"}</span></li>)}</ol>
-        <div className="practice-actions"><Link href={moduleHref}>Back to module</Link><button type="button" onClick={() => setProgress(initialProgress())}>Practice again</button></div>
+        <div className="practice-actions"><Link href={moduleHref}>Back to module</Link><button type="button" onClick={() => { setProgress(initialProgress()); setStarted(false); }}>Practice again</button></div>
       </div>
       <ActivityNavigation nextHref={nextActivityHref} />
     </section>;

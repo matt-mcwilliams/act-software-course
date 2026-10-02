@@ -38,9 +38,7 @@
 .practice-feedback strong { font-weight: 700; }
 .practice-feedback p { margin: .5rem 0 0; }
 .practice-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-top: 2rem; }
-.practice-actions button, .practice-actions .practice-start { gap: .75rem; }
-.practice-actions .practice-start:hover { background: color-mix(in srgb, var(--color-ink) 88%, white); }
-.practice-actions a { display: inline-flex; align-items: center; justify-content: center; min-height: 2.75rem; padding: .65rem 1rem; border: 1px solid var(--color-ink); border-radius: .5rem; background: var(--color-ink); color: white; font: 600 .95rem var(--font-ui); cursor: pointer; }
+.practice-actions button, .practice-actions a { display: inline-flex; align-items: center; justify-content: center; min-height: 2.75rem; padding: .65rem 1rem; border: 1px solid var(--color-ink); border-radius: .5rem; background: var(--color-ink); color: white; font: 600 .95rem var(--font-ui); cursor: pointer; }
 .practice-actions .practice-start { gap: .75rem; }
 .practice-actions .practice-start:hover { background: color-mix(in srgb, var(--color-ink) 88%, white); }
 .practice-actions a { background: white; color: var(--color-ink); }
