@@ -127,18 +127,18 @@ export function SentencePractice({ moduleHref }: { moduleHref: string }) {
     </div>
     {progress.announcement && <p className="practice-announcement" role="status">{progress.announcement}</p>}
     <div className="practice-card">
-      <div className="practice-prompt-row">
-        <p className="practice-prompt" aria-live="polite">{stage.checkCompleteness && progress.choice === null ? "Is this a complete sentence?" : progress.choice === "fragment" ? "What is missing?" : progress.subject.length ? "Find the main verb." : "Find the subject."}</p>
+      <p className="practice-prompt" aria-live="polite">{stage.checkCompleteness && progress.choice === null ? "Is this a complete sentence?" : progress.choice === "fragment" ? "What is missing?" : progress.subject.length ? "Find the main verb." : "Find the subject."}</p>
+      <div className="practice-sentence-row">
+        <div className="practice-sentence" aria-label={problem.text}>
+          {tokens.map((word, index) => {
+            const markedSubject = answerVisible ? problem.subject.includes(index) : progress.subject.includes(index);
+            const markedVerb = answerVisible ? problem.verb === index : progress.verb === index;
+            return selectedWordMode || answerVisible
+              ? <button key={index} type="button" onClick={() => chooseWord(index)} disabled={answerVisible || (stage.checkCompleteness && progress.choice !== "complete")} className={markedSubject ? "is-subject" : markedVerb ? "is-verb" : ""} aria-pressed={markedSubject || markedVerb} aria-label={`${word} ${markedSubject ? "subject" : markedVerb ? "main verb" : "unmarked"}`}>{word}</button>
+              : <span key={index}>{word}</span>;
+          })}
+        </div>
         {!progress.solved && selectedWordMode && (progress.subject.length > 0 || progress.verb !== null) && <button className="practice-undo" type="button" onClick={undoWord} aria-label={`Undo ${progress.verb !== null ? "main verb" : "subject"} selection`} title="Undo last selection">↶</button>}
-      </div>
-      <div className="practice-sentence" aria-label={problem.text}>
-        {tokens.map((word, index) => {
-          const markedSubject = answerVisible ? problem.subject.includes(index) : progress.subject.includes(index);
-          const markedVerb = answerVisible ? problem.verb === index : progress.verb === index;
-          return selectedWordMode || answerVisible
-            ? <button key={index} type="button" onClick={() => chooseWord(index)} disabled={answerVisible || (stage.checkCompleteness && progress.choice !== "complete")} className={markedSubject ? "is-subject" : markedVerb ? "is-verb" : ""} aria-pressed={markedSubject || markedVerb} aria-label={`${word} ${markedSubject ? "subject" : markedVerb ? "main verb" : "unmarked"}`}>{word}</button>
-            : <span key={index}>{word}</span>;
-        })}
       </div>
       {stage.checkCompleteness && !answerVisible && <fieldset className="practice-choices"><legend>Choose one</legend><label><input type="radio" name="completeness" checked={progress.choice === "complete"} onChange={() => setProgress({ ...progress, choice: "complete", missing: null, subject: [], verb: null, selectionMode: "subject" })} />Complete</label><label><input type="radio" name="completeness" checked={progress.choice === "fragment"} onChange={() => setProgress({ ...progress, choice: "fragment", subject: [], verb: null, selectionMode: "subject" })} />Fragment</label></fieldset>}
       {stage.checkCompleteness && progress.choice === "fragment" && !answerVisible && <fieldset className="practice-choices"><legend>What is missing?</legend>{(["subject", "main verb", "both"] as const).map((option) => <label key={option}><input type="radio" name="missing" checked={progress.missing === option} onChange={() => setProgress({ ...progress, missing: option })} />{option === "both" ? "Both" : option === "subject" ? "Subject" : "Main verb"}</label>)}</fieldset>}
