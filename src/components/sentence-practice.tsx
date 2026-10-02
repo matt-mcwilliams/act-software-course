@@ -91,6 +91,12 @@ export function SentencePractice({ moduleHref }: { moduleHref: string }) {
     });
   }
 
+  function undoWord() {
+    setProgress((current) => current.verb !== null
+      ? { ...current, verb: null, selectionMode: "verb" }
+      : { ...current, subject: [], selectionMode: "subject" });
+  }
+
   function submit() {
     if (!canSubmit || progress.solved) return;
     setProgress(submitAnswer(progress, problem!));
@@ -108,6 +114,7 @@ export function SentencePractice({ moduleHref }: { moduleHref: string }) {
       <h1 id="practice-title">{stage.title}</h1>
       <p>{stage.instruction}</p>
     </header>
+    <p className="practice-status practice-stage">Stage {progress.stageIndex + 1} of {sentenceAnatomyPractice.stages.length}</p>
     <div className="practice-toolbar">
       <ol className="practice-steps" aria-label="Difficulty slots">{stage.slots.map((_, index) => {
         const retired = progress.retired[progress.stageIndex][index];
@@ -120,8 +127,10 @@ export function SentencePractice({ moduleHref }: { moduleHref: string }) {
     </div>
     {progress.announcement && <p className="practice-announcement" role="status">{progress.announcement}</p>}
     <div className="practice-card">
-      <p className="practice-status">Stage {progress.stageIndex + 1} of {sentenceAnatomyPractice.stages.length}</p>
-      <p className="practice-prompt" aria-live="polite">{stage.checkCompleteness && progress.choice === null ? "Is this a complete sentence?" : progress.choice === "fragment" ? "What is missing?" : progress.subject.length ? "Find the main verb." : "Find the subject."}</p>
+      <div className="practice-prompt-row">
+        <p className="practice-prompt" aria-live="polite">{stage.checkCompleteness && progress.choice === null ? "Is this a complete sentence?" : progress.choice === "fragment" ? "What is missing?" : progress.subject.length ? "Find the main verb." : "Find the subject."}</p>
+        {!progress.solved && selectedWordMode && (progress.subject.length > 0 || progress.verb !== null) && <button className="practice-undo" type="button" onClick={undoWord} aria-label={`Undo ${progress.verb !== null ? "main verb" : "subject"} selection`} title="Undo last selection">↶</button>}
+      </div>
       <div className="practice-sentence" aria-label={problem.text}>
         {tokens.map((word, index) => {
           const markedSubject = answerVisible ? problem.subject.includes(index) : progress.subject.includes(index);
