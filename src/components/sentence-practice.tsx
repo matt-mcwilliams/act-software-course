@@ -120,7 +120,7 @@ export function SentencePractice({ moduleHref }: { moduleHref: string }) {
     </div>
     {progress.announcement && <p className="practice-announcement" role="status">{progress.announcement}</p>}
     <div className="practice-card">
-      <p className="practice-status">Level {slot + 1} · Problem {progress.results.length + 1} of {progress.activeSlots.length}</p>
+      <p className="practice-status">Stage {progress.stageIndex + 1} of {sentenceAnatomyPractice.stages.length}</p>
       <p className="practice-prompt" aria-live="polite">{stage.checkCompleteness && progress.choice === null ? "Is this a complete sentence?" : progress.choice === "fragment" ? "What is missing?" : progress.subject.length ? "Find the main verb." : "Find the subject."}</p>
       <div className="practice-sentence" aria-label={problem.text}>
         {tokens.map((word, index) => {
