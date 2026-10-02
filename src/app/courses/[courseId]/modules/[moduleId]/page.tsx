@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { BadgeCheck, ClipboardList, Pencil, Video } from "lucide-react";
 import { SiteShell } from "@/components/course-navigation";
 import {
+  courses,
   getCourseById,
   getModuleById,
   type AtomSummary,
@@ -16,6 +17,12 @@ const activityTypes: Record<AtomType, { icon: typeof Video; label: string }> = {
   "act-practice": { icon: ClipboardList, label: "ACT practice" },
   "mastery-check": { icon: BadgeCheck, label: "Mastery check" },
 };
+
+export function generateStaticParams() {
+  return courses.flatMap((course) => course.modules.map((module) => ({
+    courseId: course.id, moduleId: module.id,
+  })));
+}
 
 type ModulePageProps = {
   params: Promise<{ courseId: string; moduleId: string }>;

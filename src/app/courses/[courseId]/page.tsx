@@ -4,7 +4,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CourseHeroCopy } from "@/components/course-hero-copy";
 import { SiteShell } from "@/components/course-navigation";
-import { getCourseById } from "@/data/course-catalog";
+import { courses, getCourseById } from "@/data/course-catalog";
+
+export function generateStaticParams() {
+  return courses.map((course) => ({ courseId: course.id }));
+}
 
 type CoursePageProps = {
   params: Promise<{ courseId: string }>;
@@ -52,7 +56,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
         {course.coverImage && (
           <Image
             className="course-hero-image"
-            src={course.coverImage}
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${course.coverImage}`}
             alt="Student filling in an ACT answer sheet."
             width={612}
             height={408}

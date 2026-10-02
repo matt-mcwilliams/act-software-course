@@ -7,10 +7,18 @@ import { SentencePractice } from "@/components/sentence-practice";
 import { ActSentencePractice } from "@/components/act-sentence-practice";
 import { isSupportedActivity } from "@/lib/course-activities";
 import { getActSentenceQuestions } from "@/data/act-sentence-practice";
-import { getCourseById, getModuleById } from "@/data/course-catalog";
+import { courses, getCourseById, getModuleById } from "@/data/course-catalog";
 import "@/components/video-lesson.css";
 import "@/components/sentence-practice.css";
 import "@/components/act-sentence-practice.css";
+
+export function generateStaticParams() {
+  return courses.flatMap((course) => course.modules.flatMap((module) =>
+    module.atoms.filter(isSupportedActivity).map((atom) => ({
+      courseId: course.id, moduleId: module.id, activityId: atom.id,
+    })),
+  ));
+}
 
 type AtomPageProps = {
   params: Promise<{ courseId: string; moduleId: string; activityId: string }>;

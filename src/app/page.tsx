@@ -32,7 +32,7 @@ export default function CoursesPage() {
                 {course.coverImage && (
                   <Image
                     className="course-cover-image"
-                    src={course.coverImage}
+                    src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${course.coverImage}`}
                     alt="Student filling in an ACT answer sheet."
                     width={612}
                     height={408}
