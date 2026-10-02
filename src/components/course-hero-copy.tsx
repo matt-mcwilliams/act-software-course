@@ -27,7 +27,7 @@ export function CourseHeroCopy({
       onClick={() => setExpanded((isExpanded) => !isExpanded)}
       type="button"
     >
-      <span>{expanded ? "read less" : "read more"}</span>
+      <span>{expanded ? "Read less" : "Read more"}</span>
       {expanded ? (
         <ChevronUp aria-hidden="true" size={16} strokeWidth={1.5} />
       ) : (

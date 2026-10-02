@@ -49,11 +49,9 @@ function AtomEntry({
 }) {
   const activityType = activityTypes[atom.type];
   const ActivityIcon = activityType.icon;
-  const helper = atom.type === "custom-practice" ? "Practice" : atom.type === "video"
-    ? atom.durationSeconds === undefined
-      ? "TBD"
-      : `${Math.floor(atom.durationSeconds / 60)}:${String(atom.durationSeconds % 60).padStart(2, "0")}`
-    : `${atom.masteryPercent ?? 0}%`;
+  const helper = atom.availability === "planned" ? "Planned" : atom.type === "video" && atom.durationSeconds !== undefined
+    ? `${Math.floor(atom.durationSeconds / 60)}:${String(atom.durationSeconds % 60).padStart(2, "0")}`
+    : atom.type === "mastery-check" ? "Mastery check" : "Practice";
   const entry = (
     <>
       <span className="atom-type" role="img" aria-label={activityType.label} title={activityType.label}>
@@ -102,7 +100,8 @@ export default async function ModulePage({ params }: ModulePageProps) {
 
       <header className="page-intro">
         <h1 className="page-title">{courseModule.title}</h1>
-        <p className="page-meta">{atoms.length} activities</p>
+        <p className="page-meta">{atoms.filter((atom) => atom.availability === "published").length} available · {atoms.filter((atom) => atom.availability === "planned").length} planned</p>
+        <p className="page-description">{courseModule.description}</p>
       </header>
 
       <ol className="atom-list" role="list" aria-label="Activity sequence">

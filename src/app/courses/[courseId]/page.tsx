@@ -79,7 +79,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
                 <span className="module-copy">
                   <span className="module-title">{module.title}</span>
                   <span className="module-description">
-                    {module.atoms.length} activities
+                    {module.atoms.filter((atom) => atom.availability === "published").length} available · {module.atoms.filter((atom) => atom.availability === "planned").length} planned
                   </span>
                 </span>
               </Link>

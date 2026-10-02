@@ -204,8 +204,8 @@
     {
       "id": "ENG-CS-SS-001",
       "name": "Sentence Fragments",
-      "definition": "Recognize and repair clauses lacking a subject or finite main verb.",
-      "instructionalExplanation": "An independent clause needs a subject and conjugated verb not subordinated by a relative pronoun.",
+      "definition": "Recognize and repair incomplete sentences, including missing subjects or finite main verbs and dependent clauses without an independent clause.",
+      "instructionalExplanation": "Look for a subject and a finite verb in a clause that can stand on its own. An -ing form alone, a relative clause, or an introductory dependent clause cannot supply the independent core.",
       "classificationGuidance": "Assign when a distractor creates or preserves an incomplete sentence.",
       "status": "active",
       "categoryId": "ENG-CS",

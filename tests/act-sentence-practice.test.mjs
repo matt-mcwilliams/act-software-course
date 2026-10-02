@@ -24,3 +24,25 @@ test("the curated ACT set is distinct and grounded in source questions", () => {
     assert.match(question.explanation, /verb/);
   }
 });
+
+
+test("unrelated grammar edits in the surrounding passage use their answer keys", () => {
+  const questions = getActSentenceQuestions();
+  const shin = questions.find((question) => question.id === "25MC2-English-25");
+  assert.match(shin.before, /many of which are adorned/);
+  assert.doesNotMatch(shin.before, /many of whose/);
+  const wreck = questions.find((question) => question.id === "25MC5-English-31");
+  assert.match(wreck.after, /remnants of the ship were restored/);
+  const nebula = questions.find((question) => question.id === "25MC5-English-37");
+  assert.match(nebula.after, /The nebula, home to thousands of young stars, is often called/);
+  assert.equal(nebula.target, "collapse, forming stars.");
+  assert.equal(shin.correctOption, "B");
+});
+
+test("ACT explanations explicitly address the deceptive alternatives", () => {
+  for (const question of getActSentenceQuestions()) {
+    assert.match(question.explanation, /main verb|independent/);
+  }
+  const storage = getActSentenceQuestions()[0];
+  assert.match(storage.explanation, /does contain the verb “makes/);
+});

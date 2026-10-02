@@ -11,14 +11,15 @@ import {
   answerIsCorrect,
   currentProblem,
   initialProgress,
+  missingSentencePart,
   isStoredProgress,
   submitAnswer,
   type PracticeProgress,
 } from "@/lib/sentence-practice";
 
-const storageKey = "act-prep:sentence-anatomy:v1";
-const hintOne = "Who or what is this about? Which word tells what that subject does or is in the independent clause?";
-const hintTwo = "Choose only the subject noun or pronoun, without an article. A main verb needs a finite form; -ing alone and verbs inside who or that clauses do not count.";
+const storageKey = "act-prep:sentence-anatomy:v2";
+const hintOne = "Who or what is this about? Does that subject have a verb in a clause that can stand on its own?";
+const hintTwo = "Check the clause that can stand on its own. An -ing form alone needs a helping verb. Verbs inside who, that, which, when, or because clauses do not supply the independent clause’s main verb. When marking a complete sentence, select the core noun or pronoun and the main verb.";
 
 function tryLoad(): PracticeProgress {
   try {
@@ -63,11 +64,11 @@ export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref:
   const stage = sentenceAnatomyPractice.stages[progress.stageIndex];
   if (!stage) {
     return <section className="sentence-practice" aria-labelledby="practice-title">
-      <header className="practice-header"><p className="practice-eyebrow">Custom practice</p><h1 id="practice-title">Sentence anatomy</h1></header>
+      <header className="practice-header"><p className="practice-eyebrow">Custom practice</p><h1 id="practice-title">Sentence Anatomy Practice</h1></header>
       <div className="practice-card practice-finish">
         <p className="practice-status">Practice complete</p>
         <h2>You found the sentence core.</h2>
-        <p>You reached at least five first-try credits in each of the four stages.</p>
+        <p>You passed each of the four stages with at least five of six first-try credits in a group, including credits from levels already mastered.</p>
         <ol className="practice-summary">{sentenceAnatomyPractice.stages.map((item, index) => <li key={item.title}><span>{item.title}</span><span>{progress.groupsPerStage[index]} {progress.groupsPerStage[index] === 1 ? "group" : "groups"}</span></li>)}</ol>
         <div className="practice-actions"><Link href={moduleHref}>Back to module</Link><button type="button" onClick={() => setProgress(initialProgress())}>Practice again</button></div>
       </div>
@@ -79,7 +80,7 @@ export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref:
   if (!problem) return null;
   const tokens = words(problem);
   const slot = progress.activeSlots[progress.results.length];
-  const complete = problem.verb !== undefined;
+  const missing = missingSentencePart(problem);
   const canSubmit = stage.checkCompleteness
     ? progress.choice === "fragment" ? progress.missing !== null : progress.choice === "complete" && progress.subject.length > 0 && progress.verb !== null
     : progress.subject.length > 0 && progress.verb !== null;
@@ -117,6 +118,13 @@ export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref:
       <h1 id="practice-title">{stage.title}</h1>
       <p>{stage.instruction}</p>
     </header>
+    <p className="practice-guidance">Select only the core noun or pronoun, leaving out words such as the, a, or my. In is barking, select is as the main verb, following the same marking method as the video.</p>
+    <details className="practice-help">
+      <summary>How this practice works</summary>
+      <p>You have three tries per problem. Hints follow the first two misses; the third miss reveals the answer. A correct retry completes the problem but does not earn first-try credit.</p>
+      <p>Pass a stage with five of six first-try credits in one group. A level answered correctly on the first try in three consecutive groups is mastered and contributes its credit automatically in later groups.</p>
+      <p>An independent clause can stand as a sentence. A dependent clause, such as one beginning with because or when, needs an independent clause. For a dependent-clause fragment, choose Main verb: the independent clause’s main verb is missing.</p>
+    </details>
     <p className="practice-status practice-stage">Stage {progress.stageIndex + 1} of {sentenceAnatomyPractice.stages.length}</p>
     <div className="practice-toolbar">
       <ol className="practice-steps" aria-label="Difficulty slots">{stage.slots.map((_, index) => {
@@ -146,7 +154,7 @@ export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref:
       {stage.checkCompleteness && !answerVisible && <fieldset className="practice-choices"><legend>Choose one</legend><label><input type="radio" name="completeness" checked={progress.choice === "complete"} onChange={() => setProgress({ ...progress, choice: "complete", missing: null, subject: [], verb: null, selectionMode: "subject" })} />Complete</label><label><input type="radio" name="completeness" checked={progress.choice === "fragment"} onChange={() => setProgress({ ...progress, choice: "fragment", subject: [], verb: null, selectionMode: "subject" })} />Fragment</label></fieldset>}
       {stage.checkCompleteness && progress.choice === "fragment" && !answerVisible && <fieldset className="practice-choices"><legend>What is missing?</legend>{(["subject", "main verb", "both"] as const).map((option) => <label key={option}><input type="radio" name="missing" checked={progress.missing === option} onChange={() => setProgress({ ...progress, missing: option })} />{option === "both" ? "Both" : option === "subject" ? "Subject" : "Main verb"}</label>)}</fieldset>}
       {progress.attempts > 0 && !progress.solved && <div className="practice-feedback" role="status"><strong>Try again.</strong><p>{progress.attempts === 1 ? hintOne : hintTwo}</p><p>{3 - progress.attempts} {3 - progress.attempts === 1 ? "try" : "tries"} left</p></div>}
-      {answerVisible && <div className="practice-feedback" role="status"><strong>{answeredCorrectly ? progress.firstTryCredit ? "Correct on the first try." : "Correct." : "Answer revealed."}</strong><p>{answerExplanation(problem)}</p>{!complete && <p>What is missing: <strong>main verb</strong>.</p>}</div>}
+      {answerVisible && <div className="practice-feedback" role="status"><strong>{answeredCorrectly ? progress.firstTryCredit ? "Correct on the first try." : "Correct." : "Answer revealed."}</strong><p>{answerExplanation(problem)}</p>{missing && <p>What is missing: <strong>{missing === "both" ? "subject and main verb" : missing}</strong>.</p>}</div>}
       <div className="practice-actions">{answerVisible ? <button type="button" onClick={() => setProgress(advanceProgress(progress))}>Continue</button> : <button type="button" onClick={submit} disabled={!canSubmit}>Check answer</button>}</div>
     </div>
     <ActivityNavigation nextHref={nextActivityHref} />

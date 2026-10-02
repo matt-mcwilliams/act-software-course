@@ -40,11 +40,11 @@ export const courses: CourseSummary[] = [
     id: "act-english",
     title: "ACT English",
     shortDescription:
-      "Course still in progress. Covers sentence structure, etc.",
+      "Learn to find sentence cores and recognize fragments through a video lesson, guided practice, and ACT questions. More lessons are in progress.",
     longDescription:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae justo ac neque facilisis volutpat. Praesent non purus vel erat interdum fermentum. Sed at sapien sit amet mi tincidunt consequat. Curabitur euismod, lectus sed malesuada gravida, velit nibh posuere mauris, vitae porta magna est sed nisl.\n\n" +
-      "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ullamcorper, arcu eget tincidunt feugiat, lectus augue luctus erat, eget posuere neque libero at sem. Vivamus sollicitudin quam nec sem commodo, id gravida eros porta. Aenean at nibh eu risus interdum blandit.\n\n" +
-      "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam at neque vel mauris feugiat consequat. Aliquam erat volutpat. Morbi finibus lorem a risus tempor, sed tristique tortor mattis. Suspendisse potenti. Nulla facilisi.",
+      "Start with sentence structure: find who or what a sentence is about, identify its main verb, and check whether its core can stand on its own. The opening sequence pairs The Anatomy of a Sentence with custom practice and seven ACT fragment questions.\n\n" +
+      "The custom practice moves from short examples to longer sentences with extra detail. You will find the subject and main verb even when a sentence includes -ing words, relative clauses, or other extra detail. Explanations show why each answer works.\n\n" +
+      "Three activities are available in the first module. Later lessons and the module mastery check are still planned. This course is being built; the current sequence covers sentence cores and fragments, rather than the full ACT English curriculum.",
     coverImage: "/images/act-english-cover.jpg",
     modules: [
       {
@@ -52,7 +52,7 @@ export const courses: CourseSummary[] = [
         order: 1,
         title: "Sentence Structure",
         description:
-          "11 activities: videos, custom practice, ACT practice problems, and a mastery checkLearn how sentences are constructed, how independent ideas can be joined correctly, and how modifiers and commas shape sentence meaning and clarity.",
+          "Begin with sentence cores and fragments: one video, custom practice, and seven ACT questions are available. The remaining eight activities, including the module mastery check, are planned.",
         atoms: [
           {
             id: "eng-ss-anatomy-video",
@@ -92,14 +92,14 @@ export const courses: CourseSummary[] = [
             id: "activity-05",
             order: 5,
             type: "custom-practice",
-            title: "Custom practice 2",
+            title: "Custom Practice 2",
             availability: "planned",
           },
           {
             id: "activity-06",
             order: 6,
             type: "act-practice",
-            title: "ACT practice problems 2",
+            title: "ACT Practice 2",
             availability: "planned",
           },
           {
@@ -113,28 +113,28 @@ export const courses: CourseSummary[] = [
             id: "activity-08",
             order: 8,
             type: "custom-practice",
-            title: "Custom practice 3",
+            title: "Custom Practice 3",
             availability: "planned",
           },
           {
             id: "activity-09",
             order: 9,
             type: "custom-practice",
-            title: "Custom practice 4",
+            title: "Custom Practice 4",
             availability: "planned",
           },
           {
             id: "activity-10",
             order: 10,
             type: "act-practice",
-            title: "ACT practice problems 3",
+            title: "ACT Practice 3",
             availability: "planned",
           },
           {
             id: "activity-11",
             order: 11,
             type: "mastery-check",
-            title: "Module mastery check",
+            title: "Module Mastery Check",
             availability: "planned",
           },
         ],

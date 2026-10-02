@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { sentenceAnatomyPractice, words } from "../src/data/custom-practice.ts";
-import { advanceProgress, answerIsCorrect, currentProblem, initialProgress, submitAnswer } from "../src/lib/sentence-practice.ts";
+import { advanceProgress, answerExplanation, answerIsCorrect, currentProblem, initialProgress, missingSentencePart, submitAnswer } from "../src/lib/sentence-practice.ts";
 
 test("the bank has four ordered stages and valid marked words", () => {
   assert.equal(sentenceAnatomyPractice.stages.length, 4);
@@ -12,10 +12,10 @@ test("the bank has four ordered stages and valid marked words", () => {
       assert.ok(variants.length >= 3);
       for (const problem of variants) {
         const tokens = words(problem);
-        assert.ok(problem.subject.length > 0);
+        assert.ok(problem.subject.length <= 1);
+        if (!stage.checkCompleteness) assert.equal(missingSentencePart(problem), null);
         assert.ok(problem.subject.every((index) => index >= 0 && index < tokens.length));
-        assert.equal(problem.subject.length, 1);
-        assert.doesNotMatch(tokens[problem.subject[0]], /^(?:a|an|the)$/i);
+        if (problem.subject.length) assert.doesNotMatch(tokens[problem.subject[0]], /^(?:a|an|the)$/i);
         assert.ok(problem.verb === undefined ? problem.fragmentReason : problem.verb >= 0 && problem.verb < tokens.length);
         assert.doesNotMatch(problem.text, /\b(?:and|but|or|nor|for|yet|so)\b/i);
       }
@@ -108,4 +108,42 @@ test("a missed first try breaks a slot's consecutive-group streak", () => {
   }
   assert.equal(progress.retired[0][0], false);
   assert.equal(progress.streaks[0][0], 1);
+});
+
+
+test("all completeness variants have a coherent answer and all missing-part choices are exercised", () => {
+  const kinds = new Set();
+  sentenceAnatomyPractice.stages.forEach((stage, stageIndex) => {
+    for (const problem of stage.slots.flat()) {
+      const missing = missingSentencePart(problem);
+      if (stage.checkCompleteness) kinds.add(missing ?? "complete");
+      const answer = {
+        ...initialProgress(), stageIndex,
+        choice: missing ? "fragment" : "complete", missing,
+        subject: problem.subject, verb: problem.verb ?? null,
+      };
+      assert.equal(answerIsCorrect(answer, problem), true, problem.text);
+      if (stage.checkCompleteness) {
+        assert.equal(answerIsCorrect({ ...answer, choice: missing ? "complete" : "fragment" }, problem), false, problem.text);
+        if (missing) {
+          for (const wrong of ["subject", "main verb", "both"].filter((value) => value !== missing)) {
+            assert.equal(answerIsCorrect({ ...answer, missing: wrong }, problem), false, problem.text);
+          }
+        }
+      }
+      assert.ok(answerExplanation(problem).length > 40);
+    }
+  });
+  assert.deepEqual([...kinds].sort(), ["both", "complete", "main verb", "subject"]);
+});
+
+test("the main-verb marking convention follows the video and dependent fragments identify the missing core", () => {
+  const helper = sentenceAnatomyPractice.stages[0].slots[4][0];
+  assert.match(answerExplanation(helper), /“dog” is the subject/);
+  assert.match(answerExplanation(helper), /“is” is the main verb to mark/);
+  assert.doesNotMatch(answerExplanation(helper), /“barking” is the main verb/);
+  const dependent = sentenceAnatomyPractice.stages[3].slots[5][0];
+  assert.equal(missingSentencePart(dependent), "main verb");
+  assert.match(answerExplanation(dependent), /has its own subject.*and a verb/);
+  assert.match(answerExplanation(dependent), /independent clause is missing/i);
 });

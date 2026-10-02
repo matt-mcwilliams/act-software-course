@@ -3,7 +3,7 @@ import { SiteShell } from "@/components/course-navigation";
 
 export const metadata: Metadata = {
   title: "Page not found",
-  description: "The requested course or module could not be found.",
+  description: "The requested course, module, or activity could not be found.",
 };
 
 export default function NotFound() {
@@ -12,7 +12,7 @@ export default function NotFound() {
       <header className="page-intro">
         <h1 className="page-title">Page not found</h1>
         <p className="page-description">
-          We couldn’t find that course or module.
+          We couldn’t find that course, module, or activity.
         </p>
       </header>
     </SiteShell>

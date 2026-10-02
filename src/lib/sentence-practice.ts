@@ -60,8 +60,9 @@ export function currentProblem(progress: PracticeProgress): SentenceProblem | nu
 export function answerIsCorrect(progress: PracticeProgress, problem: SentenceProblem): boolean {
   const stage = sentenceAnatomyPractice.stages[progress.stageIndex];
   if (stage.checkCompleteness) {
-    if (problem.verb === undefined) {
-      return progress.choice === "fragment" && progress.missing === "main verb";
+    const missing = missingSentencePart(problem);
+    if (missing) {
+      return progress.choice === "fragment" && progress.missing === missing;
     }
     if (progress.choice !== "complete") return false;
   }
@@ -82,17 +83,32 @@ export function submitAnswer(progress: PracticeProgress, problem: SentenceProble
   };
 }
 
+export function missingSentencePart(problem: SentenceProblem): MissingChoice {
+  if (problem.subject.length === 0) return problem.verb === undefined ? "both" : "subject";
+  return problem.verb === undefined ? "main verb" : null;
+}
+
 export function answerExplanation(problem: SentenceProblem): string {
-  const tokens = words(problem);
-  const subject = problem.subject.map((index) => tokens[index].replace(/[.,!?;:]$/, "")).join(" ");
+  const tokens = words(problem).map((token) => token.replace(/[.,!?;:]$/, ""));
+  const subject = problem.subject.map((index) => tokens[index]).join(" ");
+  const missing = missingSentencePart(problem);
+  if (missing === "both") {
+    return "This phrase gives extra detail, but it has neither a subject nor a main verb for an independent clause. Both are missing.";
+  }
   if (problem.verb !== undefined) {
-    const verb = tokens[problem.verb].replace(/[.,!?;:]$/, "");
-    return `“${subject}” is the subject, and “${verb}” is the main verb. The sentence is complete.`;
+    const verb = tokens[problem.verb];
+    if (missing === "subject") {
+      return `The word to mark as the main verb is “${verb}”, but this statement does not say who or what it is about. The subject is missing. It is a fragment.`;
+    }
+    return `“${subject}” is the subject, and “${verb}” is the main verb to mark in this activity. The sentence is complete.`;
   }
   if (problem.fragmentReason === "ing") {
-    return `“${subject}” is the subject, but the -ing form cannot serve as the main verb by itself. A finite main verb is missing.`;
+    return `“${subject}” is the subject, but the -ing form cannot serve as the main verb by itself. Add a helping verb or change the verb form to complete the sentence.`;
   }
-  return `“${subject}” is the subject, but the verb inside the relative clause cannot serve as the independent clause's main verb. A main verb is missing.`;
+  if (problem.fragmentReason === "dependent") {
+    return `The introductory dependent clause has its own subject, “${subject}”, and a verb, but it cannot stand alone. An independent clause is missing. Choose Main verb here because there is no independent clause's main verb.`;
+  }
+  return `“${subject}” is the subject, but the verb inside the relative clause only describes that subject. The independent clause's main verb is missing.`;
 }
 
 function resetAnswer(progress: PracticeProgress): PracticeProgress {

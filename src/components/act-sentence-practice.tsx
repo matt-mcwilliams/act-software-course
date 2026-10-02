@@ -43,9 +43,9 @@ export function ActSentencePractice({ questions, moduleHref, nextActivityHref }:
       <header className="act-practice-header"><h1 id="act-practice-title">ACT Practice: Fragments</h1></header>
       <div className="act-practice-card act-practice-finish">
         <p className="act-practice-meta">Practice complete</p>
-        <h2>{score} of {questions.length} correct</h2>
-        <p>Review how each choice affects the sentence’s subject and main verb.</p>
-        <ol className="act-practice-results">{questions.map((question, index) => <li key={question.id}><span>{question.source}</span><strong>{progress.answers[index] === question.correctOption ? "Correct" : `Answer: ${question.correctOption}`}</strong></li>)}</ol>
+        <h2>{score} of {questions.length} correct within two tries</h2>
+        <p>Review the subject, main verb, and alternatives for each question. This practice total is not an ACT score.</p>
+        <ol className="act-practice-results">{questions.map((question, index) => <li key={question.id}><div><span>{question.source}</span><details><summary>Review explanation</summary><p>{question.explanation}</p></details></div><strong>{progress.answers[index] === question.correctOption ? progress.firstMisses[index] ? "Correct on retry" : "Correct on first try" : `Answer: ${question.correctOption}`}</strong></li>)}</ol>
         <div className="act-practice-actions"><button type="button" onClick={() => { setProgress(freshActProgress(questions.length)); setSelected(null); }}>Practice again</button><Link href={moduleHref}>Back to module</Link></div>
       </div>
       <ActivityNavigation nextHref={nextActivityHref} />
@@ -73,7 +73,7 @@ export function ActSentencePractice({ questions, moduleHref, nextActivityHref }:
   return <section className="act-practice" aria-labelledby="act-practice-title">
     <header className="act-practice-header">
       <h1 id="act-practice-title">ACT Practice: Fragments</h1>
-      <p>Choose the wording that gives the sentence a subject and a main verb. You have two tries for each question.</p>
+      <p>Read each choice in the whole sentence. Find the subject and main verb of the clause that can stand on its own. You have two tries per question.</p>
     </header>
     <div className="act-practice-toolbar"><span>Question {progress.index + 1} of {questions.length}</span></div>
     <article className="act-practice-card" aria-labelledby="act-question-stem">
@@ -89,7 +89,7 @@ export function ActSentencePractice({ questions, moduleHref, nextActivityHref }:
       </fieldset>
       {retrying && <div className="act-practice-feedback" role="status">
         <strong className="is-incorrect">Try again.</strong>
-        <p>That choice is incorrect. You have one more try before the answer and explanation are revealed.</p>
+        <p>That choice is incorrect. Read it in the whole sentence again: does the subject have a main verb in a clause that can stand on its own? You have one more try.</p>
       </div>}
       {checked && <div className="act-practice-feedback" role="status">
         <strong className={correct ? "is-correct" : "is-incorrect"}>{correct ? "Correct." : `The correct answer is ${question.correctOption}.`}</strong>

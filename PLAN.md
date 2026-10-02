@@ -1,5 +1,7 @@
 # Phase 1 plan: course catalogue to module view
 
+Historical implementation plan. Video and practice pages have since been implemented, and IDs/routes have changed. See `README.md` for current behavior and `internal/CONTENT_REVIEW.md` for content findings.
+
 ## Goal and boundaries
 
 Build the first navigable slice of a future course catalogue: **course selection → ACT English module selection → one module view**. Course selection is non-sequential: learners may enter any published course directly. Modules within a course have a defined order; for now, only the first ACT English module exists. The module view shows its eleven atoms in the exact order below. An atom is one video, reading, or practice activity and will eventually have its own page.
