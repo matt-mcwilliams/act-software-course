@@ -2,56 +2,20 @@
 
 import Link from "next/link";
 import MuxPlayer from "@mux/mux-player-react/lazy";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { ArrowLeft, ArrowRight, BadgeCheck, ClipboardList, Pencil, Video } from "lucide-react";
-import type { AtomSummary, AtomType } from "@/data/course-catalog";
+import { useEffect, useRef, useState } from "react";
+import { ArrowLeft, ArrowRight, Video } from "lucide-react";
+import type { AtomSummary } from "@/data/course-catalog";
+import { isSupportedActivity } from "@/components/activity-sidebar";
 import anatomyTranscript from "@/data/anatomy-of-a-sentence-transcript.json";
-
-const activityLabels: Record<AtomType, string> = {
-  video: "Video",
-  "custom-practice": "Custom practice",
-  "act-practice": "ACT practice",
-  "mastery-check": "Mastery check",
-};
-const activityIcons = { video: Video, "custom-practice": Pencil, "act-practice": ClipboardList, "mastery-check": BadgeCheck };
-
-function subscribeToViewport(callback: () => void) {
-  const query = window.matchMedia("(min-width: 64rem)");
-  query.addEventListener("change", callback);
-  return () => query.removeEventListener("change", callback);
-}
-
-function isDesktop() {
-  return window.matchMedia("(min-width: 64rem)").matches;
-}
-
-function isSupported(atom: AtomSummary | undefined): atom is AtomSummary {
-  return atom?.availability === "published" && (atom.type === "video" || atom.id === "eng-ss-anatomy-practice" || atom.id === "eng-ss-fragments-act-practice");
-}
 
 export function VideoLesson({ atom, atoms, moduleHref }: {
   atom: AtomSummary;
   atoms: AtomSummary[];
   moduleHref: string;
 }) {
-  const desktop = useSyncExternalStore(subscribeToViewport, isDesktop, () => false);
-  const [sidebarPreference, setSidebarPreference] = useState<boolean | null>(null);
   const [detailsView, setDetailsView] = useState<"description" | "transcript" | null>("description");
-  const sidebarOpen = sidebarPreference ?? desktop;
-  const toggleRef = useRef<HTMLButtonElement>(null);
   const detailsRef = useRef<HTMLElement>(null);
   const previousDetailsView = useRef(detailsView);
-  useEffect(() => {
-    if (!sidebarOpen) return;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setSidebarPreference(false);
-        toggleRef.current?.focus();
-      }
-    };
-    document.addEventListener("keydown", closeOnEscape);
-    return () => document.removeEventListener("keydown", closeOnEscape);
-  }, [sidebarOpen]);
   useEffect(() => {
     const reopened = previousDetailsView.current === null && detailsView !== null;
     previousDetailsView.current = detailsView;
@@ -75,34 +39,10 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
   const transcript = atom.id === "eng-ss-anatomy-video" ? anatomyTranscript : [];
 
   return (
-    <section className="video-lesson" data-activities-open={sidebarOpen} aria-labelledby="lesson-title">
+    <section className="video-lesson" aria-labelledby="lesson-title">
       <header className="lesson-heading">
         <h1 id="lesson-title" className="lesson-title">{atom.title}</h1>
       </header>
-      <div className="lesson-pane">
-        <button ref={toggleRef} className="lesson-toggle" type="button"
-          aria-label={sidebarOpen ? "Hide activities" : "Show activities"}
-          aria-expanded={sidebarOpen} aria-controls="lesson-activities"
-          onClick={() => setSidebarPreference(!sidebarOpen)}>
-          {sidebarOpen ? <ArrowLeft size={20} aria-hidden="true" /> : <ArrowRight size={20} aria-hidden="true" />}
-        </button>
-        <aside id="lesson-activities" className="lesson-sidebar" hidden={!sidebarOpen} aria-label="Module activities">
-          <h2>In this module</h2>
-          <ol className="lesson-sequence">
-            {atoms.map((entry) => {
-              const current = entry.id === atom.id;
-              const ActivityIcon = activityIcons[entry.type];
-              const content = <>
-                <span className="sequence-icon" role="img" aria-label={activityLabels[entry.type]} title={activityLabels[entry.type]}><ActivityIcon size={20} strokeWidth={1.75} aria-hidden="true" /></span>
-                <span className="sequence-title" title={entry.title}>{entry.title}</span>
-              </>;
-              return <li key={entry.id}>
-                {isSupported(entry) ? <Link className="sequence-entry" href={atomHref(entry)} onClick={() => { if (!desktop) setSidebarPreference(false); }} aria-current={current ? "page" : undefined}>{content}</Link> : <div className="sequence-entry sequence-entry--planned">{content}</div>}
-              </li>;
-            })}
-          </ol>
-        </aside>
-      </div>
       <div className="lesson-layout">
         <div className="lesson-content">
           <div className="lesson-player">
@@ -132,9 +72,9 @@ export function VideoLesson({ atom, atoms, moduleHref }: {
               </div>
             </div>
           </section>}
-          {(isSupported(previous) || isSupported(next)) && <nav className="lesson-navigation" aria-label="Lesson navigation">
-            {isSupported(previous) && <Link href={atomHref(previous)} className="lesson-navigation-link"><ArrowLeft size={17} aria-hidden="true" />Previous activity</Link>}
-            {isSupported(next) && <Link href={atomHref(next)} className="lesson-navigation-link">Next activity<ArrowRight size={17} aria-hidden="true" /></Link>}
+          {(isSupportedActivity(previous) || isSupportedActivity(next)) && <nav className="lesson-navigation" aria-label="Lesson navigation">
+            {isSupportedActivity(previous) && <Link href={atomHref(previous)} className="lesson-navigation-link"><ArrowLeft size={17} aria-hidden="true" />Previous activity</Link>}
+            {isSupportedActivity(next) && <Link href={atomHref(next)} className="lesson-navigation-link">Next activity<ArrowRight size={17} aria-hidden="true" /></Link>}
           </nav>}
         </div>
       </div>

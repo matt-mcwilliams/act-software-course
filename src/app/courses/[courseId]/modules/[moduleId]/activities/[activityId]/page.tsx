@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/course-navigation";
+import { ActivitySidebar } from "@/components/activity-sidebar";
 import { VideoLesson } from "@/components/video-lesson";
 import { SentencePractice } from "@/components/sentence-practice";
 import { ActSentencePractice } from "@/components/act-sentence-practice";
@@ -34,6 +35,7 @@ export async function generateMetadata({ params }: AtomPageProps): Promise<Metad
 export default async function AtomPage({ params }: AtomPageProps) {
   const { courseId, moduleId, activityId } = await params;
   const { course, courseModule, atom } = getActivity(courseId, moduleId, activityId);
+  const atoms = [...courseModule.atoms].sort((a, b) => a.order - b.order);
   const moduleHref = `/courses/${course.id}/modules/${courseModule.id}`;
 
   return (
@@ -42,8 +44,9 @@ export default async function AtomPage({ params }: AtomPageProps) {
       { label: courseModule.title, href: moduleHref },
       { label: atom.title, href: `/courses/${course.id}/modules/${courseModule.id}/activities/${atom.id}` },
     ]}>
+      <ActivitySidebar atom={atom} atoms={atoms} moduleHref={moduleHref} />
       {atom.type === "video"
-        ? <VideoLesson atom={atom} atoms={[...courseModule.atoms].sort((a, b) => a.order - b.order)} moduleHref={moduleHref} />
+        ? <VideoLesson atom={atom} atoms={atoms} moduleHref={moduleHref} />
         : atom.id === "eng-ss-fragments-act-practice"
           ? <ActSentencePractice questions={getActSentenceQuestions()} moduleHref={moduleHref} />
           : <SentencePractice moduleHref={moduleHref} />}
