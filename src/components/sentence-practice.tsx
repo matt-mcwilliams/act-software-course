@@ -152,7 +152,7 @@ export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref:
     </div>
     {progress.announcement && <p className="practice-announcement" role="status">{progress.announcement}</p>}
     <div className="practice-card">
-      <p className="practice-prompt" aria-live="polite">{stage.checkCompleteness && progress.choice === null ? "Is this a complete sentence?" : progress.choice === "fragment" ? "What is missing?" : progress.subject.length ? "Find the main verb." : "Find the subject."}</p>
+      <p className="practice-prompt" aria-live="polite">{stage.checkCompleteness ? "Is this a complete sentence?" : progress.subject.length ? "Find the main verb." : "Find the subject."}</p>
       <div className="practice-sentence-row">
         <div className="practice-sentence" aria-label={problem.text}>
           {tokens.map((word, index) => {
@@ -166,6 +166,7 @@ export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref:
         {!progress.solved && selectedWordMode && (progress.subject.length > 0 || progress.verb !== null) && <button className="practice-undo" type="button" onClick={undoWord} aria-label={`Undo ${progress.verb !== null ? "main verb" : "subject"} selection`} title="Undo last selection"><Undo2 size={20} strokeWidth={2.25} aria-hidden="true" /></button>}
       </div>
       {stage.checkCompleteness && !answerVisible && <fieldset className="practice-choices"><legend>Choose one</legend><label><input type="radio" name="completeness" checked={progress.choice === "complete"} onChange={() => setProgress({ ...progress, choice: "complete", missing: null, subject: [], verb: null, selectionMode: "subject" })} />Complete</label><label><input type="radio" name="completeness" checked={progress.choice === "fragment"} onChange={() => setProgress({ ...progress, choice: "fragment", subject: [], verb: null, selectionMode: "subject" })} />Fragment</label></fieldset>}
+      {stage.checkCompleteness && progress.choice === "complete" && !answerVisible && <p className="practice-guidance" aria-live="polite">{progress.subject.length ? "Choose the main verb." : "Choose the subject."}</p>}
       {stage.checkCompleteness && progress.choice === "fragment" && !answerVisible && <fieldset className="practice-choices"><legend>What is missing?</legend>{(["subject", "main verb", "both"] as const).map((option) => <label key={option}><input type="radio" name="missing" checked={progress.missing === option} onChange={() => setProgress({ ...progress, missing: option })} />{option === "both" ? "Both" : option === "subject" ? "Subject" : "Main verb"}</label>)}</fieldset>}
       {progress.attempts > 0 && !progress.solved && <div className="practice-feedback" role="status"><strong>Try again.</strong><p>{progress.attempts === 1 ? hintOne : hintTwo}</p><p>{3 - progress.attempts} {3 - progress.attempts === 1 ? "try" : "tries"} left</p></div>}
       {answerVisible && <div className="practice-feedback" role="status"><strong>{answeredCorrectly ? progress.firstTryCredit ? "Correct on the first try." : "Correct." : "Answer revealed."}</strong><p>{answerExplanation(problem)}</p>{missing && <p>What is missing: <strong>{missing === "both" ? "subject and main verb" : missing}</strong>.</p>}</div>}
