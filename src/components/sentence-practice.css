@@ -19,7 +19,7 @@
 .practice-stage { margin-bottom: .75rem; }
 .practice-prompt { margin: 0 0 1rem; font-size: 1.4rem; line-height: 1.3; }
 .practice-sentence-row { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0 2rem; }
-.practice-undo { display: grid; place-items: center; flex: none; width: 2.5rem; height: 2.5rem; padding: 0; border: 1px solid var(--color-border-subtle); border-radius: 50%; background: var(--color-surface); color: var(--color-ink); font-size: 1.4rem; cursor: pointer; }
+.practice-undo { display: grid; place-items: center; flex: none; width: 2.5rem; height: 2.5rem; padding: 0; border: 1px solid var(--color-border-subtle); border-radius: 50%; background: var(--color-surface); color: var(--color-ink); cursor: pointer; }
 .practice-sentence { display: flex; flex-wrap: wrap; gap: .3em .35em; align-items: baseline; font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.5; }
 .practice-sentence button, .practice-sentence span { font: inherit; }
 .practice-sentence button { padding: .04em .12em; margin: -.04em -.12em; border: 0; border-radius: .25rem; background: transparent; color: var(--color-ink); cursor: pointer; }

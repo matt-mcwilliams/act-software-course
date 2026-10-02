@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Undo2 } from "lucide-react";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { sentenceAnatomyPractice, words } from "@/data/custom-practice";
 import {
@@ -138,7 +139,7 @@ export function SentencePractice({ moduleHref }: { moduleHref: string }) {
               : <span key={index}>{word}</span>;
           })}
         </div>
-        {!progress.solved && selectedWordMode && (progress.subject.length > 0 || progress.verb !== null) && <button className="practice-undo" type="button" onClick={undoWord} aria-label={`Undo ${progress.verb !== null ? "main verb" : "subject"} selection`} title="Undo last selection">↶</button>}
+        {!progress.solved && selectedWordMode && (progress.subject.length > 0 || progress.verb !== null) && <button className="practice-undo" type="button" onClick={undoWord} aria-label={`Undo ${progress.verb !== null ? "main verb" : "subject"} selection`} title="Undo last selection"><Undo2 size={20} strokeWidth={2.25} aria-hidden="true" /></button>}
       </div>
       {stage.checkCompleteness && !answerVisible && <fieldset className="practice-choices"><legend>Choose one</legend><label><input type="radio" name="completeness" checked={progress.choice === "complete"} onChange={() => setProgress({ ...progress, choice: "complete", missing: null, subject: [], verb: null, selectionMode: "subject" })} />Complete</label><label><input type="radio" name="completeness" checked={progress.choice === "fragment"} onChange={() => setProgress({ ...progress, choice: "fragment", subject: [], verb: null, selectionMode: "subject" })} />Fragment</label></fieldset>}
       {stage.checkCompleteness && progress.choice === "fragment" && !answerVisible && <fieldset className="practice-choices"><legend>What is missing?</legend>{(["subject", "main verb", "both"] as const).map((option) => <label key={option}><input type="radio" name="missing" checked={progress.missing === option} onChange={() => setProgress({ ...progress, missing: option })} />{option === "both" ? "Both" : option === "subject" ? "Subject" : "Main verb"}</label>)}</fieldset>}
