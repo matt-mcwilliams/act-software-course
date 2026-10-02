@@ -1,13 +1,13 @@
 .sentence-practice { max-width: 52rem; margin-inline: auto; padding-bottom: 5rem; }
 .sentence-practice :is(button, input, a):focus-visible { outline: 3px solid color-mix(in srgb, var(--color-focus-ring) 40%, transparent); outline-offset: 3px; }
 .practice-header { margin: 1rem 0 2.5rem; }
-.practice-eyebrow, .practice-status, .practice-toolbar, .practice-steps, .practice-marking, .practice-actions, .practice-note, .practice-choices, .practice-feedback { font-family: var(--font-ui); }
+.practice-eyebrow, .practice-status, .practice-toolbar, .practice-steps, .practice-marking, .practice-actions, .practice-choices, .practice-feedback { font-family: var(--font-ui); }
 .practice-eyebrow { margin: 0 0 .75rem; color: var(--color-muted); font-size: .9rem; }
 .practice-header h1 { margin: 0; font-size: clamp(2.25rem, 5vw, 3.75rem); font-weight: 400; line-height: 1.08; }
 .practice-header > p:last-child { max-width: 38rem; margin: 1rem 0 0; color: var(--color-muted); font-size: 1.125rem; line-height: 1.5; }
-.practice-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1rem; color: var(--color-muted); font-size: .875rem; }
+.practice-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.5rem; color: var(--color-muted); font-size: .875rem; }
 .practice-toolbar button { border: 0; padding: .5rem; background: none; color: var(--color-ink); font: inherit; text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }
-.practice-steps { display: flex; gap: .5rem; margin: 0 0 1.5rem; padding: 0; list-style: none; }
+.practice-steps { display: flex; gap: .5rem; margin: 0; padding: 0; list-style: none; }
 .practice-steps li { display: grid; place-items: center; width: 2rem; height: 2rem; border: 1px solid var(--color-border-subtle); border-radius: .5rem; color: var(--color-muted); font-size: .8rem; }
 .practice-steps li.is-current { border-color: var(--color-ink); color: var(--color-ink); font-weight: 700; }
 .practice-steps li.is-correct, .practice-steps li.is-retired { border-color: #16a34a; color: #137e3b; }
@@ -41,7 +41,6 @@
 .practice-actions button, .practice-actions a { display: inline-flex; align-items: center; justify-content: center; min-height: 2.75rem; padding: .65rem 1rem; border: 1px solid var(--color-ink); border-radius: .5rem; background: var(--color-ink); color: white; font: 600 .95rem var(--font-ui); cursor: pointer; }
 .practice-actions a { background: white; color: var(--color-ink); }
 .practice-actions button:disabled { border-color: #c9ced3; background: #c9ced3; cursor: default; }
-.practice-note { margin: 1.5rem 0 0; color: var(--color-muted); font-size: .875rem; line-height: 1.5; }
 .practice-finish h2 { margin: 0 0 1rem; font-size: 2rem; font-weight: 400; }
 .practice-finish > p:not(.practice-status) { max-width: 34rem; line-height: 1.5; }
 .practice-summary { margin: 2rem 0; padding: 0; list-style: none; border-top: 1px solid var(--color-border-subtle); }

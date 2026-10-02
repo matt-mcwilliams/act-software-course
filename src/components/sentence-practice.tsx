@@ -81,7 +81,6 @@ export function SentencePractice({ moduleHref }: { moduleHref: string }) {
     ? progress.choice === "fragment" ? progress.missing !== null : progress.choice === "complete" && progress.subject.length > 0 && progress.verb !== null
     : progress.subject.length > 0 && progress.verb !== null;
   const selectedWordMode = !stage.checkCompleteness || progress.choice === "complete";
-  const credits = progress.results.filter(Boolean).length + progress.retired[progress.stageIndex].filter(Boolean).length;
 
   function chooseWord(index: number) {
     if (progress.solved) return;
@@ -105,18 +104,19 @@ export function SentencePractice({ moduleHref }: { moduleHref: string }) {
 
   return <section className="sentence-practice" aria-labelledby="practice-title">
     <header className="practice-header">
-      <p className="practice-eyebrow">Custom practice · Stage {progress.stageIndex + 1} of 4</p>
       <h1 id="practice-title">{stage.title}</h1>
       <p>{stage.instruction}</p>
     </header>
-    <div className="practice-toolbar"><span>Group {progress.group} · {credits} of 5 credits</span><button type="button" onClick={reset}>Start over</button></div>
-    <ol className="practice-steps" aria-label="Difficulty slots">{stage.slots.map((_, index) => {
-      const retired = progress.retired[progress.stageIndex][index];
-      const previousIndex = progress.activeSlots.indexOf(index);
-      const completed = previousIndex >= 0 && previousIndex < progress.results.length;
-      const current = index === slot;
-      return <li key={index} className={retired ? "is-retired" : current ? "is-current" : completed ? progress.results[previousIndex] ? "is-correct" : "is-missed" : ""} aria-current={current ? "step" : undefined} aria-label={`Level ${index + 1}${retired ? ", mastered" : current ? ", current" : completed ? progress.results[previousIndex] ? ", first try correct" : ", practiced" : ""}`}>{index + 1}</li>;
-    })}</ol>
+    <div className="practice-toolbar">
+      <ol className="practice-steps" aria-label="Difficulty slots">{stage.slots.map((_, index) => {
+        const retired = progress.retired[progress.stageIndex][index];
+        const previousIndex = progress.activeSlots.indexOf(index);
+        const completed = previousIndex >= 0 && previousIndex < progress.results.length;
+        const current = index === slot;
+        return <li key={index} className={retired ? "is-retired" : current ? "is-current" : completed ? progress.results[previousIndex] ? "is-correct" : "is-missed" : ""} aria-current={current ? "step" : undefined} aria-label={`Level ${index + 1}${retired ? ", mastered" : current ? ", current" : completed ? progress.results[previousIndex] ? ", first try correct" : ", practiced" : ""}`}>{index + 1}</li>;
+      })}</ol>
+      <button type="button" onClick={reset}>Start over</button>
+    </div>
     {progress.announcement && <p className="practice-announcement" role="status">{progress.announcement}</p>}
     <div className="practice-card">
       <p className="practice-status">Level {slot + 1} · Problem {progress.results.length + 1} of {progress.activeSlots.length}</p>
@@ -137,6 +137,5 @@ export function SentencePractice({ moduleHref }: { moduleHref: string }) {
       {answerVisible && <div className="practice-feedback" role="status"><strong>{answeredCorrectly ? progress.firstTryCredit ? "Correct on the first try." : "Correct." : "Answer revealed."}</strong><p>{answerExplanation(problem)}</p>{!complete && <p>What is missing: <strong>main verb</strong>.</p>}</div>}
       <div className="practice-actions">{answerVisible ? <button type="button" onClick={() => setProgress(advanceProgress(progress))}>Continue</button> : <button type="button" onClick={submit} disabled={!canSubmit}>Check answer</button>}</div>
     </div>
-    <p className="practice-note">Only first-try answers earn stage credit. You need 5 of 6 to move on.</p>
   </section>;
 }
