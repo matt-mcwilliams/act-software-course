@@ -3,41 +3,26 @@
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import type { ActOption, ActSentenceQuestion } from "@/data/act-sentence-practice";
+import { freshActProgress, restoreActProgress, submitActAnswer, type ActProgress } from "@/lib/act-sentence-practice";
 
-type Progress = { index: number; answers: (ActOption | null)[] };
 const storageKey = "act-prep:act-sentence-practice:v1";
-const options: ActOption[] = ["A", "B", "C", "D"];
 const subscribe = () => () => {};
 const browserSnapshot = () => true;
 const serverSnapshot = () => false;
 
-function freshProgress(length: number): Progress {
-  return { index: 0, answers: Array(length).fill(null) };
-}
-
-function loadProgress(length: number): Progress {
+function loadProgress(length: number): ActProgress {
   try {
     const raw = window.localStorage.getItem(storageKey);
-    if (raw) {
-      const parsed: unknown = JSON.parse(raw);
-      if (parsed && typeof parsed === "object") {
-        const value = parsed as Partial<Progress>;
-        if (Number.isInteger(value.index) && value.index! >= 0 && value.index! <= length &&
-          Array.isArray(value.answers) && value.answers.length === length &&
-          value.answers.every((answer) => answer === null || options.includes(answer))) {
-          return { index: value.index!, answers: value.answers };
-        }
-      }
-    }
+    if (raw) return restoreActProgress(JSON.parse(raw), length);
   } catch {
     // The activity remains usable without browser storage.
   }
-  return freshProgress(length);
+  return freshActProgress(length);
 }
 
 export function ActSentencePractice({ questions, moduleHref }: { questions: ActSentenceQuestion[]; moduleHref: string }) {
   const hydrated = useSyncExternalStore(subscribe, browserSnapshot, serverSnapshot);
-  const [progress, setProgress] = useState<Progress>(() => typeof window === "undefined" ? freshProgress(questions.length) : loadProgress(questions.length));
+  const [progress, setProgress] = useState<ActProgress>(() => typeof window === "undefined" ? freshActProgress(questions.length) : loadProgress(questions.length));
   const [selected, setSelected] = useState<ActOption | null>(null);
 
   useEffect(() => {
@@ -60,7 +45,7 @@ export function ActSentencePractice({ questions, moduleHref }: { questions: ActS
         <h2>{score} of {questions.length} correct</h2>
         <p>Review how each choice affects the sentence’s subject and main verb.</p>
         <ol className="act-practice-results">{questions.map((question, index) => <li key={question.id}><span>{question.source}</span><strong>{progress.answers[index] === question.correctOption ? "Correct" : `Answer: ${question.correctOption}`}</strong></li>)}</ol>
-        <div className="act-practice-actions"><button type="button" onClick={() => { setProgress(freshProgress(questions.length)); setSelected(null); }}>Practice again</button><Link href={moduleHref}>Back to module</Link></div>
+        <div className="act-practice-actions"><button type="button" onClick={() => { setProgress(freshActProgress(questions.length)); setSelected(null); }}>Practice again</button><Link href={moduleHref}>Back to module</Link></div>
       </div>
     </section>;
   }
@@ -70,10 +55,12 @@ export function ActSentencePractice({ questions, moduleHref }: { questions: ActS
   const checked = checkedAnswer !== null;
   const choice = checked ? checkedAnswer : selected;
   const correct = checkedAnswer === question.correctOption;
+  const retrying = !checked && progress.firstMisses[progress.index] !== null;
 
   function checkAnswer() {
     if (!selected || checked) return;
-    setProgress((current) => ({ ...current, answers: current.answers.map((answer, index) => index === current.index ? selected : answer) }));
+    setProgress((current) => submitActAnswer(current, selected, question.correctOption));
+    setSelected(null);
   }
 
   function continuePractice() {
@@ -85,9 +72,9 @@ export function ActSentencePractice({ questions, moduleHref }: { questions: ActS
     <header className="act-practice-header">
       <p className="act-practice-kicker">ACT practice</p>
       <h1 id="act-practice-title">Sentence anatomy</h1>
-      <p>Choose the wording that gives the sentence a subject and a main verb.</p>
+      <p>Choose the wording that gives the sentence a subject and a main verb. You have two tries for each question.</p>
     </header>
-    <div className="act-practice-toolbar"><span>Question {progress.index + 1} of {questions.length}</span><span>{score} correct so far</span></div>
+    <div className="act-practice-toolbar"><span>Question {progress.index + 1} of {questions.length}</span></div>
     <article className="act-practice-card" aria-labelledby="act-question-stem">
       <div className="act-practice-source"><span>{question.passageTitle}</span><span>{question.source}</span></div>
       <p className="act-practice-excerpt">{question.before} <mark>{question.target}</mark> {question.after}</p>
@@ -96,9 +83,13 @@ export function ActSentencePractice({ questions, moduleHref }: { questions: ActS
         {question.choices.map(({ label, text }) => <label key={label} className={choice === label ? "is-selected" : ""}>
           <input type="radio" name="act-choice" value={label} checked={choice === label} onChange={() => setSelected(label)} />
           <span className="act-practice-choice-label">{label}.</span>
-          <span>{text === "No Change" ? `No Change (${question.target})` : text}</span>
+          <span>{text}</span>
         </label>)}
       </fieldset>
+      {retrying && <div className="act-practice-feedback" role="status">
+        <strong className="is-incorrect">Try again.</strong>
+        <p>That choice is incorrect. You have one more try before the answer and explanation are revealed.</p>
+      </div>}
       {checked && <div className="act-practice-feedback" role="status">
         <strong className={correct ? "is-correct" : "is-incorrect"}>{correct ? "Correct." : `The correct answer is ${question.correctOption}.`}</strong>
         <p>{question.explanation}</p>
