@@ -22,7 +22,7 @@ const complete = (text: string, subject: number[], verb: number): SentenceProble
 const fragment = (text: string, subject: number[], fragmentReason: "ing" | "relative"): SentenceProblem => ({ text, subject, fragmentReason });
 
 export const sentenceAnatomyPractice: CustomPractice = {
-  id: "eng-ss-anatomy-custom-practice",
+  id: "eng-ss-anatomy-practice",
   format: "sentence-anatomy",
   stages: [
     {

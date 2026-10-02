@@ -26,7 +26,7 @@ function isDesktop() {
 }
 
 function isSupported(atom: AtomSummary | undefined): atom is AtomSummary {
-  return atom?.availability === "published" && (atom.type === "video" || atom.id === "eng-ss-anatomy-custom-practice" || atom.id === "activity-03");
+  return atom?.availability === "published" && (atom.type === "video" || atom.id === "eng-ss-anatomy-practice" || atom.id === "eng-ss-fragments-act-practice");
 }
 
 export function VideoLesson({ atom, atoms, moduleHref }: {

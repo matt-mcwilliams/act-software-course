@@ -48,7 +48,7 @@ export const courses: CourseSummary[] = [
     coverImage: "/images/act-english-cover.jpg",
     modules: [
       {
-        id: "english-module-1",
+        id: "sentence-structure",
         order: 1,
         title: "Sentence Structure",
         description:
@@ -68,17 +68,17 @@ export const courses: CourseSummary[] = [
             ],
           },
           {
-            id: "eng-ss-anatomy-custom-practice",
+            id: "eng-ss-anatomy-practice",
             order: 2,
             type: "custom-practice",
-            title: "Sentence anatomy practice",
+            title: "Sentence Anatomy Practice",
             availability: "published",
           },
           {
-            id: "activity-03",
+            id: "eng-ss-fragments-act-practice",
             order: 3,
             type: "act-practice",
-            title: "ACT sentence anatomy practice",
+            title: "ACT Practice: Fragments",
             availability: "published",
           },
           {

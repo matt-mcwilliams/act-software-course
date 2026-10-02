@@ -39,7 +39,7 @@ export function ActSentencePractice({ questions, moduleHref }: { questions: ActS
   const score = progress.answers.reduce<number>((total, answer, index) => total + (answer === questions[index].correctOption ? 1 : 0), 0);
   if (progress.index >= questions.length) {
     return <section className="act-practice" aria-labelledby="act-practice-title">
-      <header className="act-practice-header"><h1 id="act-practice-title">Sentence anatomy</h1></header>
+      <header className="act-practice-header"><h1 id="act-practice-title">ACT Practice: Fragments</h1></header>
       <div className="act-practice-card act-practice-finish">
         <p className="act-practice-meta">Practice complete</p>
         <h2>{score} of {questions.length} correct</h2>
@@ -70,7 +70,7 @@ export function ActSentencePractice({ questions, moduleHref }: { questions: ActS
 
   return <section className="act-practice" aria-labelledby="act-practice-title">
     <header className="act-practice-header">
-      <h1 id="act-practice-title">Sentence anatomy</h1>
+      <h1 id="act-practice-title">ACT Practice: Fragments</h1>
       <p>Choose the wording that gives the sentence a subject and a main verb. You have two tries for each question.</p>
     </header>
     <div className="act-practice-toolbar"><span>Question {progress.index + 1} of {questions.length}</span></div>

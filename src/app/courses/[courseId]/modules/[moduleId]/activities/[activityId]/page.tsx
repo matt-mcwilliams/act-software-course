@@ -19,7 +19,7 @@ function getActivity(courseId: string, moduleId: string, activityId: string) {
   const courseModule = course ? getModuleById(course, moduleId) : undefined;
   const atom = courseModule?.atoms.find((entry) => entry.id === activityId);
   if (!course || !courseModule || !atom || atom.availability !== "published" ||
-    (atom.type !== "video" && atom.id !== "eng-ss-anatomy-custom-practice" && atom.id !== "activity-03")) {
+    (atom.type !== "video" && atom.id !== "eng-ss-anatomy-practice" && atom.id !== "eng-ss-fragments-act-practice")) {
     notFound();
   }
   return { course, courseModule, atom };
@@ -44,7 +44,7 @@ export default async function AtomPage({ params }: AtomPageProps) {
     ]}>
       {atom.type === "video"
         ? <VideoLesson atom={atom} atoms={[...courseModule.atoms].sort((a, b) => a.order - b.order)} moduleHref={moduleHref} />
-        : atom.id === "activity-03"
+        : atom.id === "eng-ss-fragments-act-practice"
           ? <ActSentencePractice questions={getActSentenceQuestions()} moduleHref={moduleHref} />
           : <SentencePractice moduleHref={moduleHref} />}
     </SiteShell>
