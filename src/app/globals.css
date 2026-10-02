@@ -71,7 +71,7 @@ a:focus-visible {
 .site-trail-item {
   display: inline-flex;
   align-items: center;
-  min-width: 0;
+  flex: none;
 }
 
 .site-trail-separator {

@@ -3,9 +3,12 @@ import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/course-navigation";
 import { VideoLesson } from "@/components/video-lesson";
 import { SentencePractice } from "@/components/sentence-practice";
+import { ActSentencePractice } from "@/components/act-sentence-practice";
+import { getActSentenceQuestions } from "@/data/act-sentence-practice";
 import { getCourseById, getModuleById } from "@/data/course-catalog";
 import "@/components/video-lesson.css";
 import "@/components/sentence-practice.css";
+import "@/components/act-sentence-practice.css";
 
 type AtomPageProps = {
   params: Promise<{ courseId: string; moduleId: string; activityId: string }>;
@@ -16,7 +19,7 @@ function getActivity(courseId: string, moduleId: string, activityId: string) {
   const courseModule = course ? getModuleById(course, moduleId) : undefined;
   const atom = courseModule?.atoms.find((entry) => entry.id === activityId);
   if (!course || !courseModule || !atom || atom.availability !== "published" ||
-    (atom.type !== "video" && atom.id !== "eng-ss-anatomy-custom-practice")) {
+    (atom.type !== "video" && atom.id !== "eng-ss-anatomy-custom-practice" && atom.id !== "activity-03")) {
     notFound();
   }
   return { course, courseModule, atom };
@@ -41,7 +44,9 @@ export default async function AtomPage({ params }: AtomPageProps) {
     ]}>
       {atom.type === "video"
         ? <VideoLesson atom={atom} atoms={[...courseModule.atoms].sort((a, b) => a.order - b.order)} moduleHref={moduleHref} />
-        : <SentencePractice moduleHref={moduleHref} />}
+        : atom.id === "activity-03"
+          ? <ActSentencePractice questions={getActSentenceQuestions()} moduleHref={moduleHref} />
+          : <SentencePractice moduleHref={moduleHref} />}
     </SiteShell>
   );
 }

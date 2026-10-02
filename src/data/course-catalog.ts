@@ -78,8 +78,8 @@ export const courses: CourseSummary[] = [
             id: "activity-03",
             order: 3,
             type: "act-practice",
-            title: "ACT practice problems 1",
-            availability: "planned",
+            title: "ACT sentence anatomy practice",
+            availability: "published",
           },
           {
             id: "activity-04",
