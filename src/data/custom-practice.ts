@@ -7,7 +7,7 @@ export type SentenceProblem = {
 
 export type SentenceStage = {
   title: string;
-  instruction: string;
+  instruction?: string;
   checkCompleteness: boolean;
   slots: SentenceProblem[][];
 };
@@ -28,7 +28,6 @@ export const sentenceAnatomyPractice: CustomPractice = {
   stages: [
     {
       title: "Find the sentence core",
-      instruction: "Find who or what each sentence is about, then find what that subject does or is.",
       checkCompleteness: false,
       slots: [
         [complete("Jessie yells.", [0], 1), complete("Maya laughs.", [0], 1), complete("Ravi smiles.", [0], 1)],

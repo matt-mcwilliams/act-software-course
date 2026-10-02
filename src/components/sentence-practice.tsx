@@ -116,15 +116,8 @@ export function SentencePractice({ moduleHref, nextActivityHref }: { moduleHref:
   return <section className="sentence-practice" aria-labelledby="practice-title">
     <header className="practice-header">
       <h1 id="practice-title">{stage.title}</h1>
-      <p>{stage.instruction}</p>
+      {stage.instruction && <p>{stage.instruction}</p>}
     </header>
-    <p className="practice-guidance">Select only the core noun or pronoun, leaving out words such as the, a, or my. In is barking, select is as the main verb, following the same marking method as the video.</p>
-    <details className="practice-help">
-      <summary>How this practice works</summary>
-      <p>You have three tries per problem. Hints follow the first two misses; the third miss reveals the answer. A correct retry completes the problem but does not earn first-try credit.</p>
-      <p>Pass a stage with five of six first-try credits in one group. A level answered correctly on the first try in three consecutive groups is mastered and contributes its credit automatically in later groups.</p>
-      <p>An independent clause can stand as a sentence. A dependent clause, such as one beginning with because or when, needs an independent clause. For a dependent-clause fragment, choose Main verb: the independent clause’s main verb is missing.</p>
-    </details>
     <p className="practice-status practice-stage">Stage {progress.stageIndex + 1} of {sentenceAnatomyPractice.stages.length}</p>
     <div className="practice-toolbar">
       <ol className="practice-steps" aria-label="Difficulty slots">{stage.slots.map((_, index) => {
