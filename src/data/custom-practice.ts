@@ -74,7 +74,7 @@ export const sentenceAnatomyPractice: CustomPractice = {
         [fragment("The student who practiced after school.", [1], "relative"), fragment("A traveler who walked beside the river.", [1], "relative"), fragment("The gardener who worked behind the house.", [1], "relative")],
         [complete("The students are practicing after school.", [1], 2), complete("A traveler was walking beside the river.", [1], 2), complete("The gardener is working behind the house.", [1], 2)],
         [complete("The student who practiced after school improved.", [1], 6), complete("A traveler who walked beside the river waved.", [1], 7), complete("The gardener who worked behind the house rested.", [1], 7)],
-        [fragment("Because the rain was falling.", [2], "dependent"), complete("Although the rain was falling, the team practiced indoors.", [6], 7), complete("The athlete running beside the track is smiling.", [1], 6), fragment("The artist who was painting near the window.", [1], "relative"), fragment("When the lights dimmed.", [2], "dependent"), fragment("Although the wind was strong.", [2], "dependent"), missingSubject("Was resting under the table.", 0), fragment("Beside the window after lunch.", [], "phrase")],
+        [fragment("Because the rain was falling.", [], "dependent"), complete("Although the rain was falling, the team practiced indoors.", [6], 7), complete("The athlete running beside the track is smiling.", [1], 6), fragment("The artist who was painting near the window.", [1], "relative"), fragment("When the lights dimmed.", [], "dependent"), fragment("Although the wind was strong.", [], "dependent"), missingSubject("Was resting under the table.", 0), fragment("Beside the window after lunch.", [], "phrase")],
       ],
     },
   ],

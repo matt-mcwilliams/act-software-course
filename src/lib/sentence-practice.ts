@@ -92,6 +92,9 @@ export function answerExplanation(problem: SentenceProblem): string {
   const tokens = words(problem).map((token) => token.replace(/[.,!?;:]$/, ""));
   const subject = problem.subject.map((index) => tokens[index]).join(" ");
   const missing = missingSentencePart(problem);
+  if (problem.fragmentReason === "dependent") {
+    return "This dependent clause has a subject and verb within it, but it cannot stand alone. The independent clause is missing, so there is no independent-clause subject or main verb to mark. Choose Both.";
+  }
   if (missing === "both") {
     return "This phrase gives extra detail, but it has neither a subject nor a main verb for an independent clause. Both are missing.";
   }
@@ -104,9 +107,6 @@ export function answerExplanation(problem: SentenceProblem): string {
   }
   if (problem.fragmentReason === "ing") {
     return `“${subject}” is the subject, but the -ing form cannot serve as the main verb by itself. Add a helping verb or change the verb form to complete the sentence.`;
-  }
-  if (problem.fragmentReason === "dependent") {
-    return `The introductory dependent clause has its own subject, “${subject}”, and a verb, but it cannot stand alone. An independent clause is missing. Choose Main verb here because there is no independent clause's main verb.`;
   }
   return `“${subject}” is the subject, but the verb inside the relative clause only describes that subject. The independent clause's main verb is missing.`;
 }

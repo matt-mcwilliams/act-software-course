@@ -143,7 +143,17 @@ test("the main-verb marking convention follows the video and dependent fragments
   assert.match(answerExplanation(helper), /“is” is the main verb to mark/);
   assert.doesNotMatch(answerExplanation(helper), /“barking” is the main verb/);
   const dependent = sentenceAnatomyPractice.stages[3].slots[5][0];
-  assert.equal(missingSentencePart(dependent), "main verb");
-  assert.match(answerExplanation(dependent), /has its own subject.*and a verb/);
-  assert.match(answerExplanation(dependent), /independent clause is missing/i);
+  const dependentFragments = sentenceAnatomyPractice.stages.flatMap((stage) => stage.slots.flat())
+    .filter((problem) => problem.fragmentReason === "dependent");
+  assert.ok(dependentFragments.includes(dependent));
+  for (const problem of dependentFragments) {
+    assert.deepEqual(problem.subject, []);
+    assert.equal(problem.verb, undefined);
+    assert.equal(missingSentencePart(problem), "both");
+    assert.match(answerExplanation(problem), /independent clause is missing/i);
+    assert.match(answerExplanation(problem), /Choose Both/);
+    const progress = { ...initialProgress(), stageIndex: 3, choice: "fragment", missing: "both" };
+    assert.equal(answerIsCorrect(progress, problem), true);
+    assert.equal(answerIsCorrect({ ...progress, missing: "main verb" }, problem), false);
+  }
 });
