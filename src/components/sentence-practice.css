@@ -28,8 +28,8 @@
 .practice-sentence button { padding: .04em .12em; margin: -.04em -.12em; border: 0; border-radius: .25rem; background: transparent; color: var(--color-ink); cursor: pointer; }
 .practice-sentence button:hover:not(:disabled) { background: #eff1f3; }
 .practice-sentence button:disabled { cursor: default; }
-.practice-sentence .is-subject { background: #eaf1ff; color: #2563eb; }
-.practice-sentence .is-verb { background: #fff0f0; color: #dc2626; }
+.practice-sentence .is-subject, .practice-core-tile.is-subject { background: #eaf1ff; color: #2563eb; }
+.practice-sentence .is-verb, .practice-core-tile.is-verb { background: #fff0f0; color: #dc2626; }
 .practice-choices { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; margin: 1.5rem 0; padding: 0; border: 0; }
 .practice-choices legend { width: 100%; margin-bottom: .5rem; font-size: .9rem; font-weight: 600; }
 .practice-choices label { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.5rem; cursor: pointer; }
@@ -58,3 +58,5 @@
 
 .practice-core-selection { margin: 1.5rem 0; color: var(--color-ink); font-size: 1.4rem; line-height: 1.4; }
 .practice-core-selection p { margin: .5rem 0; }
+
+.practice-core-tile { display: inline-block; padding: .04em .12em; border-radius: .25rem; font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.5; }
