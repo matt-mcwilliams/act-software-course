@@ -51,11 +51,13 @@ function correctedContext(passageKey: string, body: string, start: number, end: 
   return clean(context);
 }
 
-export function getActSentenceQuestions(): ActSentenceQuestion[] {
+export type ActQuestionSelection = { testKey: string; number: number; explanation: string };
+
+export function getActSentenceQuestions(selected: readonly ActQuestionSelection[] = selections): ActSentenceQuestion[] {
   const passages = testMap.tests.flatMap((test) => test.passages);
   const segmenter = new Intl.Segmenter("en", { granularity: "sentence" });
 
-  return selections.map(({ testKey, number, explanation }) => {
+  return selected.map(({ testKey, number, explanation }) => {
     const question = testMap.questions.find((entry) => entry.testKey === testKey && entry.questionNumber === number);
     if (!question) throw new Error(`Missing ACT question ${testKey} #${number}`);
     if (question.characterStart === null || question.characterEnd === null) throw new Error(`Missing ACT question span: ${testKey} #${number}`);
@@ -63,10 +65,11 @@ export function getActSentenceQuestions(): ActSentenceQuestion[] {
     if (!passage) throw new Error(`Missing ACT passage for ${testKey} #${number}`);
 
     const sentences = [...segmenter.segment(passage.body)].filter(({ segment }) => !/^\s*\[(?:[A-D]|\d+)\]\s*$/.test(segment));
-    const current = sentences.findIndex(({ index, segment }) => index <= question.characterStart && index + segment.length >= question.characterEnd);
-    if (current < 0) throw new Error(`ACT question span crosses sentences: ${testKey} #${number}`);
+    const current = sentences.findIndex(({ index, segment }) => index <= question.characterStart && index + segment.length > question.characterStart);
+    const final = sentences.findIndex(({ index, segment }) => index < question.characterEnd && index + segment.length >= question.characterEnd);
+    if (current < 0 || final < 0) throw new Error(`Cannot locate ACT question sentence boundaries: ${testKey} #${number}`);
     const first = Math.max(0, current - 2);
-    const last = Math.min(sentences.length - 1, current + 2);
+    const last = Math.min(sentences.length - 1, final + 2);
     const excerptStart = sentences[first].index;
     const excerptEnd = sentences[last].index + sentences[last].segment.length;
     const target = passage.body.slice(question.characterStart, question.characterEnd);

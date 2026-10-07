@@ -6,12 +6,12 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import type { ActOption, ActSentenceQuestion } from "@/data/act-sentence-practice";
 import { freshActProgress, restoreActProgress, submitActAnswer, type ActProgress } from "@/lib/act-sentence-practice";
 
-const storageKey = "act-prep:act-sentence-practice:v1";
+
 const subscribe = () => () => {};
 const browserSnapshot = () => true;
 const serverSnapshot = () => false;
 
-function loadProgress(length: number): ActProgress {
+function loadProgress(length: number, storageKey: string): ActProgress {
   try {
     const raw = window.localStorage.getItem(storageKey);
     if (raw) return restoreActProgress(JSON.parse(raw), length);
@@ -21,9 +21,15 @@ function loadProgress(length: number): ActProgress {
   return freshActProgress(length);
 }
 
-export function ActSentencePractice({ questions, moduleHref, nextActivityHref }: { questions: ActSentenceQuestion[]; moduleHref: string; nextActivityHref?: string }) {
+export function ActSentencePractice({ questions, moduleHref, nextActivityHref, variant = "fragments" }: { variant?: "fragments" | "run-ons"; questions: ActSentenceQuestion[]; moduleHref: string; nextActivityHref?: string }) {
+  const runOns = variant === "run-ons";
+  const title = runOns ? "ACT Practice: Run-on Sentences" : "ACT Practice: Fragments";
+  const storageKey = runOns ? "act-prep:act-run-on-practice:v1" : "act-prep:act-sentence-practice:v1";
+  const instruction = runOns
+    ? "Read each choice in the whole sentence. Find the subject and main verb in each clause, then check how the clauses are joined. You have two tries per question."
+    : "Read each choice in the whole sentence. Find the subject and main verb of the clause that can stand on its own. You have two tries per question.";
   const hydrated = useSyncExternalStore(subscribe, browserSnapshot, serverSnapshot);
-  const [progress, setProgress] = useState<ActProgress>(() => typeof window === "undefined" ? freshActProgress(questions.length) : loadProgress(questions.length));
+  const [progress, setProgress] = useState<ActProgress>(() => typeof window === "undefined" ? freshActProgress(questions.length) : loadProgress(questions.length, storageKey));
   const [selected, setSelected] = useState<ActOption | null>(null);
 
   useEffect(() => {
@@ -33,18 +39,18 @@ export function ActSentencePractice({ questions, moduleHref, nextActivityHref }:
     } catch {
       // This visit can continue without saved progress.
     }
-  }, [hydrated, progress]);
+  }, [hydrated, progress, storageKey]);
 
   if (!hydrated) return <section className="act-practice"><p>Loading ACT practice…</p></section>;
 
   const score = progress.answers.reduce<number>((total, answer, index) => total + (answer === questions[index].correctOption ? 1 : 0), 0);
   if (progress.index >= questions.length) {
     return <section className="act-practice" aria-labelledby="act-practice-title">
-      <header className="act-practice-header"><h1 id="act-practice-title">ACT Practice: Fragments</h1></header>
+      <header className="act-practice-header"><h1 id="act-practice-title">{title}</h1></header>
       <div className="act-practice-card act-practice-finish">
         <p className="act-practice-meta">Practice complete</p>
         <h2>{score} of {questions.length} correct within two tries</h2>
-        <p>Review the subject, main verb, and alternatives for each question. This practice total is not an ACT score.</p>
+        <p>Review the sentence cores and alternatives for each question. This practice total is not an ACT score.</p>
         <ol className="act-practice-results">{questions.map((question, index) => <li key={question.id}><div><span>{question.source}</span><details><summary>Review explanation</summary><p>{question.explanation}</p></details></div><strong>{progress.answers[index] === question.correctOption ? progress.firstMisses[index] ? "Correct on retry" : "Correct on first try" : `Answer: ${question.correctOption}`}</strong></li>)}</ol>
         <div className="act-practice-actions"><button type="button" onClick={() => { setProgress(freshActProgress(questions.length)); setSelected(null); }}>Practice again</button><Link href={moduleHref}>Back to module</Link></div>
       </div>
@@ -72,8 +78,8 @@ export function ActSentencePractice({ questions, moduleHref, nextActivityHref }:
 
   return <section className="act-practice" aria-labelledby="act-practice-title">
     <header className="act-practice-header">
-      <h1 id="act-practice-title">ACT Practice: Fragments</h1>
-      <p>Read each choice in the whole sentence. Find the subject and main verb of the clause that can stand on its own. You have two tries per question.</p>
+      <h1 id="act-practice-title">{title}</h1>
+      <p>{instruction}</p>
     </header>
     <div className="act-practice-toolbar"><span>Question {progress.index + 1} of {questions.length}</span></div>
     <article className="act-practice-card" aria-labelledby="act-question-stem">
@@ -89,7 +95,7 @@ export function ActSentencePractice({ questions, moduleHref, nextActivityHref }:
       </fieldset>
       {retrying && <div className="act-practice-feedback" role="status">
         <strong className="is-incorrect">Try again.</strong>
-        <p>That choice is incorrect. Read it in the whole sentence again: does the subject have a main verb in a clause that can stand on its own? You have one more try.</p>
+        <p>{runOns ? "That choice is incorrect. Find each sentence core again: can both sides stand on their own, and does the separator fit? Remember that two verbs can share one subject. You have one more try." : "That choice is incorrect. Read it in the whole sentence again: does the subject have a main verb in a clause that can stand on its own? You have one more try."}</p>
       </div>}
       {checked && <div className="act-practice-feedback" role="status">
         <strong className={correct ? "is-correct" : "is-incorrect"}>{correct ? "Correct." : `The correct answer is ${question.correctOption}.`}</strong>

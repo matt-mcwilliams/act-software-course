@@ -7,6 +7,7 @@ import { SeparatorPractice } from "@/components/separator-practice";
 import { SentencePractice } from "@/components/sentence-practice";
 import { ActSentencePractice } from "@/components/act-sentence-practice";
 import { isSupportedActivity } from "@/lib/course-activities";
+import { getActRunOnQuestions } from "@/data/act-run-on-practice";
 import { getActSentenceQuestions } from "@/data/act-sentence-practice";
 import { courses, getCourseById, getModuleById } from "@/data/course-catalog";
 import "@/components/video-lesson.css";
@@ -61,7 +62,9 @@ export default async function AtomPage({ params }: AtomPageProps) {
       {atom.type === "video"
         ? <VideoLesson atom={atom} atoms={atoms} moduleHref={moduleHref} />
         : atom.id === "eng-ss-fragments-act-practice"
-          ? <ActSentencePractice questions={getActSentenceQuestions()} moduleHref={moduleHref} nextActivityHref={nextActivityHref} />
+          ? <ActSentencePractice key={atom.id} questions={getActSentenceQuestions()} moduleHref={moduleHref} nextActivityHref={nextActivityHref} />
+          : atom.id === "eng-ss-run-ons-act-practice"
+            ? <ActSentencePractice key={atom.id} variant="run-ons" questions={getActRunOnQuestions()} moduleHref={moduleHref} nextActivityHref={nextActivityHref} />
           : atom.id === "eng-ss-separator-practice"
             ? <SeparatorPractice moduleHref={moduleHref} nextActivityHref={nextActivityHref} />
             : <SentencePractice moduleHref={moduleHref} nextActivityHref={nextActivityHref} />}
