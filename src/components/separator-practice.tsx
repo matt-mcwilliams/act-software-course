@@ -93,7 +93,7 @@ export function SeparatorPractice({ moduleHref, nextActivityHref }: { moduleHref
   }
 
   return <section className="sentence-practice separator-practice" aria-labelledby="separator-title">
-    <header className="practice-header"><h1 id="separator-title" ref={heading} tabIndex={-1}>Separator Practice</h1><p>Check the separator and the sentence cores. Colons need a complete left side and information that explains it.</p></header>
+    <header className="practice-header"><h1 id="separator-title" ref={heading} tabIndex={-1}>Separator Practice</h1></header>
     <div className="practice-toolbar"><span>Question {progress.index + 1} of {separatorQuestions.length}</span><button type="button" onClick={reset}>Start over</button></div>
     <progress className="separator-progress" value={progress.index} max={separatorQuestions.length} aria-label="Questions completed" />
     <div className="practice-card">
