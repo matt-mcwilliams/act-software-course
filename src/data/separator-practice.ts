@@ -1,16 +1,16 @@
 export const separatorOptions = [
-  { id: "period", label: "Period (.)" },
-  { id: "comma", label: "Comma alone (,)" },
-  { id: "and", label: "And alone" },
-  { id: "semicolon", label: "Semicolon (;)" },
-  { id: "dash", label: "Em dash (—)" },
-  { id: "comma-and", label: "Comma + and (, and)" },
-  { id: "but", label: "But alone" },
-  { id: "comma-but", label: "Comma + but (, but)" },
-  { id: "so", label: "So alone" },
-  { id: "colon", label: "Colon (:)" },
-  { id: "comma-so", label: "Comma + so (, so)" },
-  { id: "however", label: "Comma + however (, however)" },
+  { id: "period", label: "Period (“.”)" },
+  { id: "comma", label: "Comma alone (“,”)" },
+  { id: "and", label: "“and” alone" },
+  { id: "semicolon", label: "Semicolon (“;”)" },
+  { id: "dash", label: "Em dash (“—”)" },
+  { id: "comma-and", label: "Comma + “and” (“, and”)" },
+  { id: "but", label: "“but” alone" },
+  { id: "comma-but", label: "Comma + “but” (“, but”)" },
+  { id: "so", label: "“so” alone" },
+  { id: "colon", label: "Colon (“:”)" },
+  { id: "comma-so", label: "Comma + “so” (“, so”)" },
+  { id: "however", label: "Comma + “however” (“, however”)" },
 ];
 
 export type RecallQuestion = { id: string; kind: "recall"; prompt: string; options: typeof separatorOptions; correct: string[] };
@@ -43,7 +43,7 @@ function sentence(id: string, kind: SentenceQuestion["kind"], left: Clause, join
 }
 
 export const separatorQuestions: SeparatorQuestion[] = [
-  { id: "recall-one", kind: "recall", prompt: "Which three of these can separate independent clauses in this practice?", options: separatorOptions.filter((o) => ["comma", "period", "and", "semicolon", "dash", "comma-and"].includes(o.id)), correct: ["period", "semicolon", "comma-and"] },
+  { id: "recall-one", kind: "recall", prompt: "Which three of these can separate independent clauses?", options: separatorOptions.filter((o) => ["comma", "period", "and", "semicolon", "dash", "comma-and"].includes(o.id)), correct: ["period", "semicolon", "comma-and"] },
   { id: "recall-two", kind: "recall", prompt: "Find the other three allowed separator types.", options: separatorOptions.filter((o) => ["but", "comma-but", "so", "colon", "comma-so", "however"].includes(o.id)), correct: ["comma-but", "colon", "comma-so"] },
   sentence("find-period", "find", ["Maya laughed", "Maya", "laughed"], ".", ["Leo smiled", "Leo", "smiled"], true, "A period separates two independent clauses: Maya laughed / Leo smiled."),
   sentence("find-semicolon", "find", ["The dog barked", "dog", "barked"], ";", ["the cat hid", "cat", "hid"], true, "A semicolon joins two independent clauses. Dog + barked and cat + hid form the two cores."),
