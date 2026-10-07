@@ -40,11 +40,11 @@ export const courses: CourseSummary[] = [
     id: "act-english",
     title: "ACT English",
     shortDescription:
-      "Learn to find sentence cores and recognize fragments through a video lesson, guided practice, and ACT questions. More lessons are in progress.",
+      "Learn to find sentence cores, recognize fragments, and join complete sentences through video lessons, guided practice, and ACT questions. More lessons are in progress.",
     longDescription:
       "Start with sentence structure: find who or what a sentence is about, identify its main verb, and check whether its core can stand on its own. The opening sequence pairs The Anatomy of a Sentence with custom practice and seven ACT fragment questions.\n\n" +
       "The custom practice moves from short examples to longer sentences with extra detail. You will find the subject and main verb even when a sentence includes -ing words, relative clauses, or other extra detail. Explanations show why each answer works.\n\n" +
-      "Three activities are available in the first module. Later lessons and the module mastery check are still planned. This course is being built; the current sequence covers sentence cores and fragments, rather than the full ACT English curriculum.",
+      "Continue with Joining Sentences to learn how periods, semicolons, commas with conjunctions, and colons connect ideas. Four activities are available in the first module. Later lessons and the module mastery check are still planned. This course is being built; the current sequence covers sentence cores, fragments, and joining sentences, rather than the full ACT English curriculum.",
     coverImage: "/images/act-english-cover.jpg",
     modules: [
       {
@@ -52,7 +52,7 @@ export const courses: CourseSummary[] = [
         order: 1,
         title: "Sentence Structure",
         description:
-          "Begin with sentence cores and fragments: one video, custom practice, and seven ACT questions are available. The remaining eight activities, including the module mastery check, are planned.",
+          "Learn about sentence cores, fragments, and joining sentences: two videos, custom practice, and seven ACT questions are available. The remaining seven activities, including the module mastery check, are planned.",
         atoms: [
           {
             id: "eng-ss-anatomy-video",
@@ -82,11 +82,16 @@ export const courses: CourseSummary[] = [
             availability: "published",
           },
           {
-            id: "activity-04",
+            id: "eng-ss-joining-video",
             order: 4,
             type: "video",
-            title: "Video 2",
-            availability: "planned",
+            title: "Joining Sentences",
+            availability: "published",
+            muxPlaybackId: "fcS3JN100tcCbYttWB7ioL02FcTIveUpLO4G8OWvvP01Ns",
+            durationSeconds: 594,
+            summary: [
+              "Learn how to join independent clauses with periods, semicolons, and commas followed by conjunctions such as “and,” “but,” or “so.” You'll spot comma splices, distinguish two complete clauses from two verbs sharing a subject, and use sentence cores to check connections in longer examples. We'll also look at colons: the statement before a colon must be complete, and the information after it explains or expands on that statement.",
+            ],
           },
           {
             id: "activity-05",

@@ -1,6 +1,6 @@
 # ACT Software Course
 
-A Next.js course site with a published opening sequence for ACT English. Sentence Structure currently contains The Anatomy of a Sentence, Sentence Anatomy Practice, and ACT Practice: Fragments. Eight additional activities are planned and unavailable.
+A Next.js course site with a published opening sequence for ACT English. Sentence Structure currently contains The Anatomy of a Sentence, Sentence Anatomy Practice, ACT Practice: Fragments, and Joining Sentences. Seven additional activities are planned and unavailable.
 
 ## Development
 
@@ -25,10 +25,11 @@ Use Node.js with native TypeScript stripping and JSON import attributes for the 
 - ACT English: `/courses/act-english`
 - Sentence Structure: `/courses/act-english/modules/sentence-structure`
 - Video: `/courses/act-english/modules/sentence-structure/activities/eng-ss-anatomy-video`
+- Next video: `/courses/act-english/modules/sentence-structure/activities/eng-ss-joining-video`
 - Custom practice: `/courses/act-english/modules/sentence-structure/activities/eng-ss-anatomy-practice`
 - ACT practice: `/courses/act-english/modules/sentence-structure/activities/eng-ss-fragments-act-practice`
 
-The video uses Mux. Practice progress is saved locally in the learner's browser; there are no accounts, cross-device progress, ACT scaled scores, or published module mastery assessment.
+The videos use Mux. Practice progress is saved locally in the learner's browser; there are no accounts, cross-device progress, ACT scaled scores, or published module mastery assessment.
 
 ## Content and teaching references
 
