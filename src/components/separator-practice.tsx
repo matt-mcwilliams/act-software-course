@@ -104,7 +104,7 @@ export function SeparatorPractice({ moduleHref, nextActivityHref }: { moduleHref
         <div className="practice-sentence-row"><div className="practice-sentence separator-sentence" aria-label={sentenceText(sentenceQuestion.tokens)}>{sentenceQuestion.tokens.map((token, index) => {
           const subject = checked ? sentenceQuestion.left.subject === index || (!colon && sentenceQuestion.right.subject === index) : answer.leftSubject === index || answer.rightSubject === index;
           const verb = checked ? sentenceQuestion.left.verb === index || (!colon && sentenceQuestion.right.verb === index) : answer.leftVerb === index || answer.rightVerb === index;
-          const selectedSeparator = checked ? sentenceQuestion.separator === index : answer.separator === index;
+          const selectedSeparator = checked ? answer.complete !== false && sentenceQuestion.separator === index : answer.separator === index;
           const enabled = guided && !checked && (answer.separator === null || (activeCore !== null && (activeCore.startsWith("left") ? index < answer.separator : index > answer.separator) && /[\p{L}\p{N}]/u.test(token)));
           const className = `${subject ? "is-subject" : verb ? "is-verb" : ""} ${selectedSeparator ? "is-separator" : ""} ${/^[.,;:!?]/.test(token) ? "separator-punctuation" : ""}`;
           return guided && !checked ? <button key={index} type="button" disabled={!enabled} className={className} aria-pressed={subject || verb || selectedSeparator} aria-label={`${token}, word ${index + 1}${selectedSeparator ? ", selected separator" : subject ? ", subject" : verb ? ", main verb" : ""}`} onClick={() => chooseToken(index)}>{token}</button> : <span key={index} className={className}>{token}</span>;
