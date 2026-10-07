@@ -7,7 +7,7 @@
 .separator-written { display: block; width: 100%; padding: 1rem; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-control); color: var(--color-ink); background: var(--color-surface); font: 1.125rem/1.5 var(--font-display); resize: vertical; }
 .separator-sentence { gap: .3em .3em; }
 .separator-sentence .separator-punctuation { margin-left: -.3em; }
-.separator-sentence .is-separator { background: #ecf8ee; color: var(--color-positive); text-decoration: underline; text-underline-offset: .2em; }
+.separator-sentence .is-separator { background: #ecf8ee; color: var(--color-positive); }
 .separator-proof { margin-top: 1.5rem; }
 .separator-selection { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem; font: 1rem/1.5 var(--font-ui); }
 .separator-selection strong { color: var(--color-positive); }
