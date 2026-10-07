@@ -26,7 +26,7 @@ export function ActSentencePractice({ questions, moduleHref, nextActivityHref, v
   const title = runOns ? "ACT Practice: Run-on Sentences" : "ACT Practice: Fragments";
   const storageKey = runOns ? "act-prep:act-run-on-practice:v1" : "act-prep:act-sentence-practice:v1";
   const instruction = runOns
-    ? "Read each choice in the whole sentence. Find the subject and main verb in each clause, then check how the clauses are joined. You have two tries per question."
+    ? null
     : "Read each choice in the whole sentence. Find the subject and main verb of the clause that can stand on its own. You have two tries per question.";
   const hydrated = useSyncExternalStore(subscribe, browserSnapshot, serverSnapshot);
   const [progress, setProgress] = useState<ActProgress>(() => typeof window === "undefined" ? freshActProgress(questions.length) : loadProgress(questions.length, storageKey));
@@ -79,7 +79,7 @@ export function ActSentencePractice({ questions, moduleHref, nextActivityHref, v
   return <section className="act-practice" aria-labelledby="act-practice-title">
     <header className="act-practice-header">
       <h1 id="act-practice-title">{title}</h1>
-      <p>{instruction}</p>
+      {instruction && <p>{instruction}</p>}
     </header>
     <div className="act-practice-toolbar"><span>Question {progress.index + 1} of {questions.length}</span></div>
     <article className="act-practice-card" aria-labelledby="act-question-stem">
