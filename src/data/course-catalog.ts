@@ -44,7 +44,7 @@ export const courses: CourseSummary[] = [
     longDescription:
       "Start with sentence structure: find who or what a sentence is about, identify its main verb, and check whether its core can stand on its own. The opening sequence pairs The Anatomy of a Sentence with custom practice and seven ACT fragment questions.\n\n" +
       "The custom practice moves from short examples to longer sentences with extra detail. You will find the subject and main verb even when a sentence includes -ing words, relative clauses, or other extra detail. Explanations show why each answer works.\n\n" +
-      "Continue with Joining Sentences to learn how periods, semicolons, commas with conjunctions, and colons connect ideas. Four activities are available in the first module. Later lessons and the module mastery check are still planned. This course is being built; the current sequence covers sentence cores, fragments, and joining sentences, rather than the full ACT English curriculum.",
+      "Continue with Joining Sentences to learn how periods, semicolons, commas with conjunctions, and colons connect ideas. Five activities are available in the first module. Later lessons and the module mastery check are still planned. This course is being built; the current sequence covers sentence cores, fragments, and joining sentences, rather than the full ACT English curriculum.",
     coverImage: "/images/act-english-cover.jpg",
     modules: [
       {
@@ -52,7 +52,7 @@ export const courses: CourseSummary[] = [
         order: 1,
         title: "Sentence Structure",
         description:
-          "Learn about sentence cores, fragments, and joining sentences: two videos, custom practice, and seven ACT questions are available. The remaining seven activities, including the module mastery check, are planned.",
+          "Learn about sentence cores, fragments, and joining sentences: two videos, two custom practices, and seven ACT questions are available. The remaining six activities, including the module mastery check, are planned.",
         atoms: [
           {
             id: "eng-ss-anatomy-video",
@@ -93,11 +93,11 @@ export const courses: CourseSummary[] = [
             ],
           },
           {
-            id: "activity-05",
+            id: "eng-ss-separator-practice",
             order: 5,
             type: "custom-practice",
-            title: "Custom Practice 2",
-            availability: "planned",
+            title: "Separator Practice",
+            availability: "published",
           },
           {
             id: "activity-06",

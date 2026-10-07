@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/course-navigation";
 import { ActivitySidebar } from "@/components/activity-sidebar";
 import { VideoLesson } from "@/components/video-lesson";
+import { SeparatorPractice } from "@/components/separator-practice";
 import { SentencePractice } from "@/components/sentence-practice";
 import { ActSentencePractice } from "@/components/act-sentence-practice";
 import { isSupportedActivity } from "@/lib/course-activities";
@@ -10,6 +11,7 @@ import { getActSentenceQuestions } from "@/data/act-sentence-practice";
 import { courses, getCourseById, getModuleById } from "@/data/course-catalog";
 import "@/components/video-lesson.css";
 import "@/components/sentence-practice.css";
+import "@/components/separator-practice.css";
 import "@/components/act-sentence-practice.css";
 
 export function generateStaticParams() {
@@ -29,7 +31,7 @@ function getActivity(courseId: string, moduleId: string, activityId: string) {
   const courseModule = course ? getModuleById(course, moduleId) : undefined;
   const atom = courseModule?.atoms.find((entry) => entry.id === activityId);
   if (!course || !courseModule || !atom || atom.availability !== "published" ||
-    (atom.type !== "video" && atom.id !== "eng-ss-anatomy-practice" && atom.id !== "eng-ss-fragments-act-practice")) {
+    !isSupportedActivity(atom)) {
     notFound();
   }
   return { course, courseModule, atom };
@@ -60,7 +62,9 @@ export default async function AtomPage({ params }: AtomPageProps) {
         ? <VideoLesson atom={atom} atoms={atoms} moduleHref={moduleHref} />
         : atom.id === "eng-ss-fragments-act-practice"
           ? <ActSentencePractice questions={getActSentenceQuestions()} moduleHref={moduleHref} nextActivityHref={nextActivityHref} />
-          : <SentencePractice moduleHref={moduleHref} nextActivityHref={nextActivityHref} />}
+          : atom.id === "eng-ss-separator-practice"
+            ? <SeparatorPractice moduleHref={moduleHref} nextActivityHref={nextActivityHref} />
+            : <SentencePractice moduleHref={moduleHref} nextActivityHref={nextActivityHref} />}
     </SiteShell>
   );
 }
