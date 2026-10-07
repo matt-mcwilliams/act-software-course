@@ -63,8 +63,7 @@ export const courses: CourseSummary[] = [
             muxPlaybackId: "f5ZyKLBkU3EtwnLc02sLNWXBSEIBz1xN7oZd5Fj24eLI",
             durationSeconds: 384,
             summary: [
-              "What makes a sentence complete? In this first ACT English lesson, you'll learn to identify a sentence's subject and main verb, recognize fragments, and find the core structure even when a sentence includes extra detail. We'll look at how -ing forms and relative clauses beginning with words like “that” or “who” can make a group of words seem complete when it's still missing a main-clause verb.",
-              "Through short examples, practice sentences, and an ACT question, you'll build a practical method for checking sentence completeness and eliminating answer choices that leave a fragment. This foundation will prepare you for the next lesson: joining complete sentences correctly.",
+              "What makes a sentence complete? In this first ACT English lesson, you'll learn to identify a sentence's subject and main verb, recognize fragments, and find the core structure even when a sentence includes extra detail. We'll look at how -ing forms and relative clauses beginning with words like “that” or “who” can make a group of words seem complete when it's still missing a main verb.",
             ],
           },
           {
