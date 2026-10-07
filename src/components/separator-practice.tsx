@@ -20,7 +20,7 @@ function loadProgress() {
   return freshSeparatorProgress(separatorQuestions.length);
 }
 function explanation(question: SeparatorQuestion) {
-  if (question.kind === "recall") return `The three allowed choices here are ${question.options.filter((option) => question.correct.includes(option.id)).map((option) => option.label).join(", ")}. These are the separator types used in this practice; other punctuation can have other uses in English.`;
+  if (question.kind === "recall") return `The three allowed choices here are ${question.options.filter((option) => question.correct.includes(option.id)).map((option) => option.label).join(", ")}. These are the separator types used in this practice.`;
   if (question.kind === "written") return "Your response is saved for review. This written question is not graded.";
   return question.explanation;
 }
