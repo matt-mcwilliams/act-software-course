@@ -7,9 +7,10 @@
 .separator-written { display: block; width: 100%; padding: 1rem; border: 1px solid var(--color-border-subtle); border-radius: var(--radius-control); color: var(--color-ink); background: var(--color-surface); font: 1.125rem/1.5 var(--font-display); resize: vertical; }
 .separator-sentence { gap: .3em .3em; }
 .separator-sentence .separator-punctuation { margin-left: -.3em; }
-.separator-sentence .is-separator { background: #eff1f3; color: var(--color-ink); text-decoration: underline; text-underline-offset: .2em; }
+.separator-sentence .is-separator { background: #ecf8ee; color: var(--color-positive); text-decoration: underline; text-underline-offset: .2em; }
 .separator-proof { margin-top: 1.5rem; }
 .separator-selection { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem; font: 1rem/1.5 var(--font-ui); }
+.separator-selection strong { color: var(--color-positive); }
 .separator-selection button { border: 0; background: transparent; padding: 0; color: var(--color-ink); font: inherit; text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }
 .separator-cores { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1.5rem; }
 .separator-cores button { min-width: 0; padding: .75rem; border: 1px solid transparent; border-radius: .5rem; background: var(--color-canvas); text-align: left; cursor: pointer; }
