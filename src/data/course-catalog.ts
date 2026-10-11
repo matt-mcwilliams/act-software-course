@@ -44,7 +44,7 @@ export const courses: CourseSummary[] = [
     longDescription:
       "Start with sentence structure: find who or what a sentence is about, identify its main verb, and check whether its core can stand on its own. The opening sequence pairs The Anatomy of a Sentence with custom practice and seven ACT fragment questions.\n\n" +
       "The custom practice moves from short examples to longer sentences with extra detail. You will find the subject and main verb even when a sentence includes -ing words, relative clauses, or other extra detail. Explanations show why each answer works.\n\n" +
-      "Continue with Joining Sentences to learn how periods, semicolons, commas with conjunctions, and colons connect ideas. Six activities are available in the first module. Later lessons and the module mastery check are still planned. This course is being built; the current sequence covers sentence cores, fragments, and joining sentences, rather than the full ACT English curriculum.",
+      "Continue with Joining Sentences to learn how periods, semicolons, commas with conjunctions, and colons connect ideas. Then study Modifiers to distinguish essential details from nonessential information and choose matching punctuation. Seven activities are available in the first module. Later lessons and the module mastery check are still planned. This course is being built; the current sequence covers sentence cores, fragments, joining sentences, and modifiers, rather than the full ACT English curriculum.",
     coverImage: "/images/act-english-cover.jpg",
     modules: [
       {
@@ -52,7 +52,7 @@ export const courses: CourseSummary[] = [
         order: 1,
         title: "Sentence Structure",
         description:
-          "Learn about sentence cores, fragments, and joining sentences: two videos, two custom practices, and seventeen ACT questions are available. The remaining five activities, including the module mastery check, are planned.",
+          "Learn about sentence cores, fragments, joining sentences, and modifiers: three videos, two custom practices, and seventeen ACT questions are available. The planned sequence pairs Modifiers and Punctuation with their own practices, followed by ACT Practice: Punctuation. The remaining five activities, including the module mastery check, are planned.",
         atoms: [
           {
             id: "eng-ss-anatomy-video",
@@ -107,36 +107,48 @@ export const courses: CourseSummary[] = [
             availability: "published",
           },
           {
-            id: "activity-07",
+            id: "eng-ss-modifiers-video",
             order: 7,
             type: "video",
-            title: "Video 3",
-            availability: "planned",
+            title: "Modifiers",
+            availability: "published",
+            muxPlaybackId: "ISCMN7paXPsr5I4qo1cfJuiAWvSbxuyZOi8luESfYxk",
+            durationSeconds: 210,
+            summary: [
+              "Learn how modifiers add detail to a sentence and distinguish essential information from nonessential information. Use meaning to decide which details need punctuation, and set off interruptions with matching commas, dashes, or parentheses.",
+            ],
           },
           {
-            id: "activity-08",
+            id: "eng-ss-modifiers-practice",
             order: 8,
             type: "custom-practice",
-            title: "Custom Practice 3",
+            title: "Modifiers Practice",
             availability: "planned",
           },
           {
-            id: "activity-09",
+            id: "eng-ss-punctuation-video",
             order: 9,
-            type: "custom-practice",
-            title: "Custom Practice 4",
+            type: "video",
+            title: "Punctuation",
             availability: "planned",
           },
           {
-            id: "activity-10",
+            id: "eng-ss-punctuation-practice",
             order: 10,
+            type: "custom-practice",
+            title: "Punctuation Practice",
+            availability: "planned",
+          },
+          {
+            id: "eng-ss-punctuation-act-practice",
+            order: 11,
             type: "act-practice",
-            title: "ACT Practice 3",
+            title: "ACT Practice: Punctuation",
             availability: "planned",
           },
           {
             id: "activity-11",
-            order: 11,
+            order: 12,
             type: "mastery-check",
             title: "Module Mastery Check",
             availability: "planned",
